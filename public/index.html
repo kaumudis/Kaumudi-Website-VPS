@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting started with Tapestree</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: "Open Sans", ui-sans-serif, system-ui, sans-serif; }
+  </style>
+</head>
+<body class="bg-white text-slate-900">
+
+  <!--
+    NOTE FOR KAUMUDI:
+    The three images below (logo, hero-blob, hero-mockup) are pulled live from
+    temporary Figma links. They will work fine for previewing today, but Figma
+    only keeps these links alive for about 7 days. Before this goes on GitHub /
+    your server for the long term, export those same three images from Figma
+    (right-click the layer > Export) and swap the <img src="..."> values below
+    for local files (e.g. assets/logo.png). Everything else here is plain
+    HTML/CSS, nothing else needs to change.
+  -->
+
+  <div class="min-h-screen flex flex-col">
+
+    <!-- Header / logo -->
+    <header class="w-full px-6 sm:px-10 pt-8">
+      <img
+        src="https://www.figma.com/api/mcp/asset/c2060eea-5f22-40ee-b165-eb575de1f33c.png"
+        alt="Tapestree"
+        class="h-8 sm:h-10 w-auto"
+      />
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-1 flex flex-col items-center justify-center px-6 py-10 sm:py-16">
+
+      <!-- Hero illustration: decorative blob behind, product screenshot on top -->
+      <div class="relative w-full max-w-3xl mb-10 sm:mb-14">
+        <img
+          src="https://www.figma.com/api/mcp/asset/9c405742-d414-4cdc-8b3b-d2cd2d70ee1e.png"
+          alt=""
+          class="w-full h-auto select-none pointer-events-none"
+        />
+        <img
+          src="https://www.figma.com/api/mcp/asset/c64cd8c1-9843-43e4-9405-a23d40412b7d.png"
+          alt="Tapestree product preview"
+          class="absolute left-1/2 top-[10%] w-[88%] h-auto -translate-x-1/2 drop-shadow-xl"
+        />
+      </div>
+
+      <!-- Heading -->
+      <h1 class="text-2xl sm:text-3xl md:text-5xl font-bold text-center leading-tight max-w-3xl"
+          style="color:#181539;">
+        Getting started with Tapestree
+      </h1>
+
+      <!-- Progress bar -->
+      <div class="w-full max-w-md mt-10 sm:mt-12">
+        <div class="relative h-4 w-full rounded-full shadow-[inset_0px_5px_15px_0px_rgba(164,164,164,0.3)]"
+             style="background-color:#f0f4f6;">
+          <div class="absolute inset-y-0 left-0 rounded-full shadow-[inset_5px_5px_15px_0px_rgba(255,255,255,0.3)]"
+               style="width:13%; background-color:#bbdadf;"></div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="w-full max-w-xs mt-8 sm:mt-10 flex flex-col items-center gap-4">
+        <button
+          type="button"
+          class="w-full rounded-full py-4 text-base sm:text-lg font-bold text-white transition hover:brightness-95"
+          style="background-color:#bbdadf;"
+        >
+          Continue
+        </button>
+        <button
+          type="button"
+          class="w-full rounded-full py-4 text-sm sm:text-base font-bold transition hover:brightness-95"
+          style="background-color:#efefef; color:#cacaca;"
+        >
+          Skip &gt;&gt;
+        </button>
+      </div>
+
+    </main>
+  </div>
+
+</body>
+</html>
