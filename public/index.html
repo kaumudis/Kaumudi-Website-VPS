@@ -1,4 +1,5 @@
-<title>Kaumudi Shrivastava · Option C</title>
+<title>Kaumudi Shrivastava</title>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="90731c06-53f8-4527-b27e-97dad49f6e22" data-domains="kaumudishrivastava.com,www.kaumudishrivastava.com"></script>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="robots" content="noindex, nofollow">
 <meta http-equiv="content-language" content="en-GB">
@@ -1651,6 +1652,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     var tc=t.cloneNode(true); tc.querySelectorAll('.co').forEach(function(x){x.remove();});
     ttl.innerHTML=tc.innerHTML.trim();
     sub.textContent=ds? ds.textContent : '';
+    try { if (window.umami) umami.track('Case study opened', { title: ttl.textContent.trim(), section: crumb.textContent.trim() }); } catch (e) {}
     det.innerHTML=dt? dt.innerHTML : '';
     lastFocus=document.activeElement; scrollY=window.scrollY;
     modal.hidden=false; document.documentElement.classList.add('modal-open');
