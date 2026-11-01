@@ -1576,25 +1576,36 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
   window.addEventListener('load', function(){ setTimeout(function(){ window.__tabsReady = true; }, 0); });
 
 
-  var fb=document.getElementById('copy-head'), fe=document.getElementById('head-email');
-  if(fb && fe) fb.addEventListener('click', function(){
-    try { navigator.clipboard.writeText(fe.textContent.trim()).then(function(){ fb.innerHTML=window.__TICK; fb.title='Copied'; setTimeout(function(){ fb.innerHTML=window.__COPY; fb.title='Copy'; },1800); }); } catch(e){}
-  });
-  var btn = document.getElementById('copy-email');
-  var email = document.getElementById('email');
-  btn.addEventListener('click', function () {
-    var fallback = function () {
-      var r = document.createRange(); r.selectNodeContents(email);
-      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-      btn.title = 'Selected';
-    };
-    try {
-      navigator.clipboard.writeText(email.textContent.trim()).then(function () {
-        btn.innerHTML = window.__TICK; btn.title = 'Copied';
-        setTimeout(function () { btn.innerHTML = window.__COPY; btn.title = 'Copy'; }, 1800);
-      }, fallback);
-    } catch (e) { fallback(); }
-  });
+  function copyText(text, onOk, onFail){
+    function legacy(){
+      try {
+        var t=document.createElement('textarea'); t.value=text; t.setAttribute('readonly','');
+        t.style.position='fixed'; t.style.top='-1000px'; t.style.opacity='0';
+        document.body.appendChild(t); t.select(); t.setSelectionRange(0, text.length);
+        var ok=document.execCommand('copy'); document.body.removeChild(t);
+        ok ? onOk() : onFail();
+      } catch(e){ onFail(); }
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(onOk, legacy);
+    } else { legacy(); }
+  }
+  function wire(button, source){
+    if(!button || !source) return;
+    button.addEventListener('click', function(){
+      var text=source.textContent.trim();
+      copyText(text, function(){
+        button.innerHTML=window.__TICK; button.title='Copied';
+        setTimeout(function(){ button.innerHTML=window.__COPY; button.title='Copy'; },1800);
+      }, function(){
+        var r=document.createRange(); r.selectNodeContents(source);
+        var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        button.title='Selected: press Cmd+C';
+      });
+    });
+  }
+  wire(document.getElementById('copy-head'), document.getElementById('head-email'));
+  wire(document.getElementById('copy-email'), document.getElementById('email'));
 })();
 </script>
 <div class="modal" id="cs-modal" role="dialog" aria-modal="true" aria-labelledby="cs-title" hidden>
