@@ -804,6 +804,15 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 /* Footer name 30% smaller; the row keeps its height and Pac-Man keeps its size */
 .bigname { display: flex; align-items: center; justify-content: center; height: 0.8em; }
 .bigname > a > span:first-child { font-size: 0.7em; }
+/* About Me sections use the same collapsible rows as the other tabs */
+.about.grouped { gap: 0; }
+.about .grp-ab { background: #16161a; }
+.about.grouped .grp-in { gap: 0; padding: 0.25rem 0 1.5rem 2.6rem; }
+.about .timeline > li:last-child { padding-bottom: 0.4rem; }
+.about .bring, .about .timeline li:first-child { border-top: 0; padding-top: 0; }
+.about .timeline.edu > li:last-child { border-bottom: 0; }
+.about .timeline > li:first-child { padding-top: 0.4rem; }
+@media (max-width: 40rem) { .about.grouped .grp-in { padding-left: 0; } }
 </style>
 
 <main class="page" id="top">
@@ -1435,18 +1444,21 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
   </section>
 
   <!-- ============ ABOUT ============ -->
-  <section id="about" role="tabpanel" aria-labelledby="tab-about" class="about" hidden>
-    <div>
-      <h2>What I do best</h2>
+  <section id="about" role="tabpanel" aria-labelledby="tab-about" class="about grouped multi" hidden>
+    <div class="grp open" id="grp-ab-best">
+      <button class="grp-h" aria-expanded="true" aria-controls="grp-ab-best-b"><span class="grp-logo grp-ico grp-ab" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg></span><span class="grp-n">What I do best</span><span class="grp-c">4 strengths</span><span class="grp-i" aria-hidden="true"></span></button>
+      <div class="grp-b" id="grp-ab-best-b"><div class="grp-in">
       <ul class="bring">
         <li><b>15+ years across the whole journey.</b> Software engineering (Amdocs), management consulting (KPMG), founding member of a fintech start-up (Ohm Mobility) and scaling a high-growth Neobank (Juni).</li>
         <li><b>AI in financial workflows.</b> From AI-enabled accounting at Juni to my own agent lab, measured with evals.</li>
         <li><b>Commercial strategy and execution.</b> Taking regulated financial products from 0 to 1 and owning the P&amp;L.</li>
         <li><b>Regulated product delivery.</b> Building platforms that respect legal, compliance, tax and risk rules without hurting the experience.</li>
       </ul>
+      </div></div>
     </div>
-    <div>
-      <h2>Experience</h2>
+    <div class="grp open" id="grp-ab-exp">
+      <button class="grp-h" aria-expanded="true" aria-controls="grp-ab-exp-b"><span class="grp-logo grp-ico grp-ab" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg></span><span class="grp-n">Experience</span><span class="grp-c">4 companies</span><span class="grp-i" aria-hidden="true"></span></button>
+      <div class="grp-b" id="grp-ab-exp-b"><div class="grp-in">
       <ol class="timeline">
         <li><img class="logo" src="img/logo-juni.png" alt="Juni" width="64" height="64"><div><p class="tl-head"><b><a href="https://www.juni.co" target="_blank" rel="noopener">Juni</a></b></p><p class="tl-co">Swedish Neobank for SMEs · Series B, $282M raised in equity and debt</p><p class="tl-when">2022–now</p>
           <ul class="roles">
@@ -1457,21 +1469,26 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
         <li><img class="logo" src="img/logo-kpmg.png" alt="KPMG" width="64" height="64"><div><p class="tl-head"><b>Manager, Management Consulting</b> · KPMG</p><p class="tl-when">2015–2020</p><p class="tl-sum">Led cross-functional teams of 15+ on product strategy and digital transformation for Fortune 500 clients, from business and technology strategy through design, build and rollout. Owned client relationships, delivery and commercial performance. Designed the delivery framework for Schlumberger’s new 400+ person centre in Pune (£1.5M saved in year one); clients also included Tesco and Morgan Stanley.</p></div></li>
         <li><img class="logo" src="img/logo-amdocs.png" alt="Amdocs" width="64" height="64"><div><p class="tl-head"><b>Software Engineer</b> · Amdocs</p><p class="tl-when">2009–2014 · India and US</p><p class="tl-sum">Built enterprise-grade C++ and Java telecom systems for AT&amp;T, Sprint and Vodafone, used by millions of subscribers, across the full cycle from requirements and design to testing, deployment and production support. It gave me the technical foundation I still build on.</p></div></li>
       </ol>
+      </div></div>
     </div>
-    <div>
-      <h2>Education</h2>
+    <div class="grp open" id="grp-ab-edu">
+      <button class="grp-h" aria-expanded="true" aria-controls="grp-ab-edu-b"><span class="grp-logo grp-ico grp-ab" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"/></svg></span><span class="grp-n">Education</span><span class="grp-c">2 degrees</span><span class="grp-i" aria-hidden="true"></span></button>
+      <div class="grp-b" id="grp-ab-edu-b"><div class="grp-in">
       <ol class="timeline edu">
         <li><img class="logo" src="img/logo-isb.png" alt="Indian School of Business" width="64" height="64"><div><p class="tl-head"><b>MBA</b> · Indian School of Business</p><p class="tl-when">2014–2015</p></div></li>
         <li><img class="logo" src="img/logo-pune.png" alt="Pune University" width="64" height="64"><div><p class="tl-head"><b>BE Computer Science</b> · Pune University</p><p class="tl-when">First class with distinction</p></div></li>
       </ol>
+      </div></div>
     </div>
-    <div>
-      <h2>Contact</h2>
+    <div class="grp open" id="grp-ab-contact">
+      <button class="grp-h" aria-expanded="true" aria-controls="grp-ab-contact-b"><span class="grp-logo grp-ico grp-ab" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M4 7l8 6 8-6"/></svg></span><span class="grp-n">Contact</span><span class="grp-c">3 links</span><span class="grp-i" aria-hidden="true"></span></button>
+      <div class="grp-b" id="grp-ab-contact-b"><div class="grp-in">
       <ul class="contact">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="#2F7BE5" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1 1"/><path d="M14 10a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1-1"/></svg><span class="email" id="email" data-addr></span><button class="copy" id="copy-email" type="button" aria-label="Copy email address" title="Copy"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></button></li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="#2F7BE5" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1 1"/><path d="M14 10a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1-1"/></svg><a href="https://www.linkedin.com/in/kaumudis/" target="_blank" rel="noopener">linkedin.com/in/kaumudis</a></li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="#2F7BE5" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1 1"/><path d="M14 10a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1-1"/></svg><a href="https://kaumudi.substack.com" target="_blank" rel="noopener">kaumudi.substack.com</a></li>
       </ul>
+      </div></div>
     </div>
   </section>
 
@@ -1555,7 +1572,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
         var bar = t.parentElement.parentElement; if (bar && bar.scrollWidth > bar.clientWidth) bar.scrollLeft = t.offsetLeft - 16;
       }
     });
-    document.querySelectorAll('.grouped .grp.open').forEach(function (g) { g.classList.remove('open'); var b = g.querySelector('.grp-h'); if (b) b.setAttribute('aria-expanded', 'false'); });
+    document.querySelectorAll('.grouped:not(.multi) .grp.open').forEach(function (g) { g.classList.remove('open'); var b = g.querySelector('.grp-h'); if (b) b.setAttribute('aria-expanded', 'false'); });
     renderNext(id);
     // Keep the address bar in step with the open tab, so the link can be shared
     var pretty = { work: 'work', lab: 'ai-lab', writing: 'playbooks', about: 'about-me' }[id];
@@ -1694,7 +1711,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   b.addEventListener('click', function(){
     var g=b.closest('.grp'), willOpen=!g.classList.contains('open');
     // Only one section open per tab: close the others first
-    g.parentElement.querySelectorAll(':scope > .grp.open').forEach(function(o){ if(o!==g){ o.classList.remove('open'); o.querySelector('.grp-h').setAttribute('aria-expanded','false'); } });
+    if(!g.parentElement.classList.contains('multi')) g.parentElement.querySelectorAll(':scope > .grp.open').forEach(function(o){ if(o!==g){ o.classList.remove('open'); o.querySelector('.grp-h').setAttribute('aria-expanded','false'); } });
     g.classList.toggle('open', willOpen); b.setAttribute('aria-expanded', willOpen?'true':'false');
     // If closing the one above pushed this header off-screen, bring it back under the tabs
     var top=b.getBoundingClientRect().top;
