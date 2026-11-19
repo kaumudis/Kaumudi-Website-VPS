@@ -1614,8 +1614,8 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       </ul>
       </div></div>
     </div>
-    <div class="grp open" id="grp-ab-exp">
-      <button class="grp-h" aria-expanded="true" aria-controls="grp-ab-exp-b"><span class="grp-n">Experience</span><span class="grp-c">4 companies</span><span class="grp-i" aria-hidden="true"></span></button>
+    <div class="grp" id="grp-ab-exp">
+      <button class="grp-h" aria-expanded="false" aria-controls="grp-ab-exp-b"><span class="grp-n">Experience</span><span class="grp-c">4 companies</span><span class="grp-i" aria-hidden="true"></span></button>
       <div class="grp-b" id="grp-ab-exp-b"><div class="grp-in">
       <ol class="timeline tl2">
         <li><img class="logo" src="img/logo-juni.png" alt="Juni" width="64" height="64"><div><p class="tl-head2"><b><a href="https://www.juni.co" target="_blank" rel="noopener">Juni</a></b></p><div class="tl-r"><p class="tl-role2">Member of the Board of Directors</p><p class="tl-when">2024 – now</p><ul class="tl-pts"><li>Statutory director of Juni’s UK entity, supporting governance and compliance.</li></ul></div><div class="tl-r"><p class="tl-role2">Senior Director, Product, Marketing and Design</p><p class="tl-when">2022 – 2026</p><ul class="tl-pts"><li>Led Product, Design and Product Marketing across business banking, cards, spend management, accounts payable and accounting: six cross-functional teams and 35+ engineers.</li><li>Launched AI-enabled finance workflows and deep ERP integrations that made customers’ finance tasks 60–70% faster, with 90% adoption among eligible customers.</li><li>Shaped product strategy, go-to-market and SaaS pricing, contributing to 27% revenue growth from new products while cutting activation time by over 50%.</li><li>Rebuilt the operating model so PMs own the what and engineers own the how, lifting on-time delivery from 50% to 75%.</li></ul></div></div></li>
@@ -1625,8 +1625,8 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       </ol>
       </div></div>
     </div>
-    <div class="grp open" id="grp-ab-edu">
-      <button class="grp-h" aria-expanded="true" aria-controls="grp-ab-edu-b"><span class="grp-n">Education</span><span class="grp-c">2 degrees</span><span class="grp-i" aria-hidden="true"></span></button>
+    <div class="grp" id="grp-ab-edu">
+      <button class="grp-h" aria-expanded="false" aria-controls="grp-ab-edu-b"><span class="grp-n">Education</span><span class="grp-c">2 degrees</span><span class="grp-i" aria-hidden="true"></span></button>
       <div class="grp-b" id="grp-ab-edu-b"><div class="grp-in">
       <ol class="timeline edu">
         <li><img class="logo" src="img/logo-isb.png" alt="Indian School of Business" width="64" height="64"><div><p class="tl-head"><b>Master of Business Administration</b></p><p class="tl-co">Indian School of Business</p></div></li>
@@ -1634,8 +1634,8 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       </ol>
       </div></div>
     </div>
-    <div class="grp open" id="grp-ab-contact">
-      <button class="grp-h" aria-expanded="true" aria-controls="grp-ab-contact-b"><span class="grp-n">Contact</span><span class="grp-c">3 links</span><span class="grp-i" aria-hidden="true"></span></button>
+    <div class="grp" id="grp-ab-contact">
+      <button class="grp-h" aria-expanded="false" aria-controls="grp-ab-contact-b"><span class="grp-n">Contact</span><span class="grp-c">3 links</span><span class="grp-i" aria-hidden="true"></span></button>
       <div class="grp-b" id="grp-ab-contact-b"><div class="grp-in">
       <ul class="contact">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="#2F7BE5" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1 1"/><path d="M14 10a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1-1"/></svg><span class="email" id="email" data-addr></span><button class="copy" id="copy-email" type="button" aria-label="Copy email address" title="Copy"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></button></li>
@@ -1737,6 +1737,8 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       }
     });
     document.querySelectorAll('.grouped:not(.multi) .grp.open').forEach(function (g) { g.classList.remove('open'); var b = g.querySelector('.grp-h'); if (b) b.setAttribute('aria-expanded', 'false'); });
+    // About Me always opens with only "What I do best" expanded
+    if (id === 'about') document.querySelectorAll('#about > .grp').forEach(function (g) { var on = g.id === 'grp-ab-best'; g.classList.toggle('open', on); var h = g.querySelector('.grp-h'); if (h) h.setAttribute('aria-expanded', on ? 'true' : 'false'); });
     renderNext(id);
     // Keep the address bar in step with the open tab, so the link can be shared
     var pretty = { work: 'work', lab: 'ai-lab', writing: 'playbooks', about: 'about-me' }[id];
