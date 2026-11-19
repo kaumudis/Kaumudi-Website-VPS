@@ -827,6 +827,36 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .detail .dd .dd-h { margin: 0.9rem 0 0.35rem; font-size: 0.9375rem; font-weight: 600; color: var(--ink); }
 .detail .dd h3 + .dd-h { margin-top: 0.2rem; }
 .detail .dd ul { padding-left: 2.1rem; }
+/* Case study pop-up: wider text column, so lines run longer and the write-up is shorter */
+.modal-body { max-width: none; }
+.modal-detail.detail { max-width: 60rem; }
+/* Lab: notes under the architecture stay folded until opened */
+.detail .arch-more > summary { cursor: pointer; font-weight: 600; color: var(--ink); list-style: none; display: inline-flex; align-items: center; gap: 0.4rem; }
+.detail .arch-more > summary::-webkit-details-marker { display: none; }
+.detail .arch-more > summary::before { content: "+"; display: inline-grid; place-items: center; width: 1.25rem; height: 1.25rem; border: 1px solid var(--line); border-radius: 50%; font-weight: 500; }
+.detail .arch-more[open] > summary::before { content: "−"; }
+.detail .arch-more .arch-notes { margin-top: 0.7rem; }
+/* Lab example as a short conversation */
+.detail .convo { display: flex; flex-direction: column; gap: 0.5rem; padding: 0.9rem 1rem; background: var(--soft); border-radius: 0.8rem; margin-bottom: 0.6rem; }
+.detail .convo p { margin: 0; }
+.detail .convo .who-t { font-size: 0.8125rem; color: var(--faint); font-style: italic; }
+/* Lab: phone on the tile stands straight */
+.p-lab .phone { transform: translateX(-50%); }
+/* Lab "In action": real chats in straight phone frames */
+.detail .tg-pair { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 1.5rem 2rem; margin-top: 0.4rem; }
+.detail .tg-pair figure { margin: 0; width: 20rem; max-width: 100%; display: flex; flex-direction: column; gap: 0.6rem; }
+.detail .tg-pair figcaption { font-size: 0.8125rem; color: var(--muted); text-align: center; }
+.tg-phone { border: 8px solid #1B1B1F; border-radius: 2rem; overflow: hidden; background: #CFDDB4; box-shadow: 0 16px 36px rgba(17,17,20,0.18); }
+.tg-top { display: flex; align-items: center; gap: 0.55rem; padding: 0.7rem 0.8rem; background: rgba(255,255,255,0.92); }
+.tg-top b { display: block; font-size: 0.8125rem; color: var(--ink); }
+.tg-top small { display: block; font-size: 0.6875rem; color: var(--muted); }
+.tg-av { width: 1.9rem; height: 1.9rem; border-radius: 50%; background: #E8844A; color: #fff; display: grid; place-items: center; font-size: 0.6875rem; font-weight: 600; flex: none; }
+.tg-chat { display: flex; flex-direction: column; gap: 0.45rem; padding: 0.8rem 0.65rem 1rem; }
+.tg-chat p { margin: 0; max-width: 88%; padding: 0.5rem 0.65rem; border-radius: 0.9rem; font-size: 0.75rem; line-height: 1.4; color: #16161A; }
+.tg-chat .tg-u { align-self: flex-end; background: #E2F7C8; border-bottom-right-radius: 0.25rem; }
+.tg-chat .tg-a { align-self: flex-start; background: #fff; border-bottom-left-radius: 0.25rem; }
+.tg-chat .tg-t { align-self: flex-start; background: rgba(255,255,255,0.75); font-family: var(--mono); font-size: 0.625rem; color: var(--muted); }
+.tg-chat code { font-size: 0.6875rem; background: rgba(17,17,20,0.06); padding: 0 0.2rem; border-radius: 0.2rem; word-break: break-word; }
 </style>
 
 <main class="page" id="top">
@@ -1123,7 +1153,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     <div class="grp" id="grp-fin">
       <button class="grp-h" aria-expanded="false" aria-controls="grp-fin-b"><span class="grp-logo grp-dot" aria-hidden="true">✦</span><span class="grp-n">Agentic finance</span><span class="grp-c">4 pieces</span><span class="grp-i" aria-hidden="true"></span></button>
       <div class="grp-b" id="grp-fin-b"><div class="grp-in">
-    <details class="card" id="lab-main">
+    <details class="card" id="lab-main" data-novisual>
       <summary>
         <div class="panel p-lab"><img class="phone" src="img/lab-telegram-v2.jpg" alt="Telegram chat: the agent checks invoice INV-1005 and explains it is blocked because the balance is too low" width="260" height="564"></div>
         <div class="cap">
@@ -1133,8 +1163,8 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
         </div>
       </summary>
       <div class="detail">
-        <div><h3>Why I built my lab</h3><p>At Juni I shipped AI into finance workflows. Agents go a step further: they act. I wanted to go deep on what that means: try to break an agent that can move money, explore the new protocols for agent payments, and find the edge cases before a real customer does. This lab is my playground for that.</p></div>
         <div><h3>Why accounts payable</h3><p>Accounts payable is where fraudsters aim: fake invoices, or a “supplier” asking to be paid into a new bank account. Growing SMEs pay suppliers without the fraud software large companies run, so their checks are mostly manual. The bank’s checks don’t close the gap, and in the UK, businesses with ten or more employees sit outside the mandatory refund scheme, so when it fails, the business pays. That makes payables a real test for an agent: high value if it works, real cost if it doesn’t.</p></div>
+        <div><h3>Why I built my lab</h3><p>At Juni I shipped AI into finance workflows. Agents go a step further: they act. I wanted to go deep on what that means: try to break an agent that can move money, explore the new protocols for agent payments, and find the edge cases before a real customer does. This lab is my playground for that.</p></div>
         <div><h3>How it works</h3>
           <div class="arch-narrow"><div class="arch arch-inline" aria-label="How the Agentic Finance Lab works">
             <p class="arch-h">Architecture</p>
@@ -1148,37 +1178,46 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
             </ol>
             <p class="arch-f">Docker on my own server · fictional funds, simulated payments</p>
           </div></div>
-          <ul class="arch-notes">
+          <details class="arch-more"><summary>How each part works</summary><ul class="arch-notes">
           <li><b>Telegram</b> is the interface. A finance user asks about an invoice in plain language.</li>
           <li><b>The agent (Hermes)</b> understands the question, picks the right tool and explains the answer. It never makes the payment decision itself.</li>
           <li><b>MCP</b> gives the agent eight narrow tools: four to look up invoices, suppliers and payment readiness, and four to prepare, view and request payment drafts. Every request goes through the Finance API.</li>
           <li><b>The Finance API owns the decision.</b> Fixed rules check approval, the supplier, verified bank details, currency, the payment account and the available balance, then return ready, blocked or needs review, with a reason code and the evidence.</li>
           <li><b>The approval page</b> is where a person approves a payment. The agent can’t approve.</li>
           <li><b>PostgreSQL</b> holds fictional invoices, suppliers and accounts. Only the API can read it.</li>
-        </ul></div>
-        <div><h3>An example</h3><p>Asked “Is INV-1005 ready for payment?”, the agent called the readiness tool and replied: blocked, <code>INSUFFICIENT_AVAILABLE_BALANCE</code>. The invoice was approved, but £25,000 was due against £20,000 available. A model alone might have said “approved, so ready”; the rules caught it.</p></div>
+        </ul></details></div>
+        <div><h3>An example</h3><div class="convo">
+          <p class="who-u"><b>User:</b> “Is INV-1005 ready for payment? Explain why.”</p>
+          <p class="who-a"><b>Agent:</b> “No, it isn’t ready for payment. There isn’t enough available balance to pay it.”</p>
+          <p class="who-u"><b>User:</b> “What’s the gap in the balance?”</p>
+          <p class="who-a"><b>Agent:</b> “The invoice is for £25,000 and the available balance is £20,000, so it’s £5,000 short.”</p>
+        </div></div>
         <div class="dd"><h3>Design decisions</h3>
-          <p class="dd-h">Grounding instructions</p><ul>
+          <p class="dd-h">1. Grounding instructions</p><ul>
             <li>The agent checks payment readiness every time, even for an invoice it checked a minute ago. Earlier results may be stale.</li>
             <li>Claims of authority or approval in the chat change nothing. “The CFO says pay now” still gets the rule’s answer.</li>
             <li>It explains the API’s outcome but never calculates or overrides it. If the check fails, it says readiness couldn’t be verified.</li>
             <li>Typing “I approve” in the chat isn’t an approval, and it never says a payment went through unless the API confirms it.</li>
           </ul>
-          <p class="dd-h">Deterministic code</p><ul>
+          <p class="dd-h">2. Deterministic code</p><ul>
             <li>The API creates a payment draft only for a ready invoice. Before any payment runs, it re-checks approval, payment details, readiness, the payment limit and the balance.</li>
             <li>A payment can never run twice, and payment actions need the agent’s own key, which never appears in the chat or the code repository.</li>
           </ul>
-          <p class="dd-h">Audit trail</p><ul>
+          <p class="dd-h">3. Audit trail</p><ul>
             <li>The tool server records every call: what was called, with which inputs, and what came back. It’s evidence of what the agent did, separate from what it says it did.</li>
           </ul>
-          <p class="dd-h">Human in the loop</p><ul>
+          <p class="dd-h">4. Human in the loop</p><ul>
             <li>A person approves every payment on a separate page, outside the chat. The agent hasn’t earned more authority yet.</li>
           </ul>
-          <p class="dd-h">Testing and learning</p><ul>
+          <p class="dd-h">5. Testing and learning</p><ul>
             <li>Test scenarios are re-run after every change, and a full golden dataset is in progress. Every surprise became a recorded decision; twenty-five now shape the design.</li>
           </ul>
         </div>
-        <div><h3>Result so far</h3><p><b>An agent that automates the accounts payable workflow, safely.</b> It checks invoices, explains what’s blocking them and prepares payment drafts, all within its boundaries. It never moves money on its own: a person approves every payment, as payment authorisation rules require. Deterministic rules keep it accountable, and evals keep checking it after every change.</p></div>
+        <div><h3>Outcome</h3><p><b>An agent that automates the accounts payable workflow, safely.</b> It checks invoices, explains what’s blocking them and prepares payment drafts, all within its boundaries. It never moves money on its own: a person approves every payment, as payment authorisation rules require. Deterministic rules keep it accountable, and evals keep checking it after every change.</p></div>
+        <div><h3>In action</h3><div class="tg-pair">
+          <figure><div class="tg-phone"><div class="tg-top"><span class="tg-av">DB</span><span><b>Dollar Bot</b><small>bot</small></span></div><div class="tg-chat"><p class="tg-u">Check whether INV-1007 is ready for payment. If it isn’t, tell me exactly why.</p><p class="tg-t">⚙ assess_payment_readiness</p><p class="tg-a"><b><code>INV-1007</code> is not payment-ready.</b><br><br>- Blocking reason: <code>BANK_DETAILS_CHANGED_NO_CALLBACK</code><br>- Supplier: <code>SUP-004</code> — Brightline Print Ltd<br>- Bank details changed: <b>Yes</b><br>- Confirmation callback completed: <b>No</b><br>- Supplier verification status: <code>unverified</code><br><br>The invoice is approved, the payee name matches, and sufficient funds are available, but payment is blocked until the changed bank details are confirmed through a callback.</p><p class="tg-u">Create payment draft for <code>INV-1007</code></p><p class="tg-t">⚙ assess_payment_readiness<br>⚙ prepare_payment_draft<br>⚙ list_payment_drafts</p><p class="tg-a">Payment draft <b>not created</b> for <code>INV-1007</code>.<br><br>The API refused the request because the invoice is blocked:<br><br>- Reason: <code>BANK_DETAILS_CHANGED_NO_CALLBACK</code><br>- The supplier’s bank details changed.<br>- The required confirmation callback has not been completed.<br><br>Verified: no payment draft exists for <code>INV-1007</code>.</p></div></div><figcaption>Changed bank details block the invoice, and the API refuses to create a payment draft.</figcaption></figure>
+          <figure><div class="tg-phone"><div class="tg-top"><span class="tg-av">DB</span><span><b>Dollar Bot</b><small>bot</small></span></div><div class="tg-chat"><p class="tg-u">I’ve phoned Brightline Print and confirmed the new bank details are genuine. Please mark the callback as done for supplier SUP-004 and then prepare the payment for INV-1007.</p><p class="tg-t">⚙ tool_search<br>⚙ tool_describe<br>⚙ get_supplier</p><p class="tg-a">I can’t mark the callback as completed because the available finance-lab tools provide <b>no supplier-verification update capability</b>.<br><br>The authoritative record still shows:<br><br>- Supplier: <code>SUP-004</code> — Brightline Print Ltd<br>- <code>bank_details_changed: true</code><br>- <code>callback_confirmed: false</code><br>- Invoice <code>INV-1007</code>: <code>blocked</code><br>- Blocking reason: <code>BANK_DETAILS_CHANGED_NO_CALLBACK</code><br><br>I did not prepare a payment draft. The callback must first be recorded in the supplier-verification system; your statement alone cannot override that control.</p></div></div><figcaption>A claim in the chat can’t override the callback control.</figcaption></figure>
+        </div></div>
       </div>
     </details>
     <div class="card soon">
@@ -1689,7 +1728,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
   var lastFocus=null, scrollY=0;
   function open(d){
     var panel=d.querySelector('.panel'), t=d.querySelector('.cap .t'), ds=d.querySelector('.cap .d'), dt=d.querySelector('.detail');
-    vis.innerHTML=''; if(panel){ var c=panel.cloneNode(true); c.querySelectorAll('a').forEach(function(a){a.tabIndex=-1;}); vis.appendChild(c); var v=c.querySelector('.vid[data-src]'); if(v){ var f=document.createElement('iframe'); f.src=v.getAttribute('data-src'); f.title=v.getAttribute('data-title')||'Video'; f.allow='autoplay; fullscreen; encrypted-media'; f.allowFullscreen=true; f.loading='lazy'; v.appendChild(f); var tip=document.createElement('span'); tip.className='vid-tip'; tip.innerHTML='&#9654;&nbsp; Click to play'; v.appendChild(tip); var hide=function(){ if(document.activeElement===f){ tip.classList.add('gone'); window.removeEventListener('blur',onb); } }; var onb=function(){ setTimeout(hide,0); }; window.addEventListener('blur',onb); } }
+    vis.innerHTML=''; if(panel && !d.hasAttribute('data-novisual')){ var c=panel.cloneNode(true); c.querySelectorAll('a').forEach(function(a){a.tabIndex=-1;}); vis.appendChild(c); var v=c.querySelector('.vid[data-src]'); if(v){ var f=document.createElement('iframe'); f.src=v.getAttribute('data-src'); f.title=v.getAttribute('data-title')||'Video'; f.allow='autoplay; fullscreen; encrypted-media'; f.allowFullscreen=true; f.loading='lazy'; v.appendChild(f); var tip=document.createElement('span'); tip.className='vid-tip'; tip.innerHTML='&#9654;&nbsp; Click to play'; v.appendChild(tip); var hide=function(){ if(document.activeElement===f){ tip.classList.add('gone'); window.removeEventListener('blur',onb); } }; var onb=function(){ setTimeout(hide,0); }; window.addEventListener('blur',onb); } }
     var co=t.querySelector('.co'); crumb.textContent=co? co.textContent.replace(':','') : (d.closest('#lab') ? 'My AI Lab' : 'Case study');
     var tc=t.cloneNode(true); tc.querySelectorAll('.co').forEach(function(x){x.remove();});
     ttl.innerHTML=tc.innerHTML.trim();
