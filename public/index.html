@@ -1268,6 +1268,8 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
         </div>
       </summary>
       <div class="detail">
+        <div><h3>Why I did this</h3><p>Agents can now pay. The hard part isn’t sending the money; it’s proving that a person agreed to <em>this</em> payment, for <em>this</em> amount, to <em>this</em> supplier. I wanted to see how the new agent payment protocols solve that for business payments, not just online shopping.</p></div>
+        <div><h3>What AP2 is, in plain English</h3><p>AP2 (Agent Payments Protocol) is Google’s open standard for payments made by AI agents. It answers one question: <em>can we prove a person really approved this?</em> It does that with <b>mandates</b>: signed digital records of what is being paid and who approved it, which can’t be changed without breaking the signature.</p></div>
         <div><div class="convo map-box"><h3>How AP2 fits into my lab</h3><p>AP2 describes a shopping flow with a set of roles. I matched each role to a part of my payables lab:</p>
           <div class="map-wrap"><table class="map">
             <thead><tr><th>AP2 role</th><th>What it means</th><th>In my lab</th></tr></thead>
@@ -1278,8 +1280,6 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
               <tr><td>Payment provider</td><td>Who checks and processes the payment</td><td>My Finance API</td></tr>
             </tbody>
           </table></div></div></div>
-        <div><h3>Why I did this</h3><p>Agents can now pay. The hard part isn’t sending the money; it’s proving that a person agreed to <em>this</em> payment, for <em>this</em> amount, to <em>this</em> supplier. I wanted to see how the new agent payment protocols solve that for business payments, not just online shopping.</p></div>
-        <div><h3>What AP2 is, in plain English</h3><p>AP2 (Agent Payments Protocol) is Google’s open standard for payments made by AI agents. It answers one question: <em>can we prove a person really approved this?</em> It does that with <b>mandates</b>: signed digital records of what is being paid and who approved it, which can’t be changed without breaking the signature.</p></div>
         <div><h3>What happens when a payment is approved</h3><ol>
           <li>The agent prepares a payment draft for an invoice the rules have cleared.</li>
           <li>A person approves it on the approval page.</li>
