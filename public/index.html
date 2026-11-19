@@ -865,6 +865,11 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 /* More room above the phone chats */
 .detail .in-action { margin-top: 1.6rem; }
 .detail .in-action .tg-pair { margin-top: 1.2rem; }
+/* "How each part works": a chevron that turns when opened, in place of the circled plus */
+.detail .arch-more > summary::before { content: ""; width: 0.45rem; height: 0.45rem; border: 0; border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink); border-radius: 0; transform: rotate(-45deg); transition: transform .2s ease; margin-right: 0.2rem; }
+.detail .arch-more[open] > summary::before { content: ""; transform: rotate(45deg); }
+/* Example: its heading sits inside the conversation box */
+.detail .convo h3 { margin: 0 0 0.2rem; }
 </style>
 
 <main class="page" id="top">
@@ -1194,7 +1199,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
           <li><b>The approval page</b> is where a person approves a payment. The agent can’t approve.</li>
           <li><b>PostgreSQL</b> holds fictional invoices, suppliers and accounts. Only the API can read it.</li>
         </ul></details></div>
-        <div><h3>An example</h3><div class="convo">
+        <div><div class="convo"><h3>An example</h3>
           <p class="who-u"><b>User:</b> “Is INV-1005 ready for payment? Explain why.”</p>
           <p class="who-a"><b>Agent:</b> “No, it isn’t ready for payment. There isn’t enough available balance to pay it.”</p>
           <p class="who-u"><b>User:</b> “What’s the gap in the balance?”</p>
