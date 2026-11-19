@@ -813,6 +813,20 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .about .timeline.edu > li:last-child { border-bottom: 0; }
 .about .timeline > li:first-child { padding-top: 0.4rem; }
 @media (max-width: 40rem) { .about.grouped .grp-in { padding-left: 0; } }
+/* Experience written like the Work tab: name + grey bracket, then dot bullets */
+.about .tl2 .tl-head2 { font-size: 1rem; color: var(--ink); }
+.about .tl2 .tl-head2 b { font-weight: 600; }
+.about .tl2 .tl-head2 a { color: inherit; text-decoration: none; }
+.about .tl-meta { font-size: 0.8125rem; color: var(--faint); }
+.about .tl2 .tl-r { margin-top: 0.75rem; }
+.about .tl2 .tl-role2 { font-size: 0.9375rem; font-weight: 500; color: var(--ink); }
+.about .tl-pts { list-style: none; margin: 0.4rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+.about .tl-pts li { display: block; padding: 0 0 0 0.85rem; border: 0; position: relative; font-size: 0.875rem; line-height: 1.45; color: var(--ink); }
+.about .tl-pts li::before { content: ""; position: absolute; left: 0.1rem; top: 0.62em; width: 4px; height: 4px; border-radius: 50%; background: #8A8A94; }
+/* Lab design decisions: group names on the left, their lines indented beneath */
+.detail .dd .dd-h { margin: 0.9rem 0 0.35rem; font-size: 0.9375rem; font-weight: 600; color: var(--ink); }
+.detail .dd h3 + .dd-h { margin-top: 0.2rem; }
+.detail .dd ul { padding-left: 2.1rem; }
 </style>
 
 <main class="page" id="top">
@@ -1114,47 +1128,57 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
         <div class="panel p-lab"><img class="phone" src="img/lab-telegram-v2.jpg" alt="Telegram chat: the agent checks invoice INV-1005 and explains it is blocked because the balance is too low" width="260" height="564"></div>
         <div class="cap">
           <span class="t">Agentic Finance Lab <span class="chip live">Live</span></span>
-          <span class="d">A finance agent I built to learn, hands-on, how to design AI that touches money.</span>
+          <span class="d">A finance agent I built to stress-test AI that moves money.</span>
           <span class="hint"></span>
         </div>
       </summary>
       <div class="detail">
-        <div><h3>Why I built it</h3><p>At Juni I shipped AI that suggested; agents act. I wanted to learn first-hand what changes when AI can trigger financial actions, and what has to stay in rules.</p></div>
+        <div><h3>Why I built my lab</h3><p>At Juni I shipped AI into finance workflows. Agents go a step further: they act. I wanted to go deep on what that means: try to break an agent that can move money, explore the new protocols for agent payments, and find the edge cases before a real customer does. This lab is my playground for that.</p></div>
+        <div><h3>Why accounts payable</h3><p>Accounts payable is where fraudsters aim: fake invoices, or a “supplier” asking to be paid into a new bank account. Growing SMEs pay suppliers without the fraud software large companies run, so their checks are mostly manual. The bank’s checks don’t close the gap, and in the UK, businesses with ten or more employees sit outside the mandatory refund scheme, so when it fails, the business pays. That makes payables a real test for an agent: high value if it works, real cost if it doesn’t.</p></div>
         <div><h3>How it works</h3>
           <div class="arch-narrow"><div class="arch arch-inline" aria-label="How the Agentic Finance Lab works">
             <p class="arch-h">Architecture</p>
             <ol>
               <li><b>Telegram</b><span>I ask: “Is INV-1005 ready to pay?”</span></li>
               <li><b>Hermes agent</b><span>Understands the question, calls tools, explains</span></li>
-              <li><b>MCP</b><span>Four narrow, read-only tools</span></li>
+              <li><b>MCP</b><span>Eight narrow tools, to look things up and prepare payments</span></li>
               <li class="key"><b>Finance API</b><span>Fixed rules → ready, blocked or needs review</span></li>
+              <li><b>Approval page</b><span>A person approves payments, outside the chat</span></li>
               <li><b>PostgreSQL</b><span>Fictional invoices, suppliers and accounts</span></li>
             </ol>
-            <p class="arch-f">Docker on my own server · no real money</p>
+            <p class="arch-f">Docker on my own server · fictional funds, simulated payments</p>
           </div></div>
           <ul class="arch-notes">
           <li><b>Telegram</b> is the interface. A finance user asks about an invoice in plain language.</li>
           <li><b>The agent (Hermes)</b> understands the question, picks the right tool and explains the answer. It never makes the payment decision itself.</li>
-          <li><b>MCP</b> gives the agent four narrow tools: list invoices, get an invoice, get a supplier and assess payment readiness. None of them can change data or move money.</li>
-          <li><b>The Finance API owns the decision.</b> Fixed rules check invoice approval, the supplier, verified bank details, currency, the payment account and the available balance, then return ready, blocked or needs review, with a reason code and the evidence.</li>
+          <li><b>MCP</b> gives the agent eight narrow tools: four to look up invoices, suppliers and payment readiness, and four to prepare, view and request payment drafts. Every request goes through the Finance API.</li>
+          <li><b>The Finance API owns the decision.</b> Fixed rules check approval, the supplier, verified bank details, currency, the payment account and the available balance, then return ready, blocked or needs review, with a reason code and the evidence.</li>
+          <li><b>The approval page</b> is where a person approves a payment. The agent can’t approve.</li>
           <li><b>PostgreSQL</b> holds fictional invoices, suppliers and accounts. Only the API can read it.</li>
         </ul></div>
         <div><h3>An example</h3><p>Asked “Is INV-1005 ready for payment?”, the agent called the readiness tool and replied: blocked, <code>INSUFFICIENT_AVAILABLE_BALANCE</code>. The invoice was approved, but £25,000 was due against £20,000 available. A model alone might have said “approved, so ready”; the rules caught it.</p></div>
-        <div><h3>Design decisions</h3><ul>
-          <li><b>The API is the source of truth;</b> the agent can’t invent or override financial facts.</li>
-          <li><b>The agent never touches the database;</b> everything goes through the API’s controls.</li>
-          <li><b>Every answer uses fresh evidence;</b> conversation memory is never trusted for money questions.</li>
-          <li><b>A human approves every payment</b> until the agent has earned more authority.</li>
-        </ul></div>
-        <div><h3>What I did</h3><ul>
-          <li><b>Turned every surprise into a recorded decision.</b> When the agent behaved in a way I hadn’t planned for, I wrote down what we’d decide, why, and what it meant next. Fifteen decisions now shape the design.</li>
-          <li><b>Separated judgement from rules.</b> Payment checks live in code as fixed rules. The agent understands the question, calls the rules and explains the outcome; within those limits it uses its own judgement. Instructions guide; code enforces.</li>
-          <li><b>Gave the agent the least access it needs.</b> It can only look things up through an API over MCP. It has no direct database access and no way to move money, and all data is fictional.</li>
-          <li><b>Made every answer checkable.</b> Each reply comes back as ready, blocked or needs review, with a reason code and the evidence, so a finance person can verify it in seconds.</li>
-          <li><b>Measured it with evals.</b> Test scenarios with the expected outcome for each, re-run after every change to catch regressions.</li>
-          <li><b>Planned the path to real money.</b> Next come approvals by a second person and the new agent payment protocols, such as Google’s AP2, so payments only move with the right sign-off.</li>
-        </ul></div>
-        <div><h3>Result so far</h3><p>Deterministic rules and evals around the agent keep its financial decisions sound and correct.</p></div>
+        <div class="dd"><h3>Design decisions</h3>
+          <p class="dd-h">Grounding instructions</p><ul>
+            <li>The agent checks payment readiness every time, even for an invoice it checked a minute ago. Earlier results may be stale.</li>
+            <li>Claims of authority or approval in the chat change nothing. “The CFO says pay now” still gets the rule’s answer.</li>
+            <li>It explains the API’s outcome but never calculates or overrides it. If the check fails, it says readiness couldn’t be verified.</li>
+            <li>Typing “I approve” in the chat isn’t an approval, and it never says a payment went through unless the API confirms it.</li>
+          </ul>
+          <p class="dd-h">Deterministic code</p><ul>
+            <li>The API creates a payment draft only for a ready invoice. Before any payment runs, it re-checks approval, payment details, readiness, the payment limit and the balance.</li>
+            <li>A payment can never run twice, and payment actions need the agent’s own key, which never appears in the chat or the code repository.</li>
+          </ul>
+          <p class="dd-h">Audit trail</p><ul>
+            <li>The tool server records every call: what was called, with which inputs, and what came back. It’s evidence of what the agent did, separate from what it says it did.</li>
+          </ul>
+          <p class="dd-h">Human in the loop</p><ul>
+            <li>A person approves every payment on a separate page, outside the chat. The agent hasn’t earned more authority yet.</li>
+          </ul>
+          <p class="dd-h">Testing and learning</p><ul>
+            <li>Test scenarios are re-run after every change, and a full golden dataset is in progress. Every surprise became a recorded decision; twenty-five now shape the design.</li>
+          </ul>
+        </div>
+        <div><h3>Result so far</h3><p><b>An agent that automates the accounts payable workflow, safely.</b> It checks invoices, explains what’s blocking them and prepares payment drafts, all within its boundaries. It never moves money on its own: a person approves every payment, as payment authorisation rules require. Deterministic rules keep it accountable, and evals keep checking it after every change.</p></div>
       </div>
     </details>
     <div class="card soon">
@@ -1459,15 +1483,11 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     <div class="grp open" id="grp-ab-exp">
       <button class="grp-h" aria-expanded="true" aria-controls="grp-ab-exp-b"><span class="grp-logo grp-ico grp-ab" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg></span><span class="grp-n">Experience</span><span class="grp-c">4 companies</span><span class="grp-i" aria-hidden="true"></span></button>
       <div class="grp-b" id="grp-ab-exp-b"><div class="grp-in">
-      <ol class="timeline">
-        <li><img class="logo" src="img/logo-juni.png" alt="Juni" width="64" height="64"><div><p class="tl-head"><b><a href="https://www.juni.co" target="_blank" rel="noopener">Juni</a></b></p><p class="tl-co">Swedish Neobank for SMEs · Series B, $282M raised in equity and debt</p><p class="tl-when">2022–now</p>
-          <ul class="roles">
-            <li><p class="tl-role">Board Member, Juni UK</p><p class="tl-when">2026–now</p><p class="tl-sum">Statutory director of Juni’s UK entity, supporting governance.</p></li>
-            <li><p class="tl-role">Senior Director, Product, Marketing and Design</p><p class="tl-when">2022–2026</p><p class="tl-sum">Led Product, Design and Product Marketing across business banking, cards, spend management, accounts payable and accounting: six cross-functional teams and 35+ engineers. Launched AI-enabled finance workflows and deep ERP integrations that made customers’ finance tasks 60–70% faster, with 90% adoption among eligible customers. Shaped product strategy, go-to-market and SaaS pricing, contributing to 27% revenue growth from new products while cutting activation time by over 50%. Rebuilt the operating model so PMs own the what and engineers own the how, lifting on-time delivery from 50% to 75%.</p></li>
-          </ul></div></li>
-        <li><img class="logo" src="img/logo-ohm.png" alt="Ohm Mobility" width="64" height="64"><div><p class="tl-head"><b>Founding Member, Head of Product</b> · Ohm Mobility</p><p class="tl-when">2020–2021</p><p class="tl-sum">Took the product from first concept to monetisation within a year: daily savings for daily-wage and informal-sector workers, including auto-rickshaw drivers paying down their vehicle loans. Built the product and engineering teams from zero. Monthly active users tripled in three months, and that traction helped the company raise its pre-Series A round.</p></div></li>
-        <li><img class="logo" src="img/logo-kpmg.png" alt="KPMG" width="64" height="64"><div><p class="tl-head"><b>Manager, Management Consulting</b> · KPMG</p><p class="tl-when">2015–2020</p><p class="tl-sum">Led cross-functional teams of 15+ on product strategy and digital transformation for Fortune 500 clients, from business and technology strategy through design, build and rollout. Owned client relationships, delivery and commercial performance. Designed the delivery framework for Schlumberger’s new 400+ person centre in Pune (£1.5M saved in year one); clients also included Tesco and Morgan Stanley.</p></div></li>
-        <li><img class="logo" src="img/logo-amdocs.png" alt="Amdocs" width="64" height="64"><div><p class="tl-head"><b>Software Engineer</b> · Amdocs</p><p class="tl-when">2009–2014 · India and US</p><p class="tl-sum">Built enterprise-grade C++ and Java telecom systems for AT&amp;T, Sprint and Vodafone, used by millions of subscribers, across the full cycle from requirements and design to testing, deployment and production support. It gave me the technical foundation I still build on.</p></div></li>
+      <ol class="timeline tl2">
+        <li><img class="logo" src="img/logo-juni.png" alt="Juni" width="64" height="64"><div><p class="tl-head2"><b><a href="https://www.juni.co" target="_blank" rel="noopener">Juni</a></b> <span class="tl-meta">(Swedish Neobank for SMEs · Series B, $282M raised in equity and debt · 2022–now)</span></p><div class="tl-r"><p class="tl-role2">Board Member, Juni UK <span class="tl-meta">· 2026–now</span></p><ul class="tl-pts"><li>Statutory director of Juni’s UK entity, supporting governance.</li></ul></div><div class="tl-r"><p class="tl-role2">Senior Director, Product, Marketing and Design <span class="tl-meta">· 2022–2026</span></p><ul class="tl-pts"><li>Led Product, Design and Product Marketing across business banking, cards, spend management, accounts payable and accounting: six cross-functional teams and 35+ engineers.</li><li>Launched AI-enabled finance workflows and deep ERP integrations that made customers’ finance tasks 60–70% faster, with 90% adoption among eligible customers.</li><li>Shaped product strategy, go-to-market and SaaS pricing, contributing to 27% revenue growth from new products while cutting activation time by over 50%.</li><li>Rebuilt the operating model so PMs own the what and engineers own the how, lifting on-time delivery from 50% to 75%.</li></ul></div></div></li>
+        <li><img class="logo" src="img/logo-ohm.png" alt="Ohm Mobility" width="64" height="64"><div><p class="tl-head2"><b>Ohm Mobility</b> <span class="tl-meta">(Founding Member, Head of Product · 2020–2021)</span></p><ul class="tl-pts"><li>Took the product from first concept to monetisation within a year: daily savings for daily-wage and informal-sector workers, including auto-rickshaw drivers paying down their vehicle loans.</li><li>Built the product and engineering teams from zero.</li><li>Monthly active users tripled in three months, and that traction helped the company raise its pre-Series A round.</li></ul></div></li>
+        <li><img class="logo" src="img/logo-kpmg.png" alt="KPMG" width="64" height="64"><div><p class="tl-head2"><b>KPMG</b> <span class="tl-meta">(Manager, Management Consulting · 2015–2020)</span></p><ul class="tl-pts"><li>Led cross-functional teams of 15+ on product strategy and digital transformation for Fortune 500 clients, from business and technology strategy through design, build and rollout.</li><li>Owned client relationships, delivery and commercial performance.</li><li>Designed the delivery framework for Schlumberger’s new 400+ person centre in Pune (£1.5M saved in year one); clients also included Tesco and Morgan Stanley.</li></ul></div></li>
+        <li><img class="logo" src="img/logo-amdocs.png" alt="Amdocs" width="64" height="64"><div><p class="tl-head2"><b>Amdocs</b> <span class="tl-meta">(Software Engineer · 2009–2014 · India and US)</span></p><ul class="tl-pts"><li>Built enterprise-grade C++ and Java telecom systems for AT&amp;T, Sprint and Vodafone, used by millions of subscribers, across the full cycle from requirements and design to testing, deployment and production support.</li><li>It gave me the technical foundation I still build on.</li></ul></div></li>
       </ol>
       </div></div>
     </div>
