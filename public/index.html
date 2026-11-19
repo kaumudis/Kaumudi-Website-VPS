@@ -880,6 +880,14 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .detail .shot { margin: 1rem 0 0; }
 .detail .shot img { display: block; width: 100%; height: auto; border-radius: 0.8rem; border: 1px solid var(--line); }
 .detail .shot figcaption { margin-top: 0.45rem; font-size: 0.8125rem; color: var(--muted); }
+/* AP2 role table: tighter, smaller, with a full grid like a table */
+.detail table.map { font-size: 0.8125rem; border: 1px solid #D9D9DE; border-radius: 0.5rem; border-collapse: separate; border-spacing: 0; overflow: hidden; background: #fff; }
+.detail table.map th { padding: 0.35rem 0.6rem; background: #EDEDF1; border-bottom: 1px solid #D9D9DE; font-size: 0.75rem; }
+.detail table.map td { padding: 0.35rem 0.6rem; border-bottom: 1px solid #E6E6EA; }
+.detail table.map tr:last-child td { border-bottom: 0; }
+.detail table.map th + th, .detail table.map td + td { border-left: 1px solid #E6E6EA; }
+.detail .map-box table.map th { background: #EDEDF1; }
+.detail .map-box table.map td { background: #fff; }
 /* Case study pop-up: more room between sections, text justified to both edges */
 .modal-detail.detail { gap: 2.2rem; }
 .modal-detail > div > p, .modal-detail li, .modal-detail .convo p { text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
