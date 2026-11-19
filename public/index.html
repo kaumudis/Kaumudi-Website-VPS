@@ -806,7 +806,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .head-mail { margin-top: 0.3rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.05em; }
 .head-mail a { color: var(--faint); }
 /* Email in the header uses the same look as the "AI Product Builder" line (copying still gives the lowercase address) */
-.head-mail, .head-mail a, .head-mail span { letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.head-mail, .head-mail a, .head-mail span { letter-spacing: 0.04em; text-transform: none; color: var(--muted); }
 .who-top > div { min-width: 0; }
 @media (max-width: 30rem) { .head-mail { font-size: 0.6875rem; letter-spacing: 0.02em; } .head-mail a { overflow-wrap: anywhere; } }
 /* Footer name 30% smaller; the row keeps its height and Pac-Man keeps its size */
@@ -943,6 +943,13 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .lab-duo .tg-chat p { overflow-wrap: anywhere; }
 .lab-duo .tg-chat code { font-size: 0.5rem; }
 @media (min-width: 48rem) { .lab-duo .tg-chat p { font-size: 0.6875rem; } .lab-duo .tg-top b { font-size: 0.75rem; } .lab-duo .tg-chat code { font-size: 0.5625rem; } }
+/* Phones: role line close to the name, a little more room before a smaller email, photo as tall as the text */
+@media (max-width: 40rem) {
+  .who-top h1 { font-size: min(1.5rem, 5.7vw); white-space: nowrap; }
+  .who-top .role-tag { margin-top: 0.3rem; line-height: 1.45; }
+  .who-top .head-mail { margin-top: 0.55rem; }
+  .head-mail, .head-mail a, .head-mail span { font-size: min(0.6875rem, 2.75vw); letter-spacing: 0.01em; white-space: nowrap; }
+}
 </style>
 
 <main class="page" id="top">
@@ -2039,7 +2046,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
 /* Photo is exactly as tall as the name, role and email beside it */
 (function(){
   var img=document.querySelector('.who-top .avatar'), txt=img&&img.nextElementSibling; if(!img||!txt) return;
-  function size(){ img.style.width=img.style.height=(window.innerWidth<480?'4.5rem':'4.5rem'); var hgt=txt.getBoundingClientRect().height; if(hgt){ var s=Math.round(window.innerWidth<480?Math.min(hgt,84):hgt); img.style.width=img.style.height=s+'px'; } }
+  function size(){ img.style.width=img.style.height=(window.innerWidth<480?'4.5rem':'4.5rem'); for(var k=0;k<4;k++){ var hgt=txt.getBoundingClientRect().height; if(!hgt) break; var s=Math.round(window.innerWidth<480?Math.min(hgt,116):hgt); if(Math.abs(parseFloat(img.style.width)-s)<1) break; img.style.width=img.style.height=s+'px'; } }
   size(); window.addEventListener('resize', size); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(size);
 })();
 </script>
