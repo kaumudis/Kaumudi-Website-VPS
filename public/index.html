@@ -870,6 +870,16 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .detail .arch-more[open] > summary::before { content: ""; transform: rotate(45deg); }
 /* Example: its heading sits inside the conversation box */
 .detail .convo h3 { margin: 0 0 0.2rem; }
+/* AP2 case study: role-mapping table */
+.detail .map-wrap { margin-top: 0; padding: 0.7rem 0 0 1rem; margin-left: 0.15rem; border-left: 2px solid var(--line); overflow-x: auto; }
+.detail table.map { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+.detail table.map th { text-align: left; font-weight: 600; color: var(--ink); padding: 0.5rem 0.75rem; border-bottom: 2px solid var(--line); }
+.detail table.map td { padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--line); color: var(--ink); vertical-align: top; }
+.detail table.map td:first-child { font-weight: 600; white-space: nowrap; }
+/* AP2 case study: screenshots of the approval page */
+.detail .shot { margin: 1rem 0 0; }
+.detail .shot img { display: block; width: 100%; height: auto; border-radius: 0.8rem; border: 1px solid var(--line); }
+.detail .shot figcaption { margin-top: 0.45rem; font-size: 0.8125rem; color: var(--muted); }
 </style>
 
 <main class="page" id="top">
@@ -1234,7 +1244,8 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
         </div></div>
       </div>
     </details>
-    <div class="card soon">
+    <details class="card" id="lab-pay">
+      <summary>
         <div class="panel p-soft proto-tile">
           <div class="proto">
             <p class="proto-h">Agentic payment protocols: keeping money safe</p>
@@ -1242,9 +1253,42 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
           </div>
         </div>
         <div class="cap">
-          <span class="t">Moving money with agent payment protocols</span>
-          <span class="d">Putting Google’s AP2 and the other new agent payment protocols to work in a business payment flow, with approvals, limits and an audit trail.</span>
+          <span class="t">Moving money with agent payment protocols <span class="chip live">Live</span></span>
+          <span class="d">Using Google’s AP2 to prove exactly what a person approved, before an agent’s payment can go through.</span>
+          <span class="hint"></span>
         </div>
+      </summary>
+      <div class="detail">
+        <div><h3>Why I did this</h3><p>Agents can now pay. The hard part isn’t sending the money; it’s proving that a person agreed to <em>this</em> payment, for <em>this</em> amount, to <em>this</em> supplier. I wanted to see how the new agent payment protocols solve that for business payments, not just online shopping.</p></div>
+        <div><h3>What AP2 is, in plain English</h3><p>AP2 (Agent Payments Protocol) is Google’s open standard for payments made by AI agents. It answers one question: <em>can we prove a person really approved this?</em> It does that with <b>mandates</b>: signed digital records of what is being paid and who approved it, which can’t be changed without breaking the signature.</p></div>
+        <div><h3>How AP2 fits into my lab</h3><p>AP2 describes a shopping flow with a set of roles. I matched each role to a part of my payables lab:</p>
+          <div class="map-wrap"><table class="map">
+            <thead><tr><th>AP2 role</th><th>What it means</th><th>In my lab</th></tr></thead>
+            <tbody>
+              <tr><td>Shopping agent</td><td>The AI that prepares the purchase</td><td>Hermes, my finance agent</td></tr>
+              <tr><td>Trusted surface</td><td>The screen where a person approves</td><td>My approval page, outside the chat</td></tr>
+              <tr><td>Merchant</td><td>Who gets paid</td><td>The supplier</td></tr>
+              <tr><td>Payment provider</td><td>Who checks and processes the payment</td><td>My Finance API</td></tr>
+            </tbody>
+          </table></div></div>
+        <div><h3>What happens when a payment is approved</h3><ol>
+          <li>The agent prepares a payment draft for an invoice the rules have cleared.</li>
+          <li>A person approves it on the approval page.</li>
+          <li>The Finance API creates two signed records: one for <em>what</em> is being paid, one for <em>the approval</em> to pay it.</li>
+          <li>Before any money moves, the API checks the signatures again and confirms nothing has changed.</li>
+          <li>It returns a signed receipt.</li>
+        </ol>
+          <figure class="shot"><img src="img/ap2-approvals.png" alt="Approval page: three payment drafts prepared by the finance agent, all executed; the latest carries a signed AP2 mandate" width="2082" height="762" loading="lazy"><figcaption>The approval page. The agent prepares drafts; only a person can approve them. The latest payment carries a signed AP2 mandate.</figcaption></figure>
+          <figure class="shot"><img src="img/ap2-transactions.png" alt="Balances and transactions: three fictional supplier payments, each approved by Kaumudi, with the balance before and after" width="2082" height="1198" loading="lazy"><figcaption>Every payment, who approved it, and the balance before and after. Fictional money only.</figcaption></figure>
+        </div>
+        <div><h3>What this protects against</h3><ul>
+          <li>The agent can’t create or fake an approval.</li>
+          <li>If the amount or supplier changes after approval, the signature no longer matches and the payment is refused.</li>
+          <li>Forged, edited or expired approvals are refused.</li>
+        </ul></div>
+        <div><h3>Outcome</h3><p><b>Every payment now carries proof of exactly what a person approved</b>, and the agent can’t fake it.</p></div>
+      </div>
+    </details>
     </div>
     <div class="card soon">
         <div class="panel p-gold"><p class="quote">Evals and golden datasets</p></div>
