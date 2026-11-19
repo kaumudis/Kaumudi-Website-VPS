@@ -1039,7 +1039,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       </div>
     </details>
     <!-- Spend management case study: video to embed later = https://lnkd.in/p/eesbdn85 (LinkedIn) -->
-    <div class="card soon">
+    <div class="card soon" id="juni-spend">
         <div class="panel p-juni"><span class="badge">Juni</span><a class="ext" href="https://www.juni.co/" target="_blank" rel="noopener" aria-label="Open the Juni website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
           <div class="window" aria-hidden="true"><div class="win-bar"><span class="win-logo">Juni</span><span class="win-nav"><i></i><i></i><i></i></span><span class="win-btn"></span></div>
             <div class="win-body"><div class="ghost"><i></i><i></i><i></i><i class="short"></i></div></div>
@@ -1679,6 +1679,16 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 <script>
 (function () {
   var order = ['work', 'lab', 'writing', 'about'];
+  // Live site (kaumudishrivastava.com): Playbooks and the unfinished Spend management card stay in Option C only.
+  // Add ?live to any address to preview the live version.
+  var LIVE = /kaumudishrivastava\.com$/.test(location.hostname) || /[?&]live\b/.test(location.search);
+  if (LIVE) {
+    ['tab-writing', 'writing', 'juni-spend'].forEach(function (id) { var el = document.getElementById(id); if (el) el.remove(); });
+    document.querySelectorAll('[data-go="writing"]').forEach(function (el) { el.remove(); });
+    order = ['work', 'lab', 'about'];
+    var sup = document.querySelector('#tab-work sup'); if (sup) sup.textContent = '(08)';
+    var jc = document.querySelector('#grp-juni .grp-c'); if (jc) jc.textContent = '4 case studies';
+  }
   var labels = {
     work: ['View work', 'Case studies', '<span class="tok tok-work"><i></i><i></i><i></i><i></i></span>'],
     lab: ['View my AI Lab', 'What I’m building', '<span class="tok tok-lab"><i></i>In progress</span>'],
@@ -1689,8 +1699,8 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
   var arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="#111114" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>';
   var next = document.getElementById('next');
   function renderNext(current) {
-    var i = order.indexOf(current);
-    var picks = [order[(i + 1) % 4], order[(i + 2) % 4], order[(i + 3) % 4]];
+    var i = order.indexOf(current), n = order.length, picks = [];
+    for (var k = 1; k < n; k++) picks.push(order[(i + k) % n]);
     next.innerHTML = '';
     picks.forEach(function (k) {
       var b = document.createElement('button');
