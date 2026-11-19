@@ -1,3 +1,6 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="img/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
@@ -918,6 +921,13 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 /* About Me: text justified to both edges */
 .about .bring li, .about .tl-pts li { text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
 .about .timeline.edu .tl-co { margin-top: 0.05rem; }
+/* Phones: tighter space around the docked tab bar, and no justified text (it leaves big gaps between words on a narrow screen) */
+@media (max-width: 40rem) {
+  .tabs-end { margin-top: 0; }
+  footer.foot { margin-top: 0 !important; }
+  .grouped .grp-txt .grp-line, .about .bring li, .about .tl-pts li,
+  .modal-detail > div > p, .modal-detail li, .modal-detail .convo p { text-align: left; hyphens: manual; -webkit-hyphens: manual; }
+}
 </style>
 
 <main class="page" id="top">
