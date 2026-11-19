@@ -805,6 +805,8 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .who-top .role-tag { margin-top: 0.6rem; }
 .head-mail { margin-top: 0.3rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.05em; }
 .head-mail a { color: var(--faint); }
+/* Email in the header uses the same look as the "AI Product Builder" line (copying still gives the lowercase address) */
+.head-mail, .head-mail a, .head-mail span { letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 .who-top > div { min-width: 0; }
 @media (max-width: 30rem) { .head-mail { font-size: 0.6875rem; letter-spacing: 0.02em; } .head-mail a { overflow-wrap: anywhere; } }
 /* Footer name 30% smaller; the row keeps its height and Pac-Man keeps its size */
