@@ -880,6 +880,15 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .detail .shot { margin: 1rem 0 0; }
 .detail .shot img { display: block; width: 100%; height: auto; border-radius: 0.8rem; border: 1px solid var(--line); }
 .detail .shot figcaption { margin-top: 0.45rem; font-size: 0.8125rem; color: var(--muted); }
+/* AP2: mapping table in the grey box; screenshots small, side by side, after the outcome */
+.detail .map-box .map-wrap { border-left: 0; margin-left: 0; padding-left: 0; }
+.detail .map-box p { margin: 0; }
+.detail .map-box table.map td, .detail .map-box table.map th { background: transparent; }
+.detail .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.6rem; }
+.detail .shots .shot { margin: 0; }
+.detail .shots .shot img { border-radius: 0.6rem; }
+.detail .shots .shot figcaption { font-size: 0.75rem; }
+@media (max-width: 40rem) { .detail .shots { grid-template-columns: 1fr; } }
 </style>
 
 <main class="page" id="top">
@@ -1244,7 +1253,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
         </div></div>
       </div>
     </details>
-    <details class="card" id="lab-pay">
+    <details class="card" id="lab-pay" data-novisual>
       <summary>
         <div class="panel p-soft proto-tile">
           <div class="proto">
@@ -1259,9 +1268,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
         </div>
       </summary>
       <div class="detail">
-        <div><h3>Why I did this</h3><p>Agents can now pay. The hard part isn’t sending the money; it’s proving that a person agreed to <em>this</em> payment, for <em>this</em> amount, to <em>this</em> supplier. I wanted to see how the new agent payment protocols solve that for business payments, not just online shopping.</p></div>
-        <div><h3>What AP2 is, in plain English</h3><p>AP2 (Agent Payments Protocol) is Google’s open standard for payments made by AI agents. It answers one question: <em>can we prove a person really approved this?</em> It does that with <b>mandates</b>: signed digital records of what is being paid and who approved it, which can’t be changed without breaking the signature.</p></div>
-        <div><h3>How AP2 fits into my lab</h3><p>AP2 describes a shopping flow with a set of roles. I matched each role to a part of my payables lab:</p>
+        <div><div class="convo map-box"><h3>How AP2 fits into my lab</h3><p>AP2 describes a shopping flow with a set of roles. I matched each role to a part of my payables lab:</p>
           <div class="map-wrap"><table class="map">
             <thead><tr><th>AP2 role</th><th>What it means</th><th>In my lab</th></tr></thead>
             <tbody>
@@ -1270,7 +1277,9 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
               <tr><td>Merchant</td><td>Who gets paid</td><td>The supplier</td></tr>
               <tr><td>Payment provider</td><td>Who checks and processes the payment</td><td>My Finance API</td></tr>
             </tbody>
-          </table></div></div>
+          </table></div></div></div>
+        <div><h3>Why I did this</h3><p>Agents can now pay. The hard part isn’t sending the money; it’s proving that a person agreed to <em>this</em> payment, for <em>this</em> amount, to <em>this</em> supplier. I wanted to see how the new agent payment protocols solve that for business payments, not just online shopping.</p></div>
+        <div><h3>What AP2 is, in plain English</h3><p>AP2 (Agent Payments Protocol) is Google’s open standard for payments made by AI agents. It answers one question: <em>can we prove a person really approved this?</em> It does that with <b>mandates</b>: signed digital records of what is being paid and who approved it, which can’t be changed without breaking the signature.</p></div>
         <div><h3>What happens when a payment is approved</h3><ol>
           <li>The agent prepares a payment draft for an invoice the rules have cleared.</li>
           <li>A person approves it on the approval page.</li>
@@ -1278,8 +1287,6 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
           <li>Before any money moves, the API checks the signatures again and confirms nothing has changed.</li>
           <li>It returns a signed receipt.</li>
         </ol>
-          <figure class="shot"><img src="img/ap2-approvals.png" alt="Approval page: three payment drafts prepared by the finance agent, all executed; the latest carries a signed AP2 mandate" width="2082" height="762" loading="lazy"><figcaption>The approval page. The agent prepares drafts; only a person can approve them. The latest payment carries a signed AP2 mandate.</figcaption></figure>
-          <figure class="shot"><img src="img/ap2-transactions.png" alt="Balances and transactions: three fictional supplier payments, each approved by Kaumudi, with the balance before and after" width="2082" height="1198" loading="lazy"><figcaption>Every payment, who approved it, and the balance before and after. Fictional money only.</figcaption></figure>
         </div>
         <div><h3>What this protects against</h3><ul>
           <li>The agent can’t create or fake an approval.</li>
@@ -1287,6 +1294,10 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
           <li>Forged, edited or expired approvals are refused.</li>
         </ul></div>
         <div><h3>Outcome</h3><p><b>Every payment now carries proof of exactly what a person approved</b>, and the agent can’t fake it.</p></div>
+        <div class="shots">
+          <figure class="shot"><a href="img/ap2-approvals.png" target="_blank" rel="noopener" title="Open full size"><img src="img/ap2-approvals.png" alt="Approval page: three payment drafts prepared by the finance agent, all executed; the latest carries a signed AP2 mandate" width="2082" height="762" loading="lazy"></a><figcaption>The approval page. The agent prepares drafts; only a person can approve them. The latest payment carries a signed AP2 mandate.</figcaption></figure>
+          <figure class="shot"><a href="img/ap2-transactions.png" target="_blank" rel="noopener" title="Open full size"><img src="img/ap2-transactions.png" alt="Balances and transactions: three fictional supplier payments, each approved by Kaumudi, with the balance before and after" width="2082" height="1198" loading="lazy"></a><figcaption>Every payment, who approved it, and the balance before and after. Fictional money only.</figcaption></figure>
+        </div>
       </div>
     </details>
     </div>
