@@ -952,6 +952,12 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 }
 /* Tile headings in bold on every screen size */
 .cap .t { font-weight: 600; }
+/* Accounting tile: dots flow both ways between ERP and Juni (two-way sync) */
+.erp-juni .ej-r { animation: ejR 1.1s linear infinite; }
+.erp-juni .ej-l { animation: ejL 1.1s linear infinite; }
+@keyframes ejR { to { stroke-dashoffset: -17; } }
+@keyframes ejL { to { stroke-dashoffset: 17; } }
+@media (prefers-reduced-motion: reduce) { .erp-juni .ej-r, .erp-juni .ej-l { animation: none; } }
 </style>
 
 <main class="page" id="top">
@@ -987,7 +993,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     <details class="card">
       <summary>
         <div class="panel p-juni"><span class="vid-chip" aria-hidden="true">&#9654; Video</span><div class="vid" data-src="https://www.linkedin.com/embed/feed/update/urn:li:activity:7099752104537268224?compact=1" data-title="Juni accounting video"></div><a class="ext" href="https://www.juni.co/" target="_blank" rel="noopener" aria-label="Open the Juni website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-          <svg class="jbe erp-juni" id="bank-erp" preserveAspectRatio="xMidYMid slice" aria-label="ERP connected to Juni" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg"><rect width="800" height="600" fill="#E8E5E0"/><rect x="0" y="0" width="330" height="600" fill="#17362A"/><rect x="470" y="0" width="330" height="600" fill="#5E2A28"/><rect x="350" y="250" width="14" height="14" fill="#B9B5AF"/><rect x="374" y="250" width="14" height="14" fill="#B9B5AF"/><rect x="398" y="250" width="14" height="14" fill="#B9B5AF"/><rect x="422" y="250" width="14" height="14" fill="#B9B5AF"/><rect x="446" y="250" width="14" height="14" fill="#B9B5AF"/><rect x="330" y="293" width="14" height="14" fill="#B9B5AF"/><rect x="354" y="293" width="14" height="14" fill="#B9B5AF"/><rect x="378" y="293" width="14" height="14" fill="#B9B5AF"/><rect x="402" y="293" width="14" height="14" fill="#B9B5AF"/><rect x="426" y="293" width="14" height="14" fill="#B9B5AF"/><rect x="360" y="336" width="14" height="14" fill="#B9B5AF"/><rect x="384" y="336" width="14" height="14" fill="#B9B5AF"/><rect x="408" y="336" width="14" height="14" fill="#B9B5AF"/><rect x="432" y="336" width="14" height="14" fill="#B9B5AF"/><rect x="456" y="336" width="14" height="14" fill="#B9B5AF"/><text x="165" y="330" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="96" font-weight="600" fill="#FFFFFF" letter-spacing="2">ERP</text><text x="635" y="330" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="92" font-weight="700" fill="#FFFFFF" letter-spacing="10">JUNI</text></svg>
+          <svg class="jbe erp-juni" id="bank-erp" preserveAspectRatio="xMidYMid slice" aria-label="ERP and Juni kept in sync both ways" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ej-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DDD9CF"/><stop offset="1" stop-color="#F5F3EF"/></linearGradient></defs><rect width="800" height="600" fill="url(#ej-bg)"/><rect x="100" y="175" width="250" height="250" fill="#17362A"/><rect x="450" y="175" width="250" height="250" fill="#5E2A28"/><g stroke="#C4C0B9" stroke-width="9" stroke-dasharray="9 8"><line class="ej-r" x1="378" y1="272" x2="450" y2="272"/><line class="ej-l" x1="350" y1="300" x2="428" y2="300"/><line class="ej-r" x1="368" y1="328" x2="450" y2="328"/></g><text x="225" y="318" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="58" font-weight="600" fill="#FFFFFF" letter-spacing="1">ERP</text><text x="575" y="318" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="56" font-weight="700" fill="#FFFFFF" letter-spacing="6">JUNI</text></svg>
         </div>
         <div class="cap">
           <span class="t"><span class="co">Juni:</span> Accounting</span>
