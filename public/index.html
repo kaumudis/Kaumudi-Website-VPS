@@ -857,6 +857,14 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .tg-chat .tg-a { align-self: flex-start; background: #fff; border-bottom-left-radius: 0.25rem; }
 .tg-chat .tg-t { align-self: flex-start; background: rgba(255,255,255,0.75); font-family: var(--mono); font-size: 0.625rem; color: var(--muted); }
 .tg-chat code { font-size: 0.6875rem; background: rgba(17,17,20,0.06); padding: 0 0.2rem; border-radius: 0.2rem; word-break: break-word; }
+/* Design decisions: one continuous grey line for the whole section */
+.detail .dd > .dd-body { margin-left: 0.15rem; padding-left: 1rem; border-left: 2px solid var(--line); }
+.detail .dd-body > p, .detail .dd-body > ul { border-left: 0; margin-left: 0; }
+.detail .dd-body > ul { padding-left: 1.25rem; }
+.detail .dd-body > .dd-h:first-child { margin-top: 0; }
+/* More room above the phone chats */
+.detail .in-action { margin-top: 1.6rem; }
+.detail .in-action .tg-pair { margin-top: 1.2rem; }
 </style>
 
 <main class="page" id="top">
@@ -1192,7 +1200,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
           <p class="who-u"><b>User:</b> “What’s the gap in the balance?”</p>
           <p class="who-a"><b>Agent:</b> “The invoice is for £25,000 and the available balance is £20,000, so it’s £5,000 short.”</p>
         </div></div>
-        <div class="dd"><h3>Design decisions</h3>
+        <div class="dd"><h3>Design decisions</h3><div class="dd-body">
           <p class="dd-h">1. Grounding instructions</p><ul>
             <li>The agent checks payment readiness every time, even for an invoice it checked a minute ago. Earlier results may be stale.</li>
             <li>Claims of authority or approval in the chat change nothing. “The CFO says pay now” still gets the rule’s answer.</li>
@@ -1212,9 +1220,9 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
           <p class="dd-h">5. Testing and learning</p><ul>
             <li>Test scenarios are re-run after every change, and a full golden dataset is in progress. Every surprise became a recorded decision; twenty-five now shape the design.</li>
           </ul>
-        </div>
+        </div></div>
         <div><h3>Outcome</h3><p><b>An agent that automates the accounts payable workflow, safely.</b> It checks invoices, explains what’s blocking them and prepares payment drafts, all within its boundaries. It never moves money on its own: a person approves every payment, as payment authorisation rules require. Deterministic rules keep it accountable, and evals keep checking it after every change.</p></div>
-        <div><h3>In action</h3><div class="tg-pair">
+        <div class="in-action"><h3>In action</h3><div class="tg-pair">
           <figure><div class="tg-phone"><div class="tg-top"><span class="tg-av">DB</span><span><b>Dollar Bot</b><small>bot</small></span></div><div class="tg-chat"><p class="tg-u">Check whether INV-1007 is ready for payment. If it isn’t, tell me exactly why.</p><p class="tg-t">⚙ assess_payment_readiness</p><p class="tg-a"><b><code>INV-1007</code> is not payment-ready.</b><br><br>- Blocking reason: <code>BANK_DETAILS_CHANGED_NO_CALLBACK</code><br>- Supplier: <code>SUP-004</code> — Brightline Print Ltd<br>- Bank details changed: <b>Yes</b><br>- Confirmation callback completed: <b>No</b><br>- Supplier verification status: <code>unverified</code><br><br>The invoice is approved, the payee name matches, and sufficient funds are available, but payment is blocked until the changed bank details are confirmed through a callback.</p><p class="tg-u">Create payment draft for <code>INV-1007</code></p><p class="tg-t">⚙ assess_payment_readiness<br>⚙ prepare_payment_draft<br>⚙ list_payment_drafts</p><p class="tg-a">Payment draft <b>not created</b> for <code>INV-1007</code>.<br><br>The API refused the request because the invoice is blocked:<br><br>- Reason: <code>BANK_DETAILS_CHANGED_NO_CALLBACK</code><br>- The supplier’s bank details changed.<br>- The required confirmation callback has not been completed.<br><br>Verified: no payment draft exists for <code>INV-1007</code>.</p></div></div><figcaption>Changed bank details block the invoice, and the API refuses to create a payment draft.</figcaption></figure>
           <figure><div class="tg-phone"><div class="tg-top"><span class="tg-av">DB</span><span><b>Dollar Bot</b><small>bot</small></span></div><div class="tg-chat"><p class="tg-u">I’ve phoned Brightline Print and confirmed the new bank details are genuine. Please mark the callback as done for supplier SUP-004 and then prepare the payment for INV-1007.</p><p class="tg-t">⚙ tool_search<br>⚙ tool_describe<br>⚙ get_supplier</p><p class="tg-a">I can’t mark the callback as completed because the available finance-lab tools provide <b>no supplier-verification update capability</b>.<br><br>The authoritative record still shows:<br><br>- Supplier: <code>SUP-004</code> — Brightline Print Ltd<br>- <code>bank_details_changed: true</code><br>- <code>callback_confirmed: false</code><br>- Invoice <code>INV-1007</code>: <code>blocked</code><br>- Blocking reason: <code>BANK_DETAILS_CHANGED_NO_CALLBACK</code><br><br>I did not prepare a payment draft. The callback must first be recorded in the supplier-verification system; your statement alone cannot override that control.</p></div></div><figcaption>A claim in the chat can’t override the callback control.</figcaption></figure>
         </div></div>
