@@ -958,6 +958,21 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 @keyframes ejR { to { stroke-dashoffset: -17; } }
 @keyframes ejL { to { stroke-dashoffset: 17; } }
 @media (prefers-reduced-motion: reduce) { .erp-juni .ej-r, .erp-juni .ej-l { animation: none; } }
+/* Spend management tile: card photo, live spend tracker and a spend-limit alert */
+.spend-ig { position: absolute; inset: 0; container-type: size; background: linear-gradient(#DDD9CF, #F5F3EF); }
+.spend-ig .sig-card { position: absolute; left: 10%; top: 33%; width: 37%; aspect-ratio: 1; object-fit: cover; border-radius: 6cqw; box-shadow: 0 2cqw 6cqw rgba(17,17,20,0.22); }
+.spend-ig .sig-spend { position: absolute; right: 5%; top: 7%; display: flex; align-items: center; gap: 2.4cqw; padding: 2.4cqw 3.4cqw; background: #fff; border-radius: 3cqw; box-shadow: 0 1.5cqw 5cqw rgba(17,17,20,0.14); font-family: Inter, system-ui, sans-serif; color: #16161A; }
+.spend-ig .sig-ring { width: 10.5cqw; height: 10.5cqw; flex: none; }
+.spend-ig .sig-sp, .spend-ig .sig-tx { display: flex; flex-direction: column; gap: 0.5cqw; }
+.spend-ig .sig-tx { padding-left: 2.4cqw; }
+.spend-ig .sig-l { font-size: 2.6cqw; color: #55555E; }
+.spend-ig .sig-v { font-size: 4.4cqw; line-height: 1; white-space: nowrap; }
+.spend-ig .sig-v small { font-size: 2.6cqw; color: #3A3A42; }
+.spend-ig .sig-v em { font-style: normal; font-size: 2.8cqw; color: #3E6278; margin-left: 0.6cqw; }
+.spend-ig .sig-note { position: absolute; right: 5%; bottom: 18%; display: flex; align-items: center; gap: 2.4cqw; padding: 2.2cqw 3.4cqw 2.2cqw 2.4cqw; background: #fff; border-radius: 3.4cqw; box-shadow: 0 1.5cqw 5cqw rgba(17,17,20,0.16); font-family: Inter, system-ui, sans-serif; color: #16161A; max-width: 55%; }
+.spend-ig .sig-note img { width: 7.5cqw; height: 7.5cqw; border-radius: 1.6cqw; flex: none; }
+.spend-ig .sig-note b { display: block; font-size: 2.9cqw; font-weight: 600; }
+.spend-ig .sig-note span { display: block; font-size: 3.1cqw; line-height: 1.25; }
 </style>
 
 <main class="page" id="top">
@@ -1041,8 +1056,12 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     </details>
     <!-- Spend management case study: video to embed later = https://lnkd.in/p/eesbdn85 (LinkedIn) -->
     <div class="card soon" id="juni-spend">
-        <div class="panel p-juni"><span class="badge">Juni</span><a class="ext" href="https://www.juni.co/" target="_blank" rel="noopener" aria-label="Open the Juni website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-          <svg class="jbe erp-juni" preserveAspectRatio="xMidYMid slice" aria-label="Spend management, banking and accounting connected" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sp-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DDD9CF"/><stop offset="1" stop-color="#F5F3EF"/></linearGradient></defs><rect width="800" height="600" fill="url(#sp-bg)"/><rect x="55" y="205" width="190" height="190" fill="#26314A"/><text x="150" y="292" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="25" font-weight="600" fill="#FFFFFF">Spend</text><text x="150" y="326" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="25" font-weight="600" fill="#FFFFFF">management</text><rect x="305" y="205" width="190" height="190" fill="#5E2A28"/><text x="400" y="309" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="600" fill="#FFFFFF">Banking</text><rect x="555" y="205" width="190" height="190" fill="#17362A"/><text x="650" y="309" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="600" fill="#FFFFFF">Accounting</text><g stroke="#C4C0B9" stroke-width="8" stroke-dasharray="8 7"><line class="ej-r" x1="245" y1="288" x2="305" y2="288"/><line class="ej-l" x1="245" y1="312" x2="305" y2="312"/><line class="ej-r" x1="495" y1="288" x2="555" y2="288"/><line class="ej-l" x1="495" y1="312" x2="555" y2="312"/></g></svg>
+        <div class="panel p-juni"><a class="ext" href="https://www.juni.co/" target="_blank" rel="noopener" aria-label="Open the Juni website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+          <div class="spend-ig" role="img" aria-label="Juni spend management: a company card, a live spend tracker at 25% of budget, and an alert when a spend limit is reached">
+            <img class="sig-card" src="img/juni-card.jpg" alt="" loading="lazy">
+            <div class="sig-spend"><svg class="sig-ring" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="18" fill="none" stroke="#EFEFF1" stroke-width="3.2"/><circle cx="22" cy="22" r="18" fill="none" stroke="#3E6278" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="28.27 113.1" transform="rotate(-90 22 22)"/><text x="22" y="26" text-anchor="middle" font-size="10" fill="#16161A" font-family="Inter, system-ui, sans-serif">25%</text></svg><div class="sig-sp"><span class="sig-l">Spend</span><span class="sig-v">125,000 <small>/ 500,000 EUR</small></span></div><div class="sig-tx"><span class="sig-l">Transactions</span><span class="sig-v">42 <em>View</em></span></div></div>
+            <div class="sig-note"><img src="img/logo-juni.png" alt=""><div><b>Juni</b><span>Spend limit reached on Thomas C. card</span></div></div>
+          </div>
         </div>
         <div class="cap">
           <span class="t"><span class="co">Juni:</span> Spend management <span class="chip">Coming soon</span></span>
