@@ -1004,14 +1004,26 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .spend-ig .sig-note b { display: block; font-size: 2.9cqw; font-weight: 600; }
 .spend-ig .sig-note span { display: block; font-size: 3.1cqw; line-height: 1.25; }
 
-/* Footer: still version (reduced motion) shows the sign-off above the name */
+/* Footer versions: sign-off shown above the name for Drop and Still; cursor blink for Writer; compare toggle */
 .foot.pm.show-sign .signoff { display: block; }
+.pac.blink { animation: kblink 1.05s steps(1) infinite; }
+@keyframes kblink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.foot-toggle { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 60; display: flex; align-items: center; gap: 2px; padding: 4px; background: #fff; border: 1px solid var(--line); border-radius: 999px; box-shadow: 0 6px 24px rgba(17,17,20,0.14); font: 500 11px/1 var(--mono, ui-monospace, monospace); letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; max-width: calc(100vw - 16px); overflow-x: auto; }
+.foot-toggle span { padding: 0 8px 0 10px; color: var(--faint); }
+.foot-toggle button { font: inherit; letter-spacing: inherit; text-transform: inherit; border: 0; background: none; color: var(--muted); padding: 8px 10px; border-radius: 999px; cursor: pointer; }
+.foot-toggle button:hover { color: var(--ink); }
+.foot-toggle button[aria-pressed="true"] { background: #111114; color: #fff; }
+@media (max-width: 40rem) { .foot-toggle { bottom: 58px; font-size: 10px; } .foot-toggle span { display: none; } .foot-toggle button { padding: 7px 8px; } }
+
 /* Footer: fraud bots from the game */
 .fbot { position: absolute; left: -999px; top: 0; z-index: 2; pointer-events: none; opacity: 0; }
 .fbot svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .fbot .f1 { animation: fbf .2s steps(1) infinite; }
 .fbot .f2 { animation: fbf .2s steps(1) infinite reverse; }
 @keyframes fbf { 0% { transform: translateY(0); } 50% { transform: translateY(1.5px); } }
+.foot.peek-mode .bigname a { position: relative; z-index: 3; }
+.foot.peek-mode .fbot { z-index: 1; }
+
 /* the K and the bots in the footer open the game when clicked */
 .bigname .pac, .bigname .fbot { pointer-events: auto; cursor: pointer; }
 </style>
@@ -1098,7 +1110,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
         <span class="av-wrap"><img class="avatar" src="img/kaumudi.jpg" alt="Kaumudi Shrivastava" width="160" height="160"><a class="h1-mail" href="#contact" data-mq="" aria-label="Email Kaumudi" title="Email me"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg></a></span>
         <div>
           <h1>Kaumudi Shrivastava</h1>
-          <p class="eyebrow role-tag"><span>AI Product Builder</span><i class="rt-sep"> · </i><span>Ex-KPMG</span><i class="rt-sep"> · </i><span>Ex-Engineer</span></p>
+          <p class="eyebrow role-tag"><span>Builder</span><i class="rt-sep"> · </i><span>Ex-Startup Operator</span><i class="rt-sep"> · </i><span>Ex-KPMG</span><i class="rt-sep"> · </i><span>Ex-Engineer</span></p>
           <p class="head-mail"><a href="#contact" data-mq=""><span data-addr id="head-email"></span></a><button class="copy head-copy" id="copy-head" type="button" aria-label="Copy email address" title="Copy"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></button></p>
         </div>
       </div>
@@ -1179,7 +1191,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
           </div>
         </div>
         <div class="cap">
-          <span class="t"><span class="co">Juni:</span> Spend management <span class="chip">Coming soon</span></span>
+          <span class="t"><span class="co">Juni:</span> Spend management</span>
           <span class="d">Linked accounting, expense and invoice workflows end to end, turning Juni from a bank with deep accounting into a spend management platform.</span>
         </div>
     </div>
@@ -1329,7 +1341,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       <summary>
         <div class="panel p-lab lab-duo" aria-label="Two Telegram chats: the agent blocks a payment because the supplier’s bank details changed, and refuses to override the check"><div class="duo"><div class="tg-phone mini"><div class="tg-top"><span class="tg-av">DB</span><span><b>Dollar Bot</b><small>bot</small></span></div><div class="tg-chat"><p class="tg-u">Check whether INV-1007 is ready for payment.</p><p class="tg-t">⚙ assess_payment_readiness</p><p class="tg-a"><b>INV-1007 is not payment-ready.</b><br>Blocking reason: <code>BANK_DETAILS_CHANGED_NO_CALLBACK</code></p><p class="tg-u">Create payment draft for INV-1007</p><p class="tg-a">Payment draft <b>not created</b>. The API refused the request because the invoice is blocked.</p></div></div><div class="tg-phone mini"><div class="tg-top"><span class="tg-av">DB</span><span><b>Dollar Bot</b><small>bot</small></span></div><div class="tg-chat"><p class="tg-u">I’ve phoned Brightline Print and confirmed the new bank details are genuine. Please prepare the payment.</p><p class="tg-t">⚙ get_supplier</p><p class="tg-a">I did not prepare a payment draft. The callback must first be recorded in the supplier-verification system; your statement alone cannot override that control.</p></div></div></div></div>
         <div class="cap">
-          <span class="t">Agentic Finance Lab <span class="chip live">Live</span></span>
+          <span class="t">Agentic Finance Lab</span>
           <span class="d">A finance agent I built to stress-test AI that moves money.</span>
           <span class="hint"></span>
         </div>
@@ -1402,7 +1414,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
           </div>
         </div>
         <div class="cap">
-          <span class="t">Moving money with agent payment protocols <span class="chip live">Live</span></span>
+          <span class="t">Moving money with agent payment protocols</span>
           <span class="d">Using Google’s AP2 to prove exactly what a person approved, before an agent’s payment can go through.</span>
           <span class="hint"></span>
         </div>
@@ -1466,7 +1478,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
           </div>
         </div>
         <div class="cap">
-          <span class="t">My second brain using Obsidian and GitHub <span class="chip live">Live</span></span>
+          <span class="t">My second brain using Obsidian and GitHub</span>
           <span class="d">A notes system that Claude reads, writes to and keeps in order.</span>
           <span class="hint"></span>
         </div>
@@ -1490,7 +1502,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       <summary>
         <div class="panel p-soft tag-tile"><p class="quote">The agent from my finance lab now helps run my life too.</p><div class="tag-logos" aria-hidden="true"><img src="img/brands/telegram.svg" alt=""><img src="img/brands/whatsapp.svg" alt=""></div></div>
         <div class="cap">
-          <span class="t">My personal AI operating system <span class="chip live">Live</span></span>
+          <span class="t">My personal AI operating system</span>
           <span class="d">The same Hermes agent behind my finance lab, plus Claude projects that organise my life.</span>
           <span class="hint"></span>
         </div>
@@ -1545,7 +1557,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       <summary>
         <div class="panel p-night"><p class="quote on-dark">Product framework for agentic finance</p></div>
         <div class="cap">
-          <span class="t">What product teams must change to build agentic finance <span class="chip live">Live</span></span>
+          <span class="t">What product teams must change to build agentic finance</span>
           <span class="d">Seven rules I now give anyone building agents that handle money, each backed by what the lab showed.</span>
           <span class="hint"></span>
         </div>
@@ -1658,7 +1670,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     <div class="card soon">
         <div class="panel p-soft"><p class="quote">Impact, effort and now cost</p></div>
         <div class="cap">
-          <span class="t">Prioritising when AI has a running cost <span class="chip">Coming soon</span></span>
+          <span class="t">Prioritising when AI has a running cost</span>
           <span class="d">Impact versus effort is no longer enough. Every AI feature pays for tokens each time it runs, so cost becomes the third test when choosing what to build.</span>
         </div>
     </div>
@@ -1719,7 +1731,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     <div class="card soon">
         <div class="panel p-soft"><p class="quote">Per seat, per task or per outcome?</p></div>
         <div class="cap">
-          <span class="t">Pricing agentic products <span class="chip">Coming soon</span></span>
+          <span class="t">Pricing agentic products</span>
           <span class="d">How to price products where an agent does the work: what the customer pays for, and how that changes the business model.</span>
         </div>
     </div>
@@ -2097,16 +2109,21 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
 })();
 </script>
 <script>
-/* Footer: the name fades, the yellow K appears and the game's fraud bots creep in from the left. The K turns, sees them,
-   shivers, turns back and types "Let's build something together.", dancing as it writes, while the bots chase about seven
-   letters behind, walking over the words. The K runs off the right edge; red follows it off and the other three wait at the edge.
-   Clicking the K or a bot opens the game. Plays once per page load; reduced motion shows the still version. */
+/* Footer animation, five versions to compare (toggle fixed at the bottom of the screen; not shown on the live site):
+   1 Glide  – the yellow K sweeps across "Kaumudi", turns round, the sign-off flies out, then it runs off the edge
+   2 Writer – the name fades, the K becomes a cursor and types "Let's build something together.", then blinks
+   3 Drop   – the letters drop in one by one with a soft bounce, the yellow K lands last, the sign-off fades in above
+   4 Morph  – the name scrambles like a terminal and resolves into the sign-off
+   5 Still  – no animation: yellow K in the name, sign-off above
+   Leave the footer and come back, and it starts again. */
 (function(){
   var foot=document.querySelector('footer.foot'), big=document.querySelector('.bigname'), word=big&&big.querySelector('span'), sign=document.querySelector('.signoff');
   if(!foot||!big||!word||!sign) return;
   var calm=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!('IntersectionObserver' in window)||!document.body.animate) return;
-  var mode='scared';
+  var MODES=['glide','writer','drop','morph','still','chase','peek','writerbots','scared'], NAMES=['Glide','Writer','Drop','Morph','Still','Chase','Peek','Writer + bots','Writer + bots, scared K'];
+  var mode='scared'; try{ var m0=localStorage.getItem('footMode'); if(MODES.indexOf(m0)>=0) mode=m0; }catch(e){}
+  if(/kaumudishrivastava\.com$/.test(location.hostname) || /[?&]live\b/.test(location.search)) mode='scared';   // live site always uses the chosen version
   if(calm) mode='still';
   foot.classList.add('pm');
   var name=word.textContent; word.textContent='';
@@ -2144,6 +2161,36 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     if(mode==='still'||mode==='drop') L[0].style.color='#E9C46A';
   }
 
+  // 1. Glide
+  async function glide(){
+    var t=run, g=geom(), xs=L.map(g.x);
+    say.style.top=(g.top+g.d/2)+'px';
+    ang=0; place(xs[0],g);
+    L[0].animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.6)'}],{duration:350,fill:'forwards'});
+    await pac.animate([{opacity:0,transform:'scale(.4)'},{opacity:1,transform:'scale(1)'}],{duration:350,fill:'forwards'}).finished.catch(function(){});
+    if(t!==run) return; cancelAll(pac); pac.style.opacity='1';
+    var gone=1, end=Math.min(xs[xs.length-1]+g.d*0.6, g.max);
+    if(!await walk(xs[0],end,403,g,t,function(x){ while(gone<L.length && x>=xs[gone]-g.d*0.3){ L[gone++].animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.3)'}],{duration:140,fill:'forwards'}); } })) return;
+    while(gone<L.length){ L[gone++].animate([{opacity:1},{opacity:0}],{duration:140,fill:'forwards'}); }
+    if(!await sleep(200,t)) return;
+    turnTo(180); if(!await sleep(420,t)) return;
+    pac.classList.add('front');
+    var m=pac.getBoundingClientRect(), mx=m.left+m.width*0.5, my=m.top+m.height/2;
+    var flights=S.map(function(s,i){ var r=s.getBoundingClientRect(); s.style.opacity='';
+      var sx=mx-(r.left+r.width/2), sy=my-(r.top+r.height/2);
+      return s.animate([{opacity:1,transform:'translate('+sx+'px,'+sy+'px) scale(.15)'},{opacity:1,transform:'translate('+(sx*0.8)+'px,'+(sy*0.8)+'px) scale(.35)',offset:0.2},{opacity:1,transform:'translate(0,0) scale(1)'}],
+        {duration:800,delay:i*55,easing:'cubic-bezier(.25,.7,.3,1)',fill:'both'}).finished.catch(function(){}); });
+    await Promise.all(flights); if(t!==run) return;
+    pac.classList.remove('front');
+    if(!await walk(pac._x,g.min,240,g,t,null,true)) return;
+    turnTo(0); if(!await sleep(450,t)) return;
+    var exitX=(document.documentElement.clientWidth-g.br.left)+g.d;
+    if(!await walk(pac._x,exitX,260,g,t,null,false)) return;
+    pac.style.opacity='0'; pac.style.left='0px';
+  }
+
+  // 2. Writer: the K is the cursor that types the line
+
   // ---- the game's fraud bots (red, pink, cyan, orange) ----
   var BOTC=['#ff3b3b','#ff9ad5','#38e8ff','#ffb347'];
   var bots=BOTC.map(function(c){ var b=document.createElement('span'); b.className='fbot'; b.setAttribute('aria-hidden','true');
@@ -2162,6 +2209,62 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   function botsReset(){ bots.forEach(function(b){ cancelAll(b); b.style.opacity='0'; b.style.transform=''; b.style.zIndex=''; b.style.left='-999px'; }); foot.classList.remove('peek-mode'); }
   function botAt(b,x,top,size,face){ b.style.width=size+'px'; b.style.height=size+'px'; b.style.left=(x-size/2)+'px'; b.style.top=top+'px'; b.style.transform='scaleX('+(face||1)+')'; b.style.opacity='1'; }
   function popIn(s){ s.style.opacity='1'; s.animate([{opacity:0,transform:'translateY(10px) scale(.4)'},{opacity:1,transform:'translateY(-4px) scale(1.15)',offset:.6},{opacity:1,transform:'none'}],{duration:320,easing:'ease-out'}); }
+
+  // 6. Chase: the K runs through the name, the bots chase it; the sign-off pops up where the bots pass; everyone runs off right
+  async function chase(){
+    var t=run, g=geom(), xs=L.map(g.x), br=g.br;
+    say.style.top=(g.top+g.d/2)+'px';
+    var cx=S.map(function(s){ var r=s.getBoundingClientRect(); return r.left-br.left+r.width/2; });
+    ang=0; place(xs[0],g);
+    L[0].animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.6)'}],{duration:300,fill:'forwards'});
+    await pac.animate([{opacity:0,transform:'scale(.4)'},{opacity:1,transform:'scale(1)'}],{duration:300,fill:'forwards'}).finished.catch(function(){});
+    if(t!==run) return; cancelAll(pac); pac.style.opacity='1';
+    var bs=g.d*0.62, btop=g.top+g.d-bs*1.02, sp=bs*1.15, k=Math.min(1,br.width/1056);
+    var vK=380*k, vB=360*k, x0=xs[0], bx0=-br.left-bs, exitX=document.documentElement.clientWidth-br.left+g.d;
+    var gone=1, shown=0, t0=performance.now();
+    await new Promise(function(done){
+      (function f(now){
+        if(t!==run) return done();
+        var e=(now-t0)/1000, kx=x0+vK*e, lead=bx0+vB*1.7*e;   // bots start off-screen left and catch up
+        place(kx,g); pac.style.transform='rotate('+(Math.sin(now/70)*6)+'deg)';
+        while(gone<L.length && kx>=xs[gone]-g.d*0.3){ L[gone++].animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.3)'}],{duration:160,fill:'forwards'}); }
+        bots.forEach(function(b,i){ var x=Math.min(lead-i*sp, kx-(i+1)*sp*1.05); botAt(b,x,btop+Math.abs(Math.sin(now/90+i))*-bs*0.12,bs,1); });
+        var tail=Math.min(lead-(bots.length-1)*sp, kx-bots.length*sp*1.05);
+        while(shown<S.length && tail>=cx[shown]){ popIn(S[shown++]); }
+        if(tail<exitX) requestAnimationFrame(f); else done();
+      })(t0);
+    });
+    if(t!==run) return;
+    while(shown<S.length) popIn(S[shown++]);
+    pac.style.opacity='0'; bots.forEach(function(b){ b.style.opacity='0'; });
+  }
+
+  // 7. Peek: the bots peek up from behind the letters, look around, hop off right; the sign-off fades in above
+  async function peek(){
+    var t=run, g=geom(), xs=L.map(g.x), br=g.br;
+    foot.classList.add('peek-mode');
+    sign.style.opacity='0';
+    var bs=g.d*0.7, letterTop=g.top+g.d*0.05, a0=xs[1], a1=xs[6], px=bots.map(function(_,i){ return a0+(a1-a0)*i/(bots.length-1); });
+    bots.forEach(function(b,i){ botAt(b,px[i],letterTop,bs,1); b.style.opacity='0'; });
+    var ups=bots.map(function(b,i){ return b.animate([{opacity:1,transform:'translateY(70%)'},{opacity:1,transform:'translateY(-48%)',offset:.7},{opacity:1,transform:'translateY(-40%)'}],{duration:520,delay:i*260,easing:'cubic-bezier(.3,.7,.4,1)',fill:'forwards'}).finished.catch(function(){}); });
+    await Promise.all(ups); if(t!==run) return;
+    // look left, look right
+    for(var r=0;r<2;r++){
+      bots.forEach(function(b,i){ b.animate([{transform:'translateY(-40%) scaleX(1)'},{transform:'translateY(-40%) scaleX(-1)'}],{duration:1,delay:0,fill:'forwards'}); });
+      if(!await sleep(420,t)) return;
+      bots.forEach(function(b){ b.animate([{transform:'translateY(-40%) scaleX(-1)'},{transform:'translateY(-40%) scaleX(1)'}],{duration:1,fill:'forwards'}); });
+      if(!await sleep(420,t)) return;
+    }
+    // hop off to the right, one after another
+    var exitX=document.documentElement.clientWidth-br.left+bs;
+    var hops=bots.map(function(b,i){ var dx=exitX-px[i];
+      var kf=[]; for(var s=0;s<=10;s++){ var p=s/10; kf.push({transform:'translate('+(dx*p)+'px,'+(-40-Math.abs(Math.sin(p*Math.PI*4))*70)+'%)'}); }
+      return b.animate(kf,{duration:1300,delay:(bots.length-1-i)*140,easing:'ease-in',fill:'forwards'}).finished.catch(function(){}); });
+    await Promise.all(hops); if(t!==run) return;
+    bots.forEach(function(b){ cancelAll(b); b.style.opacity='0'; });
+    await sign.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:600,easing:'ease-out',fill:'forwards'}).finished.catch(function(){});
+    if(t!==run) return; cancelAll(sign); sign.style.opacity='';
+  }
 
   // 8. Writer + bots: the dancing K types the line while the bots trail behind it, then they all run off right
   // ctl.creep (seconds): the bots walk in slowly at a steady pace and take about that long to reach the K; ctl.creep=0 lets them catch up normally
@@ -2236,7 +2339,48 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     pac.style.opacity='0'; pac.style.transform='scaleX(1)';
   }
 
-  function play(){ reset(); botsReset(); if(mode==='scared') writer(true,true); }
+  // 3. Drop: letters fall into place, the yellow K last, then the sign-off
+  async function drop(){
+    var t=run;
+    L.forEach(function(l){ l.style.opacity='0'; });
+    sign.style.opacity='0';
+    var order=L.slice(1).concat([L[0]]);
+    order.forEach(function(l,i){
+      l.animate([{opacity:0,transform:'translateY(-0.9em)'},{opacity:1,transform:'translateY(0.06em)',offset:0.7},{opacity:1,transform:'translateY(-0.02em)',offset:0.85},{opacity:1,transform:'translateY(0)'}],
+        {duration:620,delay:i*95+(i===order.length-1?220:0),easing:'cubic-bezier(.3,.6,.4,1)',fill:'forwards'});
+    });
+    if(!await sleep(order.length*95+220+620,t)) return;
+    L.forEach(function(l){ cancelAll(l); l.style.opacity='1'; });
+    await sign.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:600,easing:'ease-out',fill:'forwards'}).finished.catch(function(){});
+    if(t!==run) return; cancelAll(sign); sign.style.opacity='';
+  }
+
+  // 4. Morph: the name scrambles and resolves into the sign-off
+  var GLYPHS='ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#$%&*+<>/=?';
+  function rnd(){ return GLYPHS.charAt(Math.floor(Math.random()*GLYPHS.length)); }
+  async function morph(){
+    var t=run, g=geom();
+    say.style.top=(g.top+g.d/2)+'px';
+    var t0=performance.now();
+    await new Promise(function(done){
+      (function f(now){
+        if(t!==run) return done();
+        var e=now-t0;
+        // name: scramble for 500ms, then each letter fades out
+        L.forEach(function(l,i){ var out=260+i*40;
+          if(e<out){ l.textContent=rnd(); l.style.color='#E9C46A'; l.style.opacity=String(0.25+Math.random()*0.5); }
+          else l.style.opacity='0'; });
+        // sign-off: each character flickers, then settles left to right
+        S.forEach(function(s,i){ var startAt=350+i*12, settle=700+i*32;
+          if(e<startAt){ s.style.opacity='0'; }
+          else if(e<settle){ s.style.opacity='1'; s.textContent=s._c===' '?' ':rnd(); s.style.color='#C9A445'; }
+          else { s.style.opacity='1'; s.textContent=s._c; s.style.color=''; } });
+        if(e<700+S.length*32+40) requestAnimationFrame(f); else done();
+      })(t0);
+    });
+  }
+
+  function play(){ reset(); botsReset(); if(mode==='glide') glide(); else if(mode==='writer') writer(false); else if(mode==='writerbots') writer(true,false); else if(mode==='scared') writer(true,true); else if(mode==='chase') chase(); else if(mode==='peek') peek(); else if(mode==='drop') drop(); else if(mode==='morph') morph(); }
   // plays once per visit: the first time the footer comes into view. After that it stays at its final frame
   // (the line, with three bots waiting at the edge) however much you scroll or open and close sections.
   // Plays once per visit (each page load). finalFrame() is kept for a once-per-session option.
@@ -2258,6 +2402,19 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     if(e.isIntersecting && armed){ armed=false; if(played) finalFrame(); else { play(); try{ sessionStorage.setItem('footPlayed','1'); }catch(er){} } }
   }); }, { threshold: 0.5 }).observe(big);
 
+  // toggle to compare the versions (Option C only)
+  var live=/kaumudishrivastava\.com$/.test(location.hostname) || /[?&]live\b/.test(location.search);
+  if(live) return;
+  var bar=document.createElement('div'); bar.className='foot-toggle'; bar.setAttribute('role','group'); bar.setAttribute('aria-label','Footer animation');
+  bar.innerHTML='<span>Footer</span>'+MODES.map(function(m,i){ return '<button type="button" data-m="'+m+'" aria-pressed="'+(m===mode)+'">'+(i+1)+' '+NAMES[i]+'</button>'; }).join('');
+  document.body.appendChild(bar);
+  bar.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    mode=b.getAttribute('data-m'); try{ localStorage.setItem('footMode',mode); }catch(er){}
+    [].forEach.call(bar.querySelectorAll('button'),function(x){ x.setAttribute('aria-pressed', String(x===b)); });
+    if(visible){ armed=false; play(); }
+    else { armed=true; reset(); botsReset(); big.scrollIntoView({behavior:'smooth',block:'center'}); }
+  });
 })();
 </script>
 <script>
