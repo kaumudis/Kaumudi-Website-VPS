@@ -958,6 +958,11 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 @keyframes ejR { to { stroke-dashoffset: -17; } }
 @keyframes ejL { to { stroke-dashoffset: 17; } }
 @media (prefers-reduced-motion: reduce) { .erp-juni .ej-r, .erp-juni .ej-l { animation: none; } }
+/* Launching tile: balloon photo with a black title band */
+.launch-ig { container-type: size; overflow: hidden; }
+.launch-ig img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
+.launch-ig .lg-t { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.6cqw; }
+.launch-ig .lg-t span { background: #111114; color: #FFFFFF; font-family: Inter, system-ui, sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; font-size: 7.4cqw; line-height: 1; padding: 1.8cqw 3.2cqw; }
 /* Spend management tile: card photo, live spend tracker and a spend-limit alert */
 .spend-ig { position: absolute; inset: 0; container-type: size; background: linear-gradient(#C8D1D6, #E8ECEE); }
 .spend-ig .sig-card { position: absolute; left: 10%; top: 24%; width: 37%; aspect-ratio: 1; object-fit: cover; border-radius: 6cqw; box-shadow: 0 2cqw 6cqw rgba(17,17,20,0.22); }
@@ -1092,30 +1097,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     <details class="card">
       <summary>
         <div class="panel p-juni"><span class="badge">Juni</span><a class="ext" href="https://www.juni.co/" target="_blank" rel="noopener" aria-label="Open the Juni website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-          <svg class="jbe sales-pb" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A person holding a sales playbook" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
-<defs><linearGradient id="spb-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C8D1D6"/><stop offset="1" stop-color="#E8ECEE"/></linearGradient>
-<filter id="spb-sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#111114" flood-opacity="0.22"/></filter></defs>
-<rect width="800" height="600" fill="url(#spb-bg)"/>
-<path d="M175 600 C180 470 240 400 330 384 L470 384 C560 400 620 470 625 600 Z" fill="#5E2A28"/>
-<path d="M352 384 L400 430 L448 384 Z" fill="#4C2120"/>
-<rect x="374" y="300" width="52" height="92" rx="22" fill="#B57A58"/>
-<path d="M330 214 C322 140 372 112 412 118 C462 124 486 166 478 222 C476 250 470 286 486 318 C452 322 434 300 430 282 L370 282 C364 300 346 322 314 318 C330 288 334 250 330 214 Z" fill="#2A1D19"/>
-<ellipse cx="402" cy="222" rx="62" ry="72" fill="#C98F6C"/>
-<path d="M340 206 C346 150 392 132 430 142 C460 150 470 176 466 204 C446 186 418 170 388 168 C366 168 350 186 340 206 Z" fill="#2A1D19"/>
-<path d="M232 600 C236 540 250 500 278 470 L312 492 C292 520 284 556 286 600 Z" fill="#5E2A28"/><path d="M568 600 C564 540 550 500 522 470 L488 492 C508 520 516 556 514 600 Z" fill="#5E2A28"/><g filter="url(#spb-sh)" transform="rotate(-6 400 470)">
-  <rect x="282" y="352" width="236" height="232" rx="10" fill="#F2EFE8"/>
-  <rect x="276" y="346" width="236" height="232" rx="10" fill="#17362A"/>
-  <rect x="276" y="346" width="18" height="232" fill="#122B21"/>
-  <text x="404" y="418" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="26" font-weight="700" letter-spacing="3" fill="#FFFFFF">SALES</text>
-  <text x="404" y="452" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="26" font-weight="700" letter-spacing="2" fill="#FFFFFF">PLAYBOOK</text>
-  <rect x="344" y="472" width="120" height="3" fill="#E9C46A"/>
-  <g fill="#E9C46A"><rect x="352" y="526" width="18" height="26" rx="2"/><rect x="378" y="512" width="18" height="40" rx="2"/><rect x="404" y="498" width="18" height="54" rx="2"/><rect x="430" y="486" width="18" height="66" rx="2"/></g>
-</g>
-
-
-<ellipse cx="282" cy="506" rx="24" ry="30" fill="#C98F6C" transform="rotate(-12 282 506)"/>
-<ellipse cx="522" cy="488" rx="24" ry="30" fill="#C98F6C" transform="rotate(10 522 488)"/>
-</svg>
+          <div class="jbe launch-ig" role="img" aria-label="Hot-air balloons at sunrise with the title Perfect B2B Launch"><img src="img/juni-launch.jpg" alt="" loading="lazy"><div class="lg-t"><span>Perfect B2B</span><span>Launch</span></div></div>
         </div>
         <div class="cap">
           <span class="t"><span class="co">Juni:</span> Launching and selling new products</span>
