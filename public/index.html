@@ -1107,6 +1107,9 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .fg-board li.me { background: rgba(233,196,106,0.22); border-radius: 6px; }
 .fg-board li.empty { display: block; color: var(--muted); border-bottom: 0; padding-left: 0; }
 .fg-board-note { margin: 0.6rem 0 0; font: 400 0.6875rem/1.3 var(--mono, ui-monospace, monospace); letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+
+/* group descriptions: the leading dot is a separator, so drop it when the line sits under the name on phones */
+@media (max-width: 40rem) { .grp-meta .md { display: none; } }
 </style>
 
 <main class="page" id="top">
@@ -1137,7 +1140,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
   <section id="work" role="tabpanel" aria-labelledby="tab-work" class="cards grouped">
 
     <div class="grp" id="grp-juni">
-      <button class="grp-h" aria-expanded="false" aria-controls="grp-juni-b"><img class="grp-logo" src="img/logo-juni.png" alt=""><span class="grp-txt"><span class="grp-c">5 case studies</span><span class="grp-top"><span class="grp-n">Juni</span><span class="grp-meta">(Swedish Neobank · Series B · $282M raised · backed by Mubadala, EQT Ventures, Felix Capital)</span></span><span class="grp-line">Launched core products in Juni’s growth phase, contributing to 27%+ revenue growth.</span><span class="grp-line">Promoted to Senior Director for my enterprise experience.</span></span><span class="grp-i" aria-hidden="true"></span></button>
+      <button class="grp-h" aria-expanded="false" aria-controls="grp-juni-b"><img class="grp-logo" src="img/logo-juni.png" alt=""><span class="grp-txt"><span class="grp-c">5 case studies</span><span class="grp-top"><span class="grp-n">Juni</span><span class="grp-meta"><span class="md">· </span>Swedish Neobank · Series B · $282M raised · backed by Mubadala, EQT Ventures, Felix Capital</span></span><span class="grp-line">Launched core products in Juni’s growth phase, contributing to 27%+ revenue growth.</span><span class="grp-line">Promoted to Senior Director for my enterprise experience.</span></span><span class="grp-i" aria-hidden="true"></span></button>
       <div class="grp-b" id="grp-juni-b"><div class="grp-in">
     <details class="card">
       <summary>
@@ -1249,7 +1252,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       </div></div>
     </div>
     <div class="grp" id="grp-ohm">
-      <button class="grp-h" aria-expanded="false" aria-controls="grp-ohm-b"><img class="grp-logo" src="img/logo-ohm.png" alt=""><span class="grp-txt"><span class="grp-c">1 case study</span><span class="grp-top"><span class="grp-n">Ohm Mobility</span><span class="grp-meta">(Pre-Series A · Fintech product built 0 to 1 and monetised successfully)</span></span><span class="grp-line">Founding member of a pay-as-you-go fintech platform for daily-wage workers.</span></span><span class="grp-i" aria-hidden="true"></span></button>
+      <button class="grp-h" aria-expanded="false" aria-controls="grp-ohm-b"><img class="grp-logo" src="img/logo-ohm.png" alt=""><span class="grp-txt"><span class="grp-c">1 case study</span><span class="grp-top"><span class="grp-n">Ohm Mobility</span><span class="grp-meta"><span class="md">· </span>Pre-Series A · Fintech product built 0 to 1 and monetised successfully</span></span><span class="grp-line">Founding member of a pay-as-you-go fintech platform for daily-wage workers.</span></span><span class="grp-i" aria-hidden="true"></span></button>
       <div class="grp-b" id="grp-ohm-b"><div class="grp-in">
     <details class="card">
       <summary>
@@ -1271,7 +1274,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       </div></div>
     </div>
     <div class="grp" id="grp-kpmg">
-      <button class="grp-h" aria-expanded="false" aria-controls="grp-kpmg-b"><img class="grp-logo" src="img/logo-kpmg.png" alt=""><span class="grp-txt"><span class="grp-c">1 case study</span><span class="grp-top"><span class="grp-n">KPMG</span><span class="grp-meta">(Management Consulting)</span></span><span class="grp-line">Helped Fortune 500 companies set up their product and technology organisations and deliver digital products.</span></span><span class="grp-i" aria-hidden="true"></span></button>
+      <button class="grp-h" aria-expanded="false" aria-controls="grp-kpmg-b"><img class="grp-logo" src="img/logo-kpmg.png" alt=""><span class="grp-txt"><span class="grp-c">1 case study</span><span class="grp-top"><span class="grp-n">KPMG</span><span class="grp-meta"><span class="md">· </span>Management Consulting</span></span><span class="grp-line">Helped Fortune 500 companies set up their product and technology organisations and deliver digital products.</span></span><span class="grp-i" aria-hidden="true"></span></button>
       <div class="grp-b" id="grp-kpmg-b"><div class="grp-in">
     <details class="card">
       <summary>
@@ -1307,7 +1310,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       </div></div>
     </div>
     <div class="grp" id="grp-amdocs">
-      <button class="grp-h" aria-expanded="false" aria-controls="grp-amdocs-b"><img class="grp-logo" src="img/logo-amdocs.png" alt=""><span class="grp-txt"><span class="grp-c">1 case study</span><span class="grp-top"><span class="grp-n">Amdocs</span><span class="grp-meta">(Enterprise products for top global telecom players)</span></span><span class="grp-line">Built telecom products for leading global telecom players – from requirements to code to deployment.</span></span><span class="grp-i" aria-hidden="true"></span></button>
+      <button class="grp-h" aria-expanded="false" aria-controls="grp-amdocs-b"><img class="grp-logo" src="img/logo-amdocs.png" alt=""><span class="grp-txt"><span class="grp-c">1 case study</span><span class="grp-top"><span class="grp-n">Amdocs</span><span class="grp-meta"><span class="md">· </span>Enterprise products for top global telecom players</span></span><span class="grp-line">Built telecom products for leading global telecom players – from requirements to code to deployment.</span></span><span class="grp-i" aria-hidden="true"></span></button>
       <div class="grp-b" id="grp-amdocs-b"><div class="grp-in">
     <details class="card">
       <summary>
@@ -1341,7 +1344,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
   <section id="lab" role="tabpanel" aria-labelledby="tab-lab" class="cards grouped" hidden>
 
     <div class="grp" id="grp-fin">
-      <button class="grp-h" aria-expanded="false" aria-controls="grp-fin-b"><span class="grp-logo grp-dot" aria-hidden="true">✦</span><span class="grp-txt"><span class="grp-top"><span class="grp-n">Agentic finance</span><span class="grp-meta">(Agents moving money via some of the most talked-about recent protocols)</span></span></span><span class="grp-c">2 pieces</span><span class="grp-i" aria-hidden="true"></span></button>
+      <button class="grp-h" aria-expanded="false" aria-controls="grp-fin-b"><span class="grp-logo grp-dot" aria-hidden="true">✦</span><span class="grp-txt"><span class="grp-top"><span class="grp-n">Agentic finance</span><span class="grp-meta"><span class="md">· </span>Agents moving money via some of the most talked-about recent protocols</span></span></span><span class="grp-c">2 pieces</span><span class="grp-i" aria-hidden="true"></span></button>
       <div class="grp-b" id="grp-fin-b"><div class="grp-in">
     <details class="card" id="lab-main" data-novisual>
       <summary>
@@ -1464,7 +1467,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       </div></div>
     </div>
     <div class="grp" id="grp-me">
-      <button class="grp-h" aria-expanded="false" aria-controls="grp-me-b"><img class="grp-logo" src="img/brands/claude.svg" alt=""><span class="grp-txt"><span class="grp-top"><span class="grp-n">Personal AI</span><span class="grp-meta">(Obsidian and an LLM acting as my second brain)</span></span></span><span class="grp-c">2 pieces</span><span class="grp-i" aria-hidden="true"></span></button>
+      <button class="grp-h" aria-expanded="false" aria-controls="grp-me-b"><img class="grp-logo" src="img/brands/claude.svg" alt=""><span class="grp-txt"><span class="grp-top"><span class="grp-n">Personal AI</span><span class="grp-meta"><span class="md">· </span>Obsidian and an LLM acting as my second brain</span></span></span><span class="grp-c">2 pieces</span><span class="grp-i" aria-hidden="true"></span></button>
       <div class="grp-b" id="grp-me-b"><div class="grp-in">
     <details class="card">
       <summary>
@@ -1530,7 +1533,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     </div>
 
     <div class="grp" id="grp-games">
-      <button class="grp-h" aria-expanded="false" aria-controls="grp-games-b"><svg class="grp-logo grp-k" viewBox="-12 -14 24 28" aria-hidden="true"><g transform="translate(1.05 0) rotate(5.7)" stroke="#E9C46A" stroke-width="5.6" stroke-linecap="round" fill="none"><path d="M-6.6 -9.8V9.8"/><path d="M-4.4 0L4.51 -7.27M-4.4 0L4.51 7.27"/></g></svg><span class="grp-txt"><span class="grp-top"><span class="grp-n">Games</span><span class="grp-meta">(Play now)</span></span></span><span class="grp-c">1 game</span><span class="grp-i" aria-hidden="true"></span></button>
+      <button class="grp-h" aria-expanded="false" aria-controls="grp-games-b"><svg class="grp-logo grp-k" viewBox="-12 -14 24 28" aria-hidden="true"><g transform="translate(1.05 0) rotate(5.7)" stroke="#E9C46A" stroke-width="5.6" stroke-linecap="round" fill="none"><path d="M-6.6 -9.8V9.8"/><path d="M-4.4 0L4.51 -7.27M-4.4 0L4.51 7.27"/></g></svg><span class="grp-txt"><span class="grp-top"><span class="grp-n">Games</span><span class="grp-meta"><span class="md">· </span>Play now</span></span></span><span class="grp-c">1 game</span><span class="grp-i" aria-hidden="true"></span></button>
       <div class="grp-b" id="grp-games-b"><div class="grp-in">
         <div id="play" class="play" role="group" aria-label="Play fintech">
       <p class="fg-intro">Ten protocols are changing how AI agents pay and shop. Collect them all, dodge the fraud bots, and see what each one does.</p>
