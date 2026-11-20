@@ -1006,7 +1006,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 <style id="fg-css">
 /* ===== Play fintech ===== */
 .play { max-width: 44rem; margin: 0 auto; width: 100%; }
-.fg-intro { margin: 0 auto 1.1rem; max-width: 34rem; font-size: 0.9375rem; color: var(--muted); text-align: center; }
+.fg-intro { margin: 0 auto 2.1rem; max-width: 34rem; font-size: 0.9375rem; color: var(--muted); text-align: center; }
 .fg-arcade { max-width: 34rem; margin: 0 auto; background: #000; border-radius: 16px; padding: 12px 12px 12px; color: #fff; box-shadow: 0 0 0 3px #15151c, 0 14px 40px rgba(17,17,20,0.22); font-family: "Press Start 2P", ui-monospace, Menlo, monospace; text-transform: uppercase; }
 .fg-hud { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 6px; font-size: 9px; line-height: 1.7; padding: 2px 4px 10px; }
 .fg-hud > div:nth-child(2) { text-align: center; }
@@ -1060,6 +1060,13 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
   .fg-legend { gap: 0.35rem; }
   .fg-legend li { padding: 0.38rem 0.55rem; }
 }
+
+/* label while the game is paused: stays put and blinks three times so it can be read */
+.fg-float.hold { animation: fgblink 2.6s linear forwards; max-width: 17rem; padding: 8px 12px 9px; }
+.fg-float.hold b { font-size: 12px; }
+.fg-float.hold span { font-size: 9px; }
+@keyframes fgblink { 0% { opacity: 0; } 7% { opacity: 1; } 22% { opacity: 1; } 28% { opacity: 0.2; } 36% { opacity: 1; } 50% { opacity: 1; } 56% { opacity: 0.2; } 64% { opacity: 1; } 78% { opacity: 1; } 84% { opacity: 0.2; } 90% { opacity: 1; } 96% { opacity: 1; } 100% { opacity: 0; } }
+@media (max-width: 600px) { .fg-intro { margin-bottom: 1.6rem; } }
 </style>
 
 <main class="page" id="top">
@@ -2216,7 +2223,12 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   // ---------- state ----------
   var state = 'title', paused = false, stateT = 0, time = 0;
   var score = 0, high = 0, lives = 3, level = 1, collectedCount = 0;
-  var items, remaining, collected, player, bots, frightT = 0, chain = 0, phaseIdx = 0, phaseT = 0;
+  var items, remaining, collected, player, bots, frightT = 0, chain = 0, phaseIdx = 0, phaseT = 0, labelT = 0, cfg;
+  // Level 1 is the gentle one: three slower bots, longer power pellets, more scatter time. Level 2 is the original difficulty; later levels ramp up from there.
+  function setCfg() {
+    if (level <= 1) cfg = { bots: 3, bot: 4.2, frightSpd: 3.0, fright: 9, player: 6.6, wait: 1.5, phases: [9, 12, 9, 12, 7, 1e9] };
+    else { var k = level - 2; cfg = { bots: 4, bot: 5.5 * (1 + k * 0.06), frightSpd: 3.4, fright: Math.max(2.5, 7 - k), player: 6.6 * (1 + k * 0.03), wait: 1 / (1 + k * 0.15), phases: PHASES }; }
+  }
   try { high = parseInt(localStorage.getItem('fgHigh') || '0', 10) || 0; } catch (e) {}
 
   var hud = {
@@ -2323,11 +2335,10 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     else if (b.state === 'leaving' && b.tx === EXIT.x && b.ty === EXIT.y) { b.state = 'normal'; b.dir = { x: (Math.random() < 0.5 ? -1 : 1), y: 0 }; }
   }
   function botSpeed(b) {
-    var m = 1 + (level - 1) * 0.06;
     if (b.state === 'eaten') return 12;
     if (b.state === 'leaving' || b.state === 'house') return 3.6;
-    if (b.fright) return 3.4;
-    return 5.5 * m;
+    if (b.fright) return cfg.frightSpd;
+    return cfg.bot;
   }
 
   // ---------- level / game flow ----------
@@ -2346,13 +2357,14 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     Object.keys(legend).forEach(function (k) { legend[k].classList.remove('got'); });
   }
   function resetActors() {
+    setCfg(); labelT = 0;
     player = makeEntity(START.x, START.y); player.want = { x: -1, y: 0 };
-    bots = BOT_DEFS.map(function (def, i) {
+    bots = BOT_DEFS.slice(0, cfg.bots).map(function (def, i) {
       var inHouse = def.start.y === 9;
       return { def: def, tx: def.start.x, ty: def.start.y, dir: inHouse ? ZERO : { x: -1, y: 0 }, prog: 0, state: inHouse ? 'house' : 'normal',
-               fright: false, rev: false, wait: def.release / (1 + (level - 1) * 0.15), idx: i };
+               fright: false, rev: false, wait: def.release * cfg.wait, idx: i };
     });
-    frightT = 0; chain = 0; phaseIdx = 0; phaseT = PHASES[0];
+    frightT = 0; chain = 0; phaseIdx = 0; phaseT = cfg.phases[0];
   }
   function setState(s, t) {
     state = s; stateT = t || 0;
@@ -2382,12 +2394,13 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     if (v === 1) { addScore(10); sfx('dot'); }
     else if (v === 2) {
       addScore(50); sfx('power');
-      frightT = Math.max(2.5, 7 - (level - 1)); chain = 0;
+      frightT = cfg.fright; chain = 0;
       bots.forEach(function (b) { if (b.state !== 'eaten') { if (!b.fright && b.state === 'normal') b.rev = true; b.fright = true; } });
     } else {
       var p = PROTOS[v - 3]; collected[p.id] = true; collectedCount++; addScore(100); sfx('proto');
       if (legend[p.id]) legend[p.id].classList.add('got');
-      floatLabel('<b style="color:' + p.col + '">' + p.name + '</b><span>' + p.say + '</span>', x, y, '');
+      floatLabel('<b style="color:' + p.col + '">' + p.name + '</b><span>' + p.say + '</span>', x, y, 'hold');
+      if (remaining > 0) labelT = 2.6;
     }
     if (remaining <= 0) { setState('win', 2.6); sfx('win'); }
   }
@@ -2406,13 +2419,15 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     if (state === 'ready') { stateT -= dt; if (stateT <= 0) setState('play'); return; }
     if (state === 'dying') { stateT -= dt; if (stateT <= 0) afterDeath(); return; }
     if (state === 'win') { stateT -= dt; return; }
+    // eating a protocol freezes the game while its label blinks, so it can be read
+    if (labelT > 0) { labelT -= dt; return; }
     // phases: scatter / chase
     if (frightT <= 0) {
       phaseT -= dt;
-      if (phaseT <= 0 && phaseIdx < PHASES.length - 1) { phaseIdx++; phaseT = PHASES[phaseIdx]; bots.forEach(function (b) { if (b.state === 'normal') b.rev = true; }); }
+      if (phaseT <= 0 && phaseIdx < cfg.phases.length - 1) { phaseIdx++; phaseT = cfg.phases[phaseIdx]; bots.forEach(function (b) { if (b.state === 'normal') b.rev = true; }); }
     }
     if (frightT > 0) { frightT -= dt; if (frightT <= 0) bots.forEach(function (b) { b.fright = false; }); }
-    advance(player, 6.6 * (1 + (level - 1) * 0.03) * dt, playerChoose, playerArrive);
+    advance(player, cfg.player * dt, playerChoose, playerArrive);
     var i, b;
     for (i = 0; i < bots.length; i++) {
       b = bots[i];
@@ -2575,7 +2590,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
       PROTOS.forEach(function (p, i) { if (items[p.y][p.x] === 3 + i) drawChip(p, i); });
     }
     if (player && state !== 'title') {
-      var pp = pos(player), moving = !!(player.dir.x || player.dir.y) && state === 'play';
+      var pp = pos(player), moving = !!(player.dir.x || player.dir.y) && state === 'play' && labelT <= 0;
       var face = (player.dir.x || player.dir.y) ? player.dir : (player.want || ZERO);
       var dieK = state === 'dying' ? Math.min(1, Math.max(0, (1.6 - stateT - 0.35) / 1.1)) : null;
       if (state !== 'dying' || dieK < 1) drawAgent(pp.x, pp.y, face, moving, dieK);
@@ -2660,6 +2675,6 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   }
   resetItems(); resetActors(); setState('title'); hudUpdate();
   requestAnimationFrame(frame);
-  window.__fg = { get state() { return state; }, get player() { return player; }, get bots() { return bots; }, get items() { return items; }, get lives() { return lives; }, get score() { return score; }, protos: PROTOS };
+  window.__fg = { get state() { return state; }, get player() { return player; }, get bots() { return bots; }, get items() { return items; }, get lives() { return lives; }, get hold() { return labelT; }, get level() { return level; }, get score() { return score; }, protos: PROTOS };
 })();
 </script>
