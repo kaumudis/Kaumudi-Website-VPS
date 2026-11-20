@@ -2191,12 +2191,26 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     await pac.animate([{opacity:0,transform:'scale(.5)'},{opacity:1,transform:'scale(1)'}],{duration:260,fill:'forwards'}).finished.catch(function(){});
     if(t!==run) return; cancelAll(pac); pac.style.opacity='1';
     if(!await sleep(250,t)) return;
+    // it dances while it types: leaning right, then left, then right, one lean per letter
+    pac.style.transition='transform .12s ease-out';
+    var lean=1;
     for(var i=0;i<S.length;i++){
       S[i].style.opacity='1';
       at(S[i].getBoundingClientRect().right);
-      if(!await sleep(S[i]._c===' '?90:58+Math.random()*40,t)) return;
+      if(S[i]._c!==' '){ pac.style.transform='rotate('+(lean*14)+'deg)'; lean=-lean; }
+      if(!await sleep(S[i]._c===' '?90:70+Math.random()*30,t)) return;
     }
-    pac.classList.add('blink');
+    pac.style.transform='rotate(0deg)';
+    if(!await sleep(500,t)) return;
+    // then it runs off the right edge of the screen
+    pac.style.transition='';
+    var x0=parseFloat(pac.style.left), x1=document.documentElement.clientWidth-br.left+h, ms=Math.max(500,(x1-x0)/0.9);
+    await new Promise(function(done){ var t0=performance.now();
+      (function f(now){ if(t!==run) return done(); var k=Math.min(1,(now-t0)/ms), e=k*k*(1.6-0.6*k);
+        pac.style.left=(x0+(x1-x0)*e)+'px'; pac.style.transform='rotate('+(Math.sin(now/55)*10)+'deg)';
+        if(k<1) requestAnimationFrame(f); else done(); })(t0); });
+    if(t!==run) return;
+    pac.style.opacity='0'; pac.style.transform='scaleX(1)';
   }
 
   // 3. Drop: letters fall into place, the yellow K last, then the sign-off
