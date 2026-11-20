@@ -1067,6 +1067,8 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .fg-float.hold span { font-size: 9px; }
 @keyframes fgshow { 0% { opacity: 0; transform: translate(-50%, -100%) translateY(8px); } 12% { opacity: 1; transform: translate(-50%, -100%) translateY(0); } 85% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -100%) translateY(-14px); } }
 @media (max-width: 600px) { .fg-intro { margin-bottom: 1.6rem; } }
+
+.grp-in > .play { padding-top: 0.9rem; }
 </style>
 
 <main class="page" id="top">
@@ -1086,28 +1088,12 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 
   <div class="tabs-wrap">
     <div class="tabs" role="tablist" aria-label="Sections">
-      <button role="tab" id="tab-play" aria-controls="play" aria-selected="false" tabindex="-1">Play<span class="pf"> fintech</span></button>
       <button role="tab" id="tab-work" aria-controls="work" aria-selected="true">Work</button>
       <button role="tab" id="tab-lab" aria-controls="lab" aria-selected="false" tabindex="-1">My AI Lab</button>
       <button role="tab" id="tab-writing" aria-controls="writing" aria-selected="false" tabindex="-1">Playbooks</button>
       <button role="tab" id="tab-about" aria-controls="about" aria-selected="false" tabindex="-1">About Me</button>
     </div>
   </div>
-
-  <!-- ============ PLAY FINTECH ============ -->
-  <section id="play" role="tabpanel" aria-labelledby="tab-play" class="play" hidden>
-    <p class="fg-intro">Ten protocols are changing how AI agents pay and shop. Collect them all, dodge the fraud bots, and see what each one does.</p>
-    <div class="fg-arcade">
-      <div class="fg-hud"><div><span>1UP</span><b id="fg-score">0</b></div><div><span>High score</span><b id="fg-high">0</b></div><div><span>Level</span><b id="fg-level">1</b></div></div>
-      <div class="fg-stage" id="fg-stage" tabindex="0" role="application" aria-label="Fintech maze game. Press an arrow key, or tap, to start.">
-        <canvas id="fg-canvas" width="504" height="552"></canvas>
-      </div>
-      <div class="fg-bar"><div class="fg-lives" id="fg-lives" aria-label="Lives"></div><div class="fg-prog">Protocols <b id="fg-count">0/10</b></div><button type="button" class="fg-snd" id="fg-snd" aria-pressed="false">Sound off</button></div>
-      <div class="fg-pad" aria-label="On-screen controls"><button type="button" data-d="0,-1" aria-label="Up">&#9650;</button><button type="button" data-d="-1,0" aria-label="Left">&#9664;</button><button type="button" data-d="0,1" aria-label="Down">&#9660;</button><button type="button" data-d="1,0" aria-label="Right">&#9654;</button></div>
-    </div>
-    <p class="fg-keys">Arrow keys or WASD to move &middot; P to pause. On a phone, swipe or use the pad.</p>
-    <ul class="fg-legend" id="fg-legend" aria-label="The ten protocols"><li data-id="mcp" style="--c:#ff7a59"><span class="fg-badge">MCP</span><div><b>MCP</b><small>Model Context Protocol</small><em>agents plug into tools and data</em></div></li><li data-id="a2a" style="--c:#4cc9f0"><span class="fg-badge">A2A</span><div><b>A2A</b><small>Agent2Agent</small><em>agents find and talk to each other</em></div></li><li data-id="erc" style="--c:#b388ff"><span class="fg-badge">8004</span><div><b>ERC-8004</b><small>Trustless Agents (Ethereum)</small><em>on-chain identity and trust for agents</em></div></li><li data-id="tap" style="--c:#7b9cff"><span class="fg-badge">TAP</span><div><b>Visa Tap</b><small>Visa Trusted Agent Protocol</small><em>merchants can recognise trusted agents</em></div></li><li data-id="ap2" style="--c:#34d399"><span class="fg-badge">AP2</span><div><b>AP2</b><small>Agent Payments Protocol (Google)</small><em>human user authorized</em></div></li><li data-id="mc" style="--c:#ff9f1c"><span class="fg-badge">MC</span><div><b>MC Agent Pay</b><small>Mastercard Agent Pay</small><em>tokenized cards for agents</em></div></li><li data-id="x402" style="--c:#f15bb5"><span class="fg-badge">x402</span><div><b>x402</b><small>HTTP 402 payments (Coinbase)</small><em>pay per request, over plain HTTP</em></div></li><li data-id="mpp" style="--c:#a3e635"><span class="fg-badge">MPP</span><div><b>MPP</b><small>Machine Payments Protocol</small><em>agents pay machines, per session</em></div></li><li data-id="acp" style="--c:#5eead4"><span class="fg-badge">ACP</span><div><b>ACP</b><small>Agentic Commerce Protocol</small><em>checkout inside the chat</em></div></li><li data-id="ucp" style="--c:#fb7185"><span class="fg-badge">UCP</span><div><b>UCP</b><small>Universal Commerce Protocol</small><em>one standard, discovery to checkout</em></div></li></ul>
-  </section>
 
   <!-- ============ WORK ============ -->
   <section id="work" role="tabpanel" aria-labelledby="tab-work" class="cards grouped">
@@ -1505,6 +1491,25 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       </div></div>
     </div>
 
+    <div class="grp" id="grp-games">
+      <button class="grp-h" aria-expanded="false" aria-controls="grp-games-b"><span class="grp-logo grp-dot" aria-hidden="true">K</span><span class="grp-n">Games</span><span class="grp-c">1 game</span><span class="grp-i" aria-hidden="true"></span></button>
+      <div class="grp-b" id="grp-games-b"><div class="grp-in">
+        <div id="play" class="play" role="group" aria-label="Play fintech">
+      <p class="fg-intro">Ten protocols are changing how AI agents pay and shop. Collect them all, dodge the fraud bots, and see what each one does.</p>
+          <div class="fg-arcade">
+            <div class="fg-hud"><div><span>1UP</span><b id="fg-score">0</b></div><div><span>High score</span><b id="fg-high">0</b></div><div><span>Level</span><b id="fg-level">1</b></div></div>
+            <div class="fg-stage" id="fg-stage" tabindex="0" role="application" aria-label="Fintech maze game. Press an arrow key, or tap, to start.">
+              <canvas id="fg-canvas" width="504" height="552"></canvas>
+            </div>
+            <div class="fg-bar"><div class="fg-lives" id="fg-lives" aria-label="Lives"></div><div class="fg-prog">Protocols <b id="fg-count">0/10</b></div><button type="button" class="fg-snd" id="fg-snd" aria-pressed="false">Sound off</button></div>
+            <div class="fg-pad" aria-label="On-screen controls"><button type="button" data-d="0,-1" aria-label="Up">&#9650;</button><button type="button" data-d="-1,0" aria-label="Left">&#9664;</button><button type="button" data-d="0,1" aria-label="Down">&#9660;</button><button type="button" data-d="1,0" aria-label="Right">&#9654;</button></div>
+          </div>
+          <p class="fg-keys">Arrow keys or WASD to move &middot; P to pause. On a phone, swipe or use the pad.</p>
+          <ul class="fg-legend" id="fg-legend" aria-label="The ten protocols"><li data-id="mcp" style="--c:#ff7a59"><span class="fg-badge">MCP</span><div><b>MCP</b><small>Model Context Protocol</small><em>agents plug into tools and data</em></div></li><li data-id="a2a" style="--c:#4cc9f0"><span class="fg-badge">A2A</span><div><b>A2A</b><small>Agent2Agent</small><em>agents find and talk to each other</em></div></li><li data-id="erc" style="--c:#b388ff"><span class="fg-badge">8004</span><div><b>ERC-8004</b><small>Trustless Agents (Ethereum)</small><em>on-chain identity and trust for agents</em></div></li><li data-id="tap" style="--c:#7b9cff"><span class="fg-badge">TAP</span><div><b>Visa Tap</b><small>Visa Trusted Agent Protocol</small><em>merchants can recognise trusted agents</em></div></li><li data-id="ap2" style="--c:#34d399"><span class="fg-badge">AP2</span><div><b>AP2</b><small>Agent Payments Protocol (Google)</small><em>human user authorized</em></div></li><li data-id="mc" style="--c:#ff9f1c"><span class="fg-badge">MC</span><div><b>MC Agent Pay</b><small>Mastercard Agent Pay</small><em>tokenized cards for agents</em></div></li><li data-id="x402" style="--c:#f15bb5"><span class="fg-badge">x402</span><div><b>x402</b><small>HTTP 402 payments (Coinbase)</small><em>pay per request, over plain HTTP</em></div></li><li data-id="mpp" style="--c:#a3e635"><span class="fg-badge">MPP</span><div><b>MPP</b><small>Machine Payments Protocol</small><em>agents pay machines, per session</em></div></li><li data-id="acp" style="--c:#5eead4"><span class="fg-badge">ACP</span><div><b>ACP</b><small>Agentic Commerce Protocol</small><em>checkout inside the chat</em></div></li><li data-id="ucp" style="--c:#fb7185"><span class="fg-badge">UCP</span><div><b>UCP</b><small>Universal Commerce Protocol</small><em>one standard, discovery to checkout</em></div></li></ul>
+        </div>
+      </div></div>
+    </div>
+
   </section>
   <script>
   /* One source of truth: the Work tab shows an exact copy of the Agentic Finance Lab card from My AI Lab */
@@ -1758,7 +1763,6 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 
   <div class="tabs-end" aria-hidden="false">
     <div class="tabs end-tabs" role="navigation" aria-label="More sections">
-      <button type="button" data-go="play">Play<span class="pf"> fintech</span></button>
       <button type="button" data-go="work">Work</button>
       <button type="button" data-go="lab">My AI Lab</button>
       <button type="button" data-go="writing">Playbooks</button>
@@ -1801,18 +1805,17 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 </script>
 <script>
 (function () {
-  var order = ['play', 'work', 'lab', 'writing', 'about'];
-  // Live site (kaumudishrivastava.com): Playbooks, Play fintech and the unfinished Spend management card stay in Option C only.
+  var order = ['work', 'lab', 'writing', 'about'];
+  // Live site (kaumudishrivastava.com): Playbooks, the Games section and the unfinished Spend management card stay in Option C only.
   // Add ?live to any address to preview the live version.
   var LIVE = /kaumudishrivastava\.com$/.test(location.hostname) || /[?&]live\b/.test(location.search);
   if (LIVE) {
-    ['tab-writing', 'writing', 'tab-play', 'play', 'juni-spend'].forEach(function (id) { var el = document.getElementById(id); if (el) el.remove(); });
-    document.querySelectorAll('[data-go="writing"], [data-go="play"]').forEach(function (el) { el.remove(); });
+    ['tab-writing', 'writing', 'grp-games', 'juni-spend'].forEach(function (id) { var el = document.getElementById(id); if (el) el.remove(); });
+    document.querySelectorAll('[data-go="writing"]').forEach(function (el) { el.remove(); });
     order = ['work', 'lab', 'about'];
     var jc = document.querySelector('#grp-juni .grp-c'); if (jc) jc.textContent = '4 case studies';
   }
   var labels = {
-    play: ['Play fintech', 'Collect the ten protocols', '<span class="tok tok-work"><i></i><i></i></span>'],
     work: ['View work', 'Case studies', '<span class="tok tok-work"><i></i><i></i><i></i><i></i></span>'],
     lab: ['View my AI Lab', 'What I’m building', '<span class="tok tok-lab"><i></i>In progress</span>'],
     writing: ['View my playbooks', 'How I build, run and decide', '<span class="tok tok-writing"><i></i><i></i><i></i></span>'],
@@ -1850,7 +1853,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     if (id === 'about') document.querySelectorAll('#about > .grp').forEach(function (g) { var on = g.id === 'grp-ab-best'; g.classList.toggle('open', on); var h = g.querySelector('.grp-h'); if (h) h.setAttribute('aria-expanded', on ? 'true' : 'false'); });
     renderNext(id);
     // Keep the address bar in step with the open tab, so the link can be shared
-    var pretty = { play: 'play-fintech', work: 'work', lab: 'ai-lab', writing: 'playbooks', about: 'about-me' }[id];
+    var pretty = { work: 'work', lab: 'ai-lab', writing: 'playbooks', about: 'about-me' }[id];
     // Update the address only after the page has loaded (setting it during load makes the browser jump to that section)
     try { if (window.__tabsReady && pretty && location.hash.slice(1) !== pretty) history.replaceState(null, '', '#' + pretty); } catch (e) {}
   }
@@ -1863,7 +1866,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       show(tabs[(i + d + tabs.length) % tabs.length].getAttribute('aria-controls'), true);
     });
   });
-  var alias = { 'play-fintech': 'play', 'ai-lab': 'lab', 'my-ai-lab': 'lab', 'playbooks': 'writing', 'about-me': 'about' };
+  var alias = { 'ai-lab': 'lab', 'my-ai-lab': 'lab', 'playbooks': 'writing', 'about-me': 'about' };
   var start = (location.hash || '').slice(1).toLowerCase(); start = alias[start] || start;
   show(order.indexOf(start) > -1 ? start : 'work');
   window.addEventListener('load', function(){ setTimeout(function(){ window.__tabsReady = true; }, 0); });
@@ -2165,6 +2168,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   'use strict';
   var panel = document.getElementById('play');
   if (!panel) return;
+  function shown() { return panel.offsetParent !== null; }   // false while the Games section is closed or another tab is open
   var canvas = document.getElementById('fg-canvas'), stage = document.getElementById('fg-stage');
   if (!canvas || !stage) return;
   var ctx = canvas.getContext('2d');
@@ -2632,7 +2636,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   }
   function idle() { return state === 'title' || state === 'over' || (state === 'win' && stateT < 1.6); }
   document.addEventListener('keydown', function (e) {
-    if (panel.hidden || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (!shown() || e.ctrlKey || e.metaKey || e.altKey) return;
     var k = e.key.length === 1 ? e.key.toLowerCase() : e.key, d = KEYS[k];
     var engaged = window.__fgActive || document.activeElement === stage || (state === 'win');
     if (!engaged) return;
@@ -2663,14 +2667,13 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
       var d = b.getAttribute('data-d').split(','); setDir(+d[0], +d[1]);
     });
   });
-  // if the Play tab is left, pause quietly; the game picks up where it was
-  new MutationObserver(function () { if (panel.hidden && window.__fgActive) { paused = true; } }).observe(panel, { attributes: true, attributeFilter: ['hidden'] });
 
   // ---------- loop ----------
   var last = 0;
   function frame(ts) {
     requestAnimationFrame(frame);
-    if (panel.hidden) { last = ts; return; }
+    if (!shown()) { if (window.__fgActive) { paused = true; window.__fgActive = false; } last = ts; return; }
+    window.__fgActive = (state === 'ready' || state === 'play' || state === 'dying');
     var dt = Math.min(0.05, (ts - last) / 1000 || 0); last = ts;
     update(dt); draw();
   }
