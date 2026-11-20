@@ -998,7 +998,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 
   <div class="tabs-wrap">
     <div class="tabs" role="tablist" aria-label="Sections">
-      <button role="tab" id="tab-work" aria-controls="work" aria-selected="true">Work <sup>(09)</sup></button>
+      <button role="tab" id="tab-work" aria-controls="work" aria-selected="true">Work</button>
       <button role="tab" id="tab-lab" aria-controls="lab" aria-selected="false" tabindex="-1">My AI Lab</button>
       <button role="tab" id="tab-writing" aria-controls="writing" aria-selected="false" tabindex="-1">Playbooks</button>
       <button role="tab" id="tab-about" aria-controls="about" aria-selected="false" tabindex="-1">About Me</button>
@@ -1609,7 +1609,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       <div class="grp-b" id="grp-ab-best-b"><div class="grp-in">
       <ul class="bring">
         <li><b>15+ years of building products through every lens.</b> Software engineer (Amdocs), management consultant (KPMG), founding member of a fintech start-up (Ohm Mobility) and operator at a high-growth neobank (Juni).</li>
-        <li><b>Regulated financial products, 0 to 1 to growth.</b> Banking, accounting and payments, built with legal, risk and compliance from day one, and now with AI.</li>
+        <li><b>Financial products where money and regulation meet.</b> Banking, accounting, payments and spend management, taken from 0 to 1 to growth stage in regulated spaces, where a mistake costs real money and trust is the product.</li>
         <li><b>AI in financial workflows.</b> Building AI-enabled workflows and products, including agentic finance.</li>
         <li><b>Commercial strategy and execution.</b> Owning pricing, go-to-market and the P&amp;L.</li>
       </ul>
@@ -1631,7 +1631,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       <div class="grp-b" id="grp-ab-edu-b"><div class="grp-in">
       <ol class="timeline edu">
         <li><img class="logo" src="img/logo-isb.png" alt="Indian School of Business" width="64" height="64"><div><p class="tl-head"><b>Master of Business Administration</b></p><p class="tl-co">Indian School of Business</p></div></li>
-        <li><img class="logo" src="img/logo-pune.png" alt="Pune University" width="64" height="64"><div><p class="tl-head"><b>Bachelor of Engineering, Computer Science</b></p><p class="tl-co">Pune University · First class with distinction</p></div></li>
+        <li><img class="logo" src="img/logo-pune.png?v=2" alt="Pune University" width="64" height="64"><div><p class="tl-head"><b>Bachelor of Engineering, Computer Science</b></p><p class="tl-co">Pune University · First class with distinction</p></div></li>
       </ol>
       </div></div>
     </div>
@@ -1701,7 +1701,6 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     ['tab-writing', 'writing', 'juni-spend'].forEach(function (id) { var el = document.getElementById(id); if (el) el.remove(); });
     document.querySelectorAll('[data-go="writing"]').forEach(function (el) { el.remove(); });
     order = ['work', 'lab', 'about'];
-    var sup = document.querySelector('#tab-work sup'); if (sup) sup.textContent = '(08)';
     var jc = document.querySelector('#grp-juni .grp-c'); if (jc) jc.textContent = '4 case studies';
   }
   var labels = {
