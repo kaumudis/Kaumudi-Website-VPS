@@ -951,6 +951,18 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
   .who-top .head-mail { margin-top: 0.55rem; }
   .head-mail, .head-mail a, .head-mail span { font-size: min(0.6875rem, 2.75vw); letter-spacing: 0.01em; white-space: nowrap; }
 }
+.role-tag .rt-sep { font-style: normal; }
+.av-wrap { position: relative; display: block; flex: none; line-height: 0; }
+.h1-mail { display: none; }
+/* Phones: role on three lines, no email line; a small envelope beside the name opens email */
+@media (max-width: 40rem) {
+  .who-top .role-tag span { display: block; }
+  .who-top .role-tag .rt-sep { display: none; }
+  .who-top .head-mail { display: none; }
+  .h1-mail { display: grid; place-items: center; position: absolute; right: -0.4rem; bottom: -0.4rem; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: #FFFFFF; color: var(--ink); box-shadow: 0 2px 8px rgba(17,17,20,.18); border: 1px solid #E7E7EC; }
+  .h1-mail svg { width: 1rem; height: 1rem; }
+  .h1-mail:hover, .h1-mail:focus-visible { color: var(--ink); }
+}
 /* Tile headings in bold on every screen size */
 .cap .t { font-weight: 600; }
 /* Accounting tile: dots flow both ways between ERP and Juni (two-way sync) */
@@ -985,10 +997,10 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
   <header class="who">
     <div class="who-l">
       <div class="who-top">
-        <img class="avatar" src="img/kaumudi.jpg" alt="Kaumudi Shrivastava" width="160" height="160">
+        <span class="av-wrap"><img class="avatar" src="img/kaumudi.jpg" alt="Kaumudi Shrivastava" width="160" height="160"><a class="h1-mail" href="#contact" data-mq="" aria-label="Email Kaumudi" title="Email me"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg></a></span>
         <div>
           <h1>Kaumudi Shrivastava</h1>
-          <p class="eyebrow role-tag">AI Product Builder · Ex-KPMG · Ex-Engineer</p>
+          <p class="eyebrow role-tag"><span>AI Product Builder</span><i class="rt-sep"> · </i><span>Ex-KPMG</span><i class="rt-sep"> · </i><span>Ex-Engineer</span></p>
           <p class="head-mail"><a href="#contact" data-mq=""><span data-addr id="head-email"></span></a><button class="copy head-copy" id="copy-head" type="button" aria-label="Copy email address" title="Copy"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></button></p>
         </div>
       </div>
@@ -2010,7 +2022,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
 <script>
 /* Photo is exactly as tall as the name, role and email beside it */
 (function(){
-  var img=document.querySelector('.who-top .avatar'), txt=img&&img.nextElementSibling; if(!img||!txt) return;
+  var img=document.querySelector('.who-top .avatar'), txt=img&&(img.closest('.av-wrap')||img).nextElementSibling; if(!img||!txt) return;
   function size(){ img.style.width=img.style.height=(window.innerWidth<480?'4.5rem':'4.5rem'); for(var k=0;k<4;k++){ var hgt=txt.getBoundingClientRect().height; if(!hgt) break; var s=Math.round(window.innerWidth<480?Math.min(hgt,116):hgt); if(Math.abs(parseFloat(img.style.width)-s)<1) break; img.style.width=img.style.height=s+'px'; } }
   size(); window.addEventListener('resize', size); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(size);
 })();
