@@ -1061,11 +1061,11 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
   .fg-legend li { padding: 0.38rem 0.55rem; }
 }
 
-/* label while the game is paused: stays put and blinks three times so it can be read */
-.fg-float.hold { animation: fgblink 2.6s linear forwards; max-width: 17rem; padding: 8px 12px 9px; }
+/* label while the game is paused: appears, floats up a little, then disappears as the game resumes */
+.fg-float.hold { animation: fgshow 1.8s ease-out forwards; max-width: 17rem; padding: 8px 12px 9px; }
 .fg-float.hold b { font-size: 12px; }
 .fg-float.hold span { font-size: 9px; }
-@keyframes fgblink { 0% { opacity: 0; } 7% { opacity: 1; } 22% { opacity: 1; } 28% { opacity: 0.2; } 36% { opacity: 1; } 50% { opacity: 1; } 56% { opacity: 0.2; } 64% { opacity: 1; } 78% { opacity: 1; } 84% { opacity: 0.2; } 90% { opacity: 1; } 96% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes fgshow { 0% { opacity: 0; transform: translate(-50%, -100%) translateY(8px); } 12% { opacity: 1; transform: translate(-50%, -100%) translateY(0); } 85% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -100%) translateY(-14px); } }
 @media (max-width: 600px) { .fg-intro { margin-bottom: 1.6rem; } }
 </style>
 
@@ -2400,7 +2400,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
       var p = PROTOS[v - 3]; collected[p.id] = true; collectedCount++; addScore(100); sfx('proto');
       if (legend[p.id]) legend[p.id].classList.add('got');
       floatLabel('<b style="color:' + p.col + '">' + p.name + '</b><span>' + p.say + '</span>', x, y, 'hold');
-      if (remaining > 0) labelT = 2.6;
+      if (remaining > 0) labelT = 1.8;
     }
     if (remaining <= 0) { setState('win', 2.6); sfx('win'); }
   }
