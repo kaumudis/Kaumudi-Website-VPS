@@ -2280,6 +2280,19 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     if(t!==run) return; cancelAll(pac); pac.style.opacity='1';
     if(withBots) follow(t,h*0.85);
     if(!await sleep(250,t)) return;
+    if(withBots){
+      // the bots come in from the left; the K turns round, sees them, shivers, then turns back and starts writing
+      if(!await sleep(650,t)) return;
+      pac.style.transition='transform .22s ease-out'; pac.style.transform='scaleX(-1)';
+      if(!await sleep(520,t)) return;
+      pac.style.transition='';
+      var kf=[]; for(var q=0;q<=14;q++){ var sx=(q%2?1:-1)*(q<14?h*0.05:0), rz=(q%2?-1:1)*(q<14?5:0); kf.push({transform:'scaleX(-1) translateX('+sx+'px) rotate('+rz+'deg)'}); }
+      await pac.animate(kf,{duration:700,easing:'linear'}).finished.catch(function(){});
+      if(t!==run) return;
+      if(!await sleep(150,t)) return;
+      pac.style.transition='transform .2s ease-out'; pac.style.transform='scaleX(1)';
+      if(!await sleep(260,t)) return;
+    }
     // it dances while it types: leaning right, then left, then right, one lean per letter
     pac.style.transition='transform .12s ease-out';
     var lean=1;
