@@ -1,9 +1,9 @@
 <!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="icon" href="img/favicon.svg?v=3" type="image/svg+xml">
-<link rel="icon" href="img/favicon-32.png?v=3" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=3">
+<link rel="icon" href="img/favicon.svg?v=4" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png?v=4" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=4">
 <title>Kaumudi Shrivastava</title>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="90731c06-53f8-4527-b27e-97dad49f6e22" data-domains="kaumudishrivastava.com,www.kaumudishrivastava.com"></script>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1052,10 +1052,11 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .fg-legend small { display: none; font-size: 0.6875rem; color: var(--muted); line-height: 1.35; margin-top: 0.05rem; }
 .fg-legend em { display: block; font-style: normal; font-size: 0.75rem; color: var(--ink); line-height: 1.35; margin-top: 0.1rem; }
 @media (min-width: 1000px) {
-  .play { display: grid; grid-template-columns: 34rem 19rem; grid-template-areas: "intro intro" "arcade legend" "keys legend"; column-gap: 2rem; justify-content: center; max-width: none; align-items: start; }
+  .play { display: grid; grid-template-columns: 34rem 19rem; grid-template-areas: "intro intro" "arcade legend" "keys legend" "board legend"; column-gap: 2rem; justify-content: center; max-width: none; align-items: start; }
   .fg-intro { grid-area: intro; }
   .fg-arcade { grid-area: arcade; width: 100%; margin: 0; }
   .fg-keys { grid-area: keys; margin-inline: 0; max-width: none; text-align: left; }
+  .play .fg-board { grid-area: board; margin: 1.6rem 0 0; max-width: none; }
   .fg-legend { grid-area: legend; grid-template-columns: 1fr; margin: 0; max-width: none; position: sticky; top: 5.5rem; }
   .fg-legend { gap: 0.35rem; }
   .fg-legend li { padding: 0.38rem 0.55rem; }
@@ -1070,6 +1071,42 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 
 .grp-in > .play { padding-top: 0.9rem; }
 .grouped .grp-logo.grp-k { background: none; border-radius: 0; }
+
+/* skipping the label early: fade it out fast */
+.fg-float.out { animation: fgout .2s ease-out forwards; }
+@keyframes fgout { from { opacity: 1; transform: translate(-50%, -100%) translateY(-6px); } to { opacity: 0; transform: translate(-50%, -100%) translateY(-14px); } }
+
+/* game over: name entry sits over the maze */
+.fg-over { position: absolute; inset: 0; z-index: 8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 18px; background: rgba(0,0,0,0.9); text-align: center; line-height: 1.4; }
+.fg-over[hidden] { display: none; }
+.fg-over-t { font-size: 18px; color: #ff3b3b; }
+.fg-over-s b { display: block; font-weight: 400; font-size: 26px; color: #ffd7b3; }
+.fg-over-s span { display: block; margin-top: 8px; font-size: 8px; color: #fff; }
+.fg-form { display: flex; gap: 8px; align-items: stretch; justify-content: center; width: 100%; max-width: 22rem; margin-top: 4px; }
+.fg-form[hidden], .fg-saved[hidden] { display: none; }
+.fg-form input { flex: 1 1 auto; min-width: 0; font: 500 16px/1.2 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.06em; text-transform: uppercase; color: #fff; background: #000; border: 1px solid #fff; border-radius: 999px; padding: 11px 16px; outline: none; }
+.fg-form input::placeholder { color: #8a8f9e; }
+.fg-form input:focus { box-shadow: 0 0 0 3px #000, 0 0 0 4px #7b9cff; }
+.fg-form input.bad { border-color: #ff3b3b; }
+.fg-form button, .fg-again { font: 500 11px/1 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 999px; padding: 12px 20px; cursor: pointer; border: 1px solid #fff; background: #fff; color: #000; }
+.fg-form button:disabled { opacity: 0.5; cursor: default; }
+.fg-again.ghost { background: none; color: #fff; border-color: #5a5a6a; }
+.fg-again.ghost:hover, .fg-again:hover { border-color: #fff; }
+.fg-again:focus-visible, .fg-form button:focus-visible { outline: 2px solid #7b9cff; outline-offset: 2px; }
+.fg-saved { margin: 0; font-size: 9px; color: #a3e635; }
+@media (max-width: 420px) { .fg-over { gap: 10px; } .fg-over-t { font-size: 15px; } .fg-over-s b { font-size: 22px; } .fg-form input { padding: 10px 14px; } }
+
+/* leaderboard */
+.fg-board { margin: 1.6rem auto 0; max-width: 34rem; }
+.fg-board h4 { margin: 0 0 0.5rem; font: 700 0.6875rem/1 var(--mono, ui-monospace, monospace); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+.fg-board ol { list-style: none; margin: 0; padding: 0; font: 400 0.8125rem/1.2 var(--mono, ui-monospace, monospace); }
+.fg-board li { display: grid; grid-template-columns: 2.2rem 1fr auto; align-items: baseline; gap: 0.5rem; padding: 0.5rem 0.25rem; border-bottom: 1px dotted var(--line); }
+.fg-board li .r { color: var(--faint); }
+.fg-board li .n { text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fg-board li .s { color: var(--ink); font-variant-numeric: tabular-nums; }
+.fg-board li.me { background: rgba(233,196,106,0.22); border-radius: 6px; }
+.fg-board li.empty { display: block; color: var(--muted); border-bottom: 0; padding-left: 0; }
+.fg-board-note { margin: 0.6rem 0 0; font: 400 0.6875rem/1.3 var(--mono, ui-monospace, monospace); letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
 </style>
 
 <main class="page" id="top">
@@ -1501,11 +1538,19 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
             <div class="fg-hud"><div><span>1UP</span><b id="fg-score">0</b></div><div><span>High score</span><b id="fg-high">0</b></div><div><span>Level</span><b id="fg-level">1</b></div></div>
             <div class="fg-stage" id="fg-stage" tabindex="0" role="application" aria-label="Fintech maze game. Press an arrow key, or tap, to start.">
               <canvas id="fg-canvas" width="504" height="552"></canvas>
+              <div class="fg-over" id="fg-over" hidden role="dialog" aria-label="Game over">
+                <div class="fg-over-t">Game over</div>
+                <div class="fg-over-s"><b id="fg-over-score">0</b><span id="fg-over-sub"></span></div>
+                <form class="fg-form" id="fg-form" autocomplete="off"><input id="fg-name" type="text" maxlength="12" placeholder="Your name" aria-label="Your name" enterkeyhint="done" autocapitalize="characters" spellcheck="false"><button type="submit" id="fg-send">Submit</button></form>
+                <p class="fg-saved" id="fg-saved" hidden></p>
+                <button type="button" class="fg-again" id="fg-again">Play again</button>
+              </div>
             </div>
             <div class="fg-bar"><div class="fg-lives" id="fg-lives" aria-label="Lives"></div><div class="fg-prog">Protocols <b id="fg-count">0/10</b></div><button type="button" class="fg-snd" id="fg-snd" aria-pressed="false">Sound off</button></div>
             <div class="fg-pad" aria-label="On-screen controls"><button type="button" data-d="0,-1" aria-label="Up">&#9650;</button><button type="button" data-d="-1,0" aria-label="Left">&#9664;</button><button type="button" data-d="0,1" aria-label="Down">&#9660;</button><button type="button" data-d="1,0" aria-label="Right">&#9654;</button></div>
           </div>
           <p class="fg-keys">Arrow keys or WASD to move &middot; P to pause. On a phone, swipe or use the pad.</p>
+          <section class="fg-board" aria-label="Leaderboard"><h4>Top 10</h4><ol id="fg-board-list"></ol><p class="fg-board-note" id="fg-board-note"></p></section>
           <ul class="fg-legend" id="fg-legend" aria-label="The ten protocols"><li data-id="mcp" style="--c:#ff7a59"><span class="fg-badge">MCP</span><div><b>MCP</b><small>Model Context Protocol</small><em>agents plug into tools and data</em></div></li><li data-id="a2a" style="--c:#4cc9f0"><span class="fg-badge">A2A</span><div><b>A2A</b><small>Agent2Agent</small><em>agents find and talk to each other</em></div></li><li data-id="erc" style="--c:#b388ff"><span class="fg-badge">8004</span><div><b>ERC-8004</b><small>Trustless Agents (Ethereum)</small><em>on-chain identity and trust for agents</em></div></li><li data-id="tap" style="--c:#7b9cff"><span class="fg-badge">TAP</span><div><b>Visa Tap</b><small>Visa Trusted Agent Protocol</small><em>merchants can recognise trusted agents</em></div></li><li data-id="ap2" style="--c:#34d399"><span class="fg-badge">AP2</span><div><b>AP2</b><small>Agent Payments Protocol (Google)</small><em>human user authorized</em></div></li><li data-id="mc" style="--c:#ff9f1c"><span class="fg-badge">MC</span><div><b>MC Agent Pay</b><small>Mastercard Agent Pay</small><em>tokenized cards for agents</em></div></li><li data-id="x402" style="--c:#f15bb5"><span class="fg-badge">x402</span><div><b>x402</b><small>HTTP 402 payments (Coinbase)</small><em>pay per request, over plain HTTP</em></div></li><li data-id="mpp" style="--c:#a3e635"><span class="fg-badge">MPP</span><div><b>MPP</b><small>Machine Payments Protocol</small><em>agents pay machines, per session</em></div></li><li data-id="acp" style="--c:#5eead4"><span class="fg-badge">ACP</span><div><b>ACP</b><small>Agentic Commerce Protocol</small><em>checkout inside the chat</em></div></li><li data-id="ucp" style="--c:#fb7185"><span class="fg-badge">UCP</span><div><b>UCP</b><small>Universal Commerce Protocol</small><em>one standard, discovery to checkout</em></div></li></ul>
         </div>
       </div></div>
@@ -2228,6 +2273,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   // ---------- state ----------
   var state = 'title', paused = false, stateT = 0, time = 0;
   var score = 0, high = 0, lives = 3, level = 1, collectedCount = 0;
+  var LABEL_T = 1.8, holdEl = null;
   var items, remaining, collected, player, bots, frightT = 0, chain = 0, phaseIdx = 0, phaseT = 0, labelT = 0, cfg;
   // Level 1 is the gentle one: three slower bots, longer power pellets, more scatter time. Level 2 is the original difficulty; later levels ramp up from there.
   function setCfg() {
@@ -2377,7 +2423,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     stage.style.touchAction = window.__fgActive ? 'none' : 'auto';
     stage.classList.toggle('fg-live', window.__fgActive);
   }
-  function newGame() { score = 0; lives = 3; level = 1; resetItems(); resetActors(); setState('ready', 2); paused = false; hudUpdate(); sfx('start'); }
+  function newGame() { hideOver(); score = 0; lives = 3; level = 1; resetItems(); resetActors(); setState('ready', 2); paused = false; hudUpdate(); sfx('start'); }
   function nextLevel() { level++; resetItems(); resetActors(); setState('ready', 2); hudUpdate(); sfx('start'); }
   function begin() {
     try { if (document.activeElement && document.activeElement !== stage && document.activeElement.blur) document.activeElement.blur(); stage.focus({ preventScroll: true }); } catch (e) {}
@@ -2404,8 +2450,8 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     } else {
       var p = PROTOS[v - 3]; collected[p.id] = true; collectedCount++; addScore(100); sfx('proto');
       if (legend[p.id]) legend[p.id].classList.add('got');
-      floatLabel('<b style="color:' + p.col + '">' + p.name + '</b><span>' + p.say + '</span>', x, y, 'hold');
-      if (collectedCount < PROTOS.length) labelT = 1.8;
+      holdEl = floatLabel('<b style="color:' + p.col + '">' + p.name + '</b><span>' + p.say + '</span>', x, y, 'hold');
+      if (collectedCount < PROTOS.length) labelT = LABEL_T;
     }
     // the level is won when all ten protocols are collected; the dots are just bonus points
     if (collectedCount >= PROTOS.length) { setState('win', 3.4); sfx('win'); }
@@ -2415,7 +2461,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   function die() { setState('dying', 1.6); sfx('die'); hudUpdate(); }
   function afterDeath() {
     lives--;
-    if (lives <= 0) { lives = 0; setState('over', 0); hudUpdate(); return; }
+    if (lives <= 0) { lives = 0; setState('over', 0); hudUpdate(); showOver(); return; }
     resetActors(); setState('ready', 1.8); hudUpdate();
   }
 
@@ -2463,6 +2509,8 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     el.style.top = Math.max(h + 4, cy - 2) + 'px';
     var gone = false; function rm() { if (gone) return; gone = true; if (el.parentNode) el.parentNode.removeChild(el); }
     el.addEventListener('animationend', rm); setTimeout(rm, 4000);
+    el.__rm = rm;
+    return el;
   }
 
   // ---------- sound (off by default) ----------
@@ -2611,12 +2659,6 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
       if (Math.floor(time * 2) % 2 === 0) text('CLICK OR TAP TO START', W / 2, T * 14.2, 9, '#ffd166');
     } else if (state === 'ready') {
       text('READY!', W / 2, T * 13.5, 14, '#ffd166');
-    } else if (state === 'over') {
-      panelBox(T * 7.4, T * 15.6);
-      text('GAME OVER', W / 2, T * 9.2, 17, '#ff3b3b');
-      text(collectedCount + ' OF 10 PROTOCOLS', W / 2, T * 11.2, 9, '#fff');
-      text('SCORE ' + score, W / 2, T * 12.6, 9, '#fff');
-      if (Math.floor(time * 2) % 2 === 0) text('CLICK OR TAP TO RETRY', W / 2, T * 14.4, 9, '#ffd166');
     } else if (state === 'win' && stateT < 1.6) {
       panelBox(T * 7.4, T * 15.6);
       text('FULL STACK!', W / 2, T * 9.4, 17, '#a3e635');
@@ -2627,21 +2669,108 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     if (paused) { panelBox(T * 9.6, T * 13.4); text('PAUSED', W / 2, T * 11.5, 15, '#fff'); }
   }
 
+
+  // ---------- leaderboard ----------
+  // Tries a shared board at SCORE_API (see server/scores.js); if that isn't there it keeps a Top 10 on this device instead.
+  var SCORE_API = '/api/scores', LS_BOARD = 'fgBoard', LS_NAME = 'fgName';
+  var board = { list: [], mode: 'local', total: 0, mine: -1 };
+  var el = { over: document.getElementById('fg-over'), form: document.getElementById('fg-form'), name: document.getElementById('fg-name'),
+             score: document.getElementById('fg-over-score'), sub: document.getElementById('fg-over-sub'), saved: document.getElementById('fg-saved'),
+             again: document.getElementById('fg-again'), list: document.getElementById('fg-board-list'), note: document.getElementById('fg-board-note'),
+             send: document.getElementById('fg-send') };
+  function cleanName(n) { return String(n || '').replace(/[^\w .\-À-ɏ]/g, '').replace(/\s+/g, ' ').trim().slice(0, 12); }
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function readLocal() {
+    try { var a = JSON.parse(localStorage.getItem(LS_BOARD) || '[]'); return Array.isArray(a) ? a.filter(function (r) { return r && typeof r.name === 'string' && isFinite(r.score); }) : []; } catch (e) { return []; }
+  }
+  function writeLocal(a) { try { localStorage.setItem(LS_BOARD, JSON.stringify(a)); } catch (e) {} }
+  function renderBoard() {
+    var h = '';
+    board.list.slice(0, 10).forEach(function (r, i) {
+      h += '<li' + (i === board.mine ? ' class="me"' : '') + '><span class="r">' + (i + 1) + '</span><span class="n">' + esc(r.name) + '</span><span class="s">' + r.score + '</span></li>';
+    });
+    el.list.innerHTML = h || '<li class="empty">No scores yet. Be the first.</li>';
+    el.note.textContent = board.mode === 'global' ? (board.total ? board.total + ' scores recorded' : 'Everyone who plays') : 'Saved on this device';
+  }
+  function jsonFetch(url, opts) {
+    if (!window.fetch) return Promise.reject(new Error('nofetch'));
+    var ctl = window.AbortController ? new AbortController() : null, t = setTimeout(function () { if (ctl) ctl.abort(); }, 4000);
+    opts = opts || {}; if (ctl) opts.signal = ctl.signal; opts.cache = 'no-store';
+    return fetch(url, opts).then(function (r) { clearTimeout(t); if (!r.ok) throw new Error('http ' + r.status); return r.json(); }, function (e) { clearTimeout(t); throw e; });
+  }
+  function loadBoard() {
+    return jsonFetch(SCORE_API).then(function (d) {
+      if (!d || !Array.isArray(d.scores)) throw new Error('shape');
+      board.mode = 'global'; board.list = d.scores; board.total = d.total || 0;
+    }).catch(function () { board.mode = 'local'; board.list = readLocal().sort(function (a, b) { return b.score - a.score; }).slice(0, 10); }).then(function () { board.mine = -1; renderBoard(); });
+  }
+  function saveLocalScore(name, sc) {
+    var a = readLocal(); a.push({ name: name, score: sc, t: Date.now() });
+    a.sort(function (x, y) { return y.score - x.score || x.t - y.t; });
+    var rank = a.findIndex(function (r) { return r.name === name && r.score === sc; });
+    a = a.slice(0, 10); writeLocal(a);
+    board.mode = 'local'; board.list = a; board.mine = rank < 10 ? rank : -1;
+    return rank + 1;
+  }
+  function submitScore(name, sc) {
+    if (board.mode !== 'global') return Promise.resolve(saveLocalScore(name, sc));
+    return jsonFetch(SCORE_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: name, score: sc, protocols: collectedCount, level: level }) })
+      .then(function (d) { board.list = d.scores || board.list; board.total = d.total || board.total; board.mine = typeof d.index === 'number' ? d.index : -1; return d.rank || 0; })
+      .catch(function () { return saveLocalScore(name, sc); });
+  }
+  function showOver() {
+    el.score.textContent = String(score);
+    el.sub.textContent = collectedCount + ' of ' + PROTOS.length + ' protocols';
+    el.saved.hidden = true; el.saved.textContent = '';
+    var can = score > 0;
+    el.form.hidden = !can; el.send.disabled = false;
+    try { el.name.value = cleanName(localStorage.getItem(LS_NAME) || ''); } catch (e) { el.name.value = ''; }
+    el.over.hidden = false; el.again.className = 'fg-again' + (can ? ' ghost' : '');
+    loadBoard();
+    if (can) setTimeout(function () { try { el.name.focus({ preventScroll: true }); el.name.select(); } catch (e) {} }, 60);
+    else try { el.again.focus({ preventScroll: true }); } catch (e) {}
+  }
+  function hideOver() { if (el.over) el.over.hidden = true; }
+  el.over.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+  el.over.addEventListener('keydown', function (e) { e.stopPropagation(); });
+  el.form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = cleanName(el.name.value);
+    if (!name) { el.name.focus(); el.name.classList.add('bad'); setTimeout(function () { el.name.classList.remove('bad'); }, 600); return; }
+    try { localStorage.setItem(LS_NAME, name); } catch (er) {}
+    el.send.disabled = true; el.name.disabled = true;
+    submitScore(name, score).then(function (rank) {
+      el.form.hidden = true; el.name.disabled = false;
+      el.saved.hidden = false;
+      el.saved.textContent = rank > 0 ? (rank <= 10 ? 'Saved! You are #' + rank : 'Saved! You placed #' + rank) : 'Saved!';
+      renderBoard(); el.again.className = 'fg-again';
+      try { el.again.focus({ preventScroll: true }); } catch (er) {}
+    });
+  });
+  el.again.addEventListener('click', function () { newGame(); try { stage.focus({ preventScroll: true }); } catch (e) {} });
+  loadBoard();
+
   // ---------- input ----------
   var KEYS = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0], w: [0, -1], s: [0, 1], a: [-1, 0], d: [1, 0] };
-  function setDir(dx, dy) {
+  // a fresh arrow press while a protocol label is showing ends the pause early (held-key repeats and the first instant after eating are ignored)
+  function skipHold() {
+    labelT = 0;
+    if (holdEl) { var el = holdEl; holdEl = null; el.classList.add('out'); setTimeout(function () { if (el.__rm) el.__rm(); }, 220); }
+  }
+  function setDir(dx, dy, repeat) {
     if (!player) return;
+    if (labelT > 0 && (dx || dy) && !repeat && labelT < LABEL_T - 0.25) skipHold();
     player.want = { x: dx, y: dy };
     if ((player.dir.x === -dx && player.dir.y === -dy) && (dx || dy)) reverseEntity(player);
     if (paused) paused = false;
   }
-  function idle() { return state === 'title' || state === 'over' || (state === 'win' && stateT < 1.6); }
+  function idle() { return state === 'title' || (state === 'win' && stateT < 1.6); }
   document.addEventListener('keydown', function (e) {
-    if (!shown() || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (!shown() || e.ctrlKey || e.metaKey || e.altKey || state === 'over') return;
     var k = e.key.length === 1 ? e.key.toLowerCase() : e.key, d = KEYS[k];
     var engaged = window.__fgActive || document.activeElement === stage || (state === 'win');
     if (!engaged) return;
-    if (d) { e.preventDefault(); if (idle()) { begin(); } setDir(d[0], d[1]); return; }
+    if (d) { e.preventDefault(); if (idle()) { begin(); } setDir(d[0], d[1], e.repeat); return; }
     if (k === ' ' || k === 'Enter') { e.preventDefault(); if (idle()) begin(); else if (paused) paused = false; return; }
     if ((k === 'p' || k === 'Escape') && window.__fgActive) { e.preventDefault(); paused = !paused; }
   });
@@ -2680,6 +2809,6 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   }
   resetItems(); resetActors(); setState('title'); hudUpdate();
   requestAnimationFrame(frame);
-  window.__fg = { get state() { return state; }, get player() { return player; }, get bots() { return bots; }, get items() { return items; }, get lives() { return lives; }, get hold() { return labelT; }, get level() { return level; }, get score() { return score; }, protos: PROTOS };
+  window.__fg = { get state() { return state; }, get player() { return player; }, get bots() { return bots; }, get items() { return items; }, get lives() { return lives; }, get hold() { return labelT; }, get level() { return level; }, get score() { return score; }, get board() { return board; }, protos: PROTOS };
 })();
 </script>
