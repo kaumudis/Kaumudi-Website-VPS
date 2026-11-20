@@ -970,6 +970,10 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .detail li ul li { list-style: circle; margin-top: 0.3rem; }
 /* Amdocs tile: logo card in the middle of the photo */
 .panel .amd-logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 30%; height: auto; border-radius: 0.6rem; box-shadow: 0 10px 28px rgba(17,17,20,.28); }
+/* Ohm Mobility tile: two app screens side by side */
+.panel .ohm-phones { position: absolute; inset: 17% 0 6% 0; display: flex; align-items: center; justify-content: center; gap: 4%; }
+@media (max-width: 40rem) { .panel .ohm-phones { inset: 23% 0 5% 0; } }
+.panel .ohm-phones img { height: 100%; width: auto; border-radius: 0.8rem; box-shadow: 0 10px 28px rgba(17,17,20,.25); background: #fff; }
 /* Tile headings in bold on every screen size */
 .cap .t { font-weight: 600; }
 /* Accounting tile: dots flow both ways between ERP and Juni (two-way sync) */
@@ -1145,14 +1149,8 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     <details class="card">
       <summary>
         <div class="panel p-ohm"><span class="badge">Ohm Mobility</span>
-          <div class="window" aria-hidden="true"><div class="win-bar"><span class="win-logo">Ohm Mobility</span><span class="win-nav"><i></i><i></i><i></i></span><span class="win-btn"></span></div>
-            <div class="win-body"><div class="stat">
-            <small>Monthly active users</small>
-            <b>3×</b>
-            <div class="row2"><span>in 3 months</span><span>Daily savings</span></div>
-          </div></div>
-          </div>
-        </div>
+          <div class="ohm-phones"><img src="img/ohm-pay.png" alt="Ohm Mobility app: a driver makes a daily payment and sees progress against the monthly target and the vehicle loan" width="387" height="658"><img src="img/ohm-success.png" alt="Ohm Mobility app: payment successful" width="386" height="657"></div>
+                </div>
         <div class="cap">
           <span class="t"><span class="co">Ohm Mobility:</span> Savings for auto-rickshaw drivers</span>
           <span class="d">Daily savings that paid down auto-rickshaw drivers’ vehicle loans.</span>
