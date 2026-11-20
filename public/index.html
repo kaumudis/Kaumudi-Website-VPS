@@ -781,8 +781,8 @@ footer.foot { margin-top: 3.5rem !important; }
 .pac { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 2; }
 .pac svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .pac .ka { transform-box: fill-box; }
-.pac .ka.t { transform-origin: 0% 100%; animation: kaTop .26s ease-in-out infinite alternate; }
-.pac .ka.b { transform-origin: 0% 0%; animation: kaBot .26s ease-in-out infinite alternate; }
+.pac .ka.t { transform-origin: 0% 100%; transform: rotate(-13deg); }
+.pac .ka.b { transform-origin: 0% 0%; transform: rotate(13deg); }
 @keyframes kaTop { from { transform: rotate(0deg); } to { transform: rotate(-24deg); } }
 @keyframes kaBot { from { transform: rotate(0deg); } to { transform: rotate(24deg); } }
 .pac.still .ka { animation: none; }
