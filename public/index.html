@@ -1931,6 +1931,11 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
       { transform:'translate('+dx+'px,'+dy+'px) scale(1)', offset:0.5 },
       { transform:'translate('+dx+'px,'+dy+'px) scale('+s+')' }
     ], { duration:1400, easing:'cubic-bezier(.25,.8,.25,1)', fill:'forwards' });
+    // The page can settle while the bar is travelling; once it lands, glide the last few pixels into the slot
+    anim.onfinish=function(){ if(!landed) return; var from=current(); var a2=topBar.getBoundingClientRect(), b2=slot.getBoundingClientRect();
+      var to='translate('+((b2.left+b2.width/2)-(a2.left+a2.width/2))+'px,'+(b2.top-a2.top)+'px) scale('+s+')';
+      if(from===to){ mover.style.transform=to; return; }
+      anim=mover.animate([{transform:from},{transform:to}],{duration:250,easing:'ease-out',fill:'forwards'}); };
   }
   function lift(){
     top.classList.remove('landed');
@@ -1941,9 +1946,34 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     anim.onfinish=function(){ anim=null; };
   }
   function set(v){ if(v===landed) return; landed=v; sync(); v?land():lift(); }
+  function isBottom(){ var y=window.scrollY; return (window.innerHeight + y) >= (document.documentElement.scrollHeight - 2); }
+  // Put the landed bar straight into the slot, with no movement (after a tab switch or a resize)
+  function place(){
+    current();
+    var a=topBar.getBoundingClientRect(), b=slot.getBoundingClientRect();
+    var dx=(b.left+b.width/2)-(a.left+a.width/2), dy=b.top-a.top;
+    var s=Math.min(1.2,(window.innerWidth-24)/a.width).toFixed(3);
+    top.classList.add('landed');
+    mover.style.transform='translate('+dx+'px,'+dy+'px) scale('+s+')';
+  }
+  var hold=false, holdT=null;
+  function holdScroll(ms){ hold=true; clearTimeout(holdT); holdT=setTimeout(function(){ hold=false; lastY=window.scrollY; }, ms); }
+  function toBottom(){ var h=document.documentElement; var prev=h.style.scrollBehavior; h.style.scrollBehavior='auto'; window.scrollTo(0, h.scrollHeight); h.style.scrollBehavior=prev; }
+  // Once the bar has landed, switching tabs keeps it there: the new tab opens at its end, with the bar in the same place
+  function pin(){ holdScroll(400); toBottom(); landed=true; sync(); place(); lastY=window.scrollY;
+    requestAnimationFrame(function(){ toBottom(); place(); lastY=window.scrollY; }); }
+  // Any tab switch (click, tap or arrow keys) while the bar has landed
+  var mo=new MutationObserver(function(ms){ if(!landed) return; for(var i=0;i<ms.length;i++){ if(ms[i].target.getAttribute('aria-selected')==='true'){ pin(); return; } } });
+  document.querySelectorAll('.tabs-wrap [role=tab]').forEach(function(t){ mo.observe(t,{attributes:true,attributeFilter:['aria-selected']}); });
+  // Keep the landed bar in its slot when the window or the page changes size
+  window.addEventListener('resize', function(){ if(landed){ holdScroll(300); toBottom(); place(); lastY=window.scrollY; } });
+  if('ResizeObserver' in window){ var rt=null; new ResizeObserver(function(){ clearTimeout(rt); rt=setTimeout(function(){ if(landed&&!anim){ if(!isBottom()){ holdScroll(300); toBottom(); } place(); lastY=window.scrollY; } },60); }).observe(document.body); }
   window.addEventListener('scroll', function(){
-    var y=window.scrollY, atBottom = y > 0 && (window.innerHeight + y) >= (document.documentElement.scrollHeight - 2);
-    if (y < lastY - 2) set(false); else if (atBottom) set(true);
+    if(hold){ lastY=window.scrollY; return; }
+    var y=window.scrollY, end=isBottom(), atBottom = y > 0 && end;
+    // a page that gets shorter pulls the scroll up while still at the end: that is not the reader scrolling up
+    if (y < lastY - 2 && !end) set(false); else if (atBottom) set(true);
+    if (landed && end && !anim) place();
     lastY=y;
   }, { passive: true });
 })();
