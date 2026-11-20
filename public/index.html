@@ -953,15 +953,17 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 }
 .role-tag .rt-sep { font-style: normal; }
 .av-wrap { position: relative; display: block; flex: none; line-height: 0; }
-.h1-mail { display: none; }
-/* Phones: role on three lines, no email line; a small envelope beside the name opens email */
+/* Header: no email line; a small envelope badge on the photo opens email. Name and role sit centred beside the photo on wider screens */
+.who-top .head-mail { display: none; }
+.h1-mail { display: grid; place-items: center; position: absolute; right: -0.4rem; bottom: -0.4rem; width: 1.9rem; height: 1.9rem; border-radius: 50%; overflow: hidden; color: #FFFFFF; background: radial-gradient(circle at 35% 25%, #4F7E69, #24503D 55%, #122B21); box-shadow: 0 3px 9px rgba(17,17,20,.35), inset 0 -2px 3px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.35); transition: transform .2s ease; }
+.h1-mail::before { content: ""; position: absolute; left: 18%; right: 18%; top: 6%; height: 42%; border-radius: 50%; background: linear-gradient(rgba(255,255,255,.45), rgba(255,255,255,0)); pointer-events: none; }
+.h1-mail svg { width: 1rem; height: 1rem; position: relative; }
+.h1-mail:hover, .h1-mail:focus-visible { transform: scale(1.08); }
+@media (min-width: 40.0625rem) { .who-top { align-items: center; } }
+/* Phones: role on three lines */
 @media (max-width: 40rem) {
   .who-top .role-tag span { display: block; }
   .who-top .role-tag .rt-sep { display: none; }
-  .who-top .head-mail { display: none; }
-  .h1-mail { display: grid; place-items: center; position: absolute; right: -0.4rem; bottom: -0.4rem; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: #FFFFFF; color: var(--ink); box-shadow: 0 2px 8px rgba(17,17,20,.18); border: 1px solid #E7E7EC; }
-  .h1-mail svg { width: 1rem; height: 1rem; }
-  .h1-mail:hover, .h1-mail:focus-visible { color: var(--ink); }
 }
 /* Tile headings in bold on every screen size */
 .cap .t { font-weight: 600; }
@@ -2023,7 +2025,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
 /* Photo is exactly as tall as the name, role and email beside it */
 (function(){
   var img=document.querySelector('.who-top .avatar'), txt=img&&(img.closest('.av-wrap')||img).nextElementSibling; if(!img||!txt) return;
-  function size(){ img.style.width=img.style.height=(window.innerWidth<480?'4.5rem':'4.5rem'); for(var k=0;k<4;k++){ var hgt=txt.getBoundingClientRect().height; if(!hgt) break; var s=Math.round(window.innerWidth<480?Math.min(hgt,116):hgt); if(Math.abs(parseFloat(img.style.width)-s)<1) break; img.style.width=img.style.height=s+'px'; } }
+  function size(){ if(window.innerWidth>640){ img.style.width=img.style.height='88px'; return; } img.style.width=img.style.height='4.5rem'; for(var k=0;k<4;k++){ var hgt=txt.getBoundingClientRect().height; if(!hgt) break; var s=Math.round(window.innerWidth<480?Math.min(hgt,116):hgt); if(Math.abs(parseFloat(img.style.width)-s)<1) break; img.style.width=img.style.height=s+'px'; } }
   size(); window.addEventListener('resize', size); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(size);
 })();
 </script>
