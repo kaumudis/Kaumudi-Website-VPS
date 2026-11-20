@@ -2122,7 +2122,8 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   var calm=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!('IntersectionObserver' in window)||!document.body.animate) return;
   var MODES=['glide','writer','drop','morph','still','chase','peek','writerbots','scared'], NAMES=['Glide','Writer','Drop','Morph','Still','Chase','Peek','Writer + bots','Writer + bots, scared K'];
-  var mode='glide'; try{ var m0=localStorage.getItem('footMode'); if(MODES.indexOf(m0)>=0) mode=m0; }catch(e){}
+  var mode='scared'; try{ var m0=localStorage.getItem('footMode'); if(MODES.indexOf(m0)>=0) mode=m0; }catch(e){}
+  if(/kaumudishrivastava\.com$/.test(location.hostname) || /[?&]live\b/.test(location.search)) mode='scared';   // live site always uses the chosen version
   if(calm) mode='still';
   foot.classList.add('pm');
   var name=word.textContent; word.textContent='';
