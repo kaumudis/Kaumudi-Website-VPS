@@ -779,14 +779,15 @@ footer.foot { margin-top: 3.5rem !important; }
 .bigname .lt { display: inline-block; }
 .signoff .ch { display: inline-block; white-space: pre; }
 .pac { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 2; }
-.pac i { position: absolute; left: 0; width: 100%; height: 50%; background: currentColor; }
-.pac i:first-child { top: 0; border-radius: 999px 999px 0 0; transform-origin: 50% 100%; animation: pacTop .26s ease-in-out infinite alternate; }
-.pac i:last-child { bottom: 0; border-radius: 0 0 999px 999px; transform-origin: 50% 0; animation: pacBot .26s ease-in-out infinite alternate; }
-@keyframes pacTop { from { transform: rotate(0deg); } to { transform: rotate(-32deg); } }
-@keyframes pacBot { from { transform: rotate(0deg); } to { transform: rotate(32deg); } }
-.pac.still i { animation: none; }
-.pac.still i:first-child { transform: rotate(-28deg); }
-.pac.still i:last-child { transform: rotate(28deg); }
+.pac svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.pac .ka { transform-box: fill-box; }
+.pac .ka.t { transform-origin: 0% 100%; transform: rotate(-13deg); }
+.pac .ka.b { transform-origin: 0% 0%; transform: rotate(13deg); }
+@keyframes kaTop { from { transform: rotate(0deg); } to { transform: rotate(-24deg); } }
+@keyframes kaBot { from { transform: rotate(0deg); } to { transform: rotate(24deg); } }
+.pac.still .ka { animation: none; }
+.pac.still .ka.t { transform: rotate(-13deg); }
+.pac.still .ka.b { transform: rotate(13deg); }
 .grouped .grp.open .grp-line { display: none; }
 .bigname .pac { transition: transform .4s cubic-bezier(.45,0,.25,1); }
 button.copy { display: inline-grid; place-items: center; padding: 0.3rem; line-height: 0; color: var(--muted); }
@@ -1002,6 +1003,17 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .spend-ig .sig-note img { width: 7.5cqw; height: 7.5cqw; border-radius: 1.6cqw; flex: none; }
 .spend-ig .sig-note b { display: block; font-size: 2.9cqw; font-weight: 600; }
 .spend-ig .sig-note span { display: block; font-size: 3.1cqw; line-height: 1.25; }
+
+/* Footer: still version (reduced motion) shows the sign-off above the name */
+.foot.pm.show-sign .signoff { display: block; }
+/* Footer: fraud bots from the game */
+.fbot { position: absolute; left: -999px; top: 0; z-index: 2; pointer-events: none; opacity: 0; }
+.fbot svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.fbot .f1 { animation: fbf .2s steps(1) infinite; }
+.fbot .f2 { animation: fbf .2s steps(1) infinite reverse; }
+@keyframes fbf { 0% { transform: translateY(0); } 50% { transform: translateY(1.5px); } }
+/* the K and the bots in the footer open the game when clicked */
+.bigname .pac, .bigname .fbot { pointer-events: auto; cursor: pointer; }
 </style>
 <style id="fg-css">
 /* ===== Play fintech ===== */
@@ -2085,23 +2097,29 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
 })();
 </script>
 <script>
-/* Footer: the K becomes Pac-Man and eats "Kaumudi". "Let's build something together." comes out of its mouth,
-   letter by letter, and settles in the middle; Pac-Man keeps running behind it, side to side, sometimes looking up or down.
-   Leave the footer and come back, and it starts again from the beginning. */
+/* Footer: the name fades, the yellow K appears and the game's fraud bots creep in from the left. The K turns, sees them,
+   shivers, turns back and types "Let's build something together.", dancing as it writes, while the bots chase about seven
+   letters behind, walking over the words. The K runs off the right edge; red follows it off and the other three wait at the edge.
+   Clicking the K or a bot opens the game. Plays once per page load; reduced motion shows the still version. */
 (function(){
   var foot=document.querySelector('footer.foot'), big=document.querySelector('.bigname'), word=big&&big.querySelector('span'), sign=document.querySelector('.signoff');
   if(!foot||!big||!word||!sign) return;
   var calm=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(calm||!('IntersectionObserver' in window)||!document.body.animate) return;
+  if(!('IntersectionObserver' in window)||!document.body.animate) return;
+  var mode='scared';
+  if(calm) mode='still';
   foot.classList.add('pm');
   var name=word.textContent; word.textContent='';
   var L=name.split('').map(function(c){ var s=document.createElement('span'); s.className='lt'; s.textContent=c; word.appendChild(s); return s; });
   var say=document.createElement('span'); say.className='say'; say.setAttribute('aria-hidden','true');
-  var S=sign.textContent.split('').map(function(c){ var s=document.createElement('span'); s.className='ch'; s.textContent=c; say.appendChild(s); return s; });
+  var line=sign.textContent;
+  var S=line.split('').map(function(c){ var s=document.createElement('span'); s.className='ch'; s.textContent=c; s._c=c; say.appendChild(s); return s; });
   big.appendChild(say);
-  var pac=document.createElement('span'); pac.className='pac'; pac.setAttribute('aria-hidden','true'); pac.innerHTML='<i></i><i></i>'; big.appendChild(pac);
-  var run=0;
-  function sleep(ms,t){ return new Promise(function(r){ setTimeout(function(){ r(t===run); }, ms); }); }
+  var pac=document.createElement('span'); pac.className='pac'; pac.setAttribute('aria-hidden','true');
+  pac.innerHTML='<svg viewBox="-13 -14 26 28" aria-hidden="true"><g transform="rotate(5.7)" stroke="currentColor" stroke-width="5.6" stroke-linecap="round" fill="none"><path d="M-6.6 -9.8V9.8"/><g transform="translate(-4.4 0)"><path class="ka t" d="M0 0L10.34 -5.04"/><path class="ka b" d="M0 0L10.34 5.04"/></g></g></svg>';
+  big.appendChild(pac);
+  var run=0, timers=[];
+  function sleep(ms,t){ return new Promise(function(r){ timers.push(setTimeout(function(){ r(t===run); }, ms)); }); }
   function geom(){
     var br=big.getBoundingClientRect(), fs=parseFloat(getComputedStyle(big).fontSize);
     var probe=document.createElement('span'); probe.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline'; word.appendChild(probe);
@@ -2109,52 +2127,137 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     var cap=fs*0.72, d=cap*0.8, small=parseFloat(getComputedStyle(word).fontSize)*0.72; return { br:br, d:d, top:base-small/2-d/2, min:d/2+2, max:br.width-d/2-2, x:function(el){ var r=el.getBoundingClientRect(); return r.left-br.left+r.width/2; } };
   }
   var ang=0;
-  function place(x,g){ pac.style.width=pac.style.height=g.d+'px'; pac.style.left=(x-g.d/2)+'px'; pac.style.top=g.top+'px'; pac.style.transform='rotate('+ang+'deg)'; pac._x=x; }
-  function turnTo(target){ var d=((target-ang)%360+540)%360-180; ang+=d; pac.style.transform='rotate('+ang+'deg)'; }
+  function flip(){ return 'scaleX('+(Math.round(ang/180)%2===0?1:-1)+')'; }
+  function place(x,g){ pac.style.width=pac.style.height=g.d+'px'; pac.style.left=(x-g.d/2)+'px'; pac.style.top=g.top+'px'; pac.style.transform=flip(); pac._x=x; }
+  function turnTo(target){ var d=((target-ang)%360+540)%360-180; ang+=d; pac.style.transform=flip(); }
   function ease(k){ return k<.5 ? 4*k*k*k : 1-Math.pow(-2*k+2,3)/2; }
   function walk(from,to,speed,g,t,onStep,eased){ speed=speed*Math.min(1,g.br.width/1056); var ms=Math.max(300,Math.abs(to-from)/speed*1000); return new Promise(function(done){ var t0=performance.now();
     (function f(now){ if(t!==run) return done(false); var k=Math.min(1,(now-t0)/ms), x=from+(to-from)*(eased?ease(k):k); place(x,g); onStep&&onStep(x); if(k<1) requestAnimationFrame(f); else done(true); })(t0); }); }
+  function cancelAll(el){ el.getAnimations().forEach(function(a){a.cancel();}); }
   function reset(){
-    run++; pac.getAnimations().forEach(function(a){a.cancel();}); pac.style.opacity='0'; pac.classList.add('still'); pac.classList.remove('front'); ang=0; pac.style.transition='none'; pac.style.transform='rotate(0deg)'; void pac.offsetWidth; pac.style.transition='';
-    L.forEach(function(l){ l.getAnimations().forEach(function(a){a.cancel();}); l.style.opacity='1'; });
-    S.forEach(function(s){ s.getAnimations().forEach(function(a){a.cancel();}); s.style.opacity='0'; });
+    run++; timers.forEach(clearTimeout); timers=[];
+    cancelAll(pac); pac.style.opacity='0'; pac.classList.add('still'); pac.classList.remove('front','blink'); ang=0; pac.style.transition='none'; pac.style.transform='scaleX(1)'; void pac.offsetWidth; pac.style.transition='';
+    L.forEach(function(l,i){ cancelAll(l); l.style.opacity='1'; l.style.color=''; l.textContent=name[i]; });
+    S.forEach(function(s){ cancelAll(s); s.style.opacity='0'; s.style.color=''; s.textContent=s._c; });
+    cancelAll(sign); sign.style.opacity='';
+    foot.classList.toggle('show-sign', mode==='drop'||mode==='still');
+    if(mode==='still'||mode==='drop') L[0].style.color='#E9C46A';
   }
-  async function play(){
-    reset(); var t=run, g=geom(), xs=L.map(g.x);
-    say.style.top=(g.top+g.d/2)+'px';   // the phrase sits on Pac-Man's centre line (its mouth)
-    // 1. the K becomes Pac-Man
-    ang=0; place(xs[0],g);
-    L[0].animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.6)'}],{duration:350,fill:'forwards'});
-    await pac.animate([{opacity:0,transform:'scale(.4)'},{opacity:1,transform:'scale(1)'}],{duration:350,fill:'forwards'}).finished.catch(function(){});
-    if(t!==run) return; pac.getAnimations().forEach(function(a){a.cancel();}); pac.style.opacity='1'; pac.classList.remove('still');
-    // 2. it eats the whole name
-    var eaten=1, end=Math.min(xs[xs.length-1]+g.d*0.6, g.max);
-    if(!await walk(xs[0],end,403,g,t,function(x){ while(eaten<L.length && x>=xs[eaten]-g.d*0.15){ L[eaten++].animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.3)'}],{duration:140,fill:'forwards'}); } })) return;
-    while(eaten<L.length){ L[eaten++].animate([{opacity:1},{opacity:0}],{duration:140,fill:'forwards'}); }
-    if(!await sleep(200,t)) return;
-    // 3. it turns round and the sign-off comes out of its mouth, letter by letter, into the middle
-    turnTo(180); if(!await sleep(420,t)) return;
-    pac.classList.add('front');
-    var m=pac.getBoundingClientRect(), mx=m.left+m.width*0.5, my=m.top+m.height/2;
-    var flights=S.map(function(s,i){ var r=s.getBoundingClientRect(); s.style.opacity='';
-      var sx=mx-(r.left+r.width/2), sy=my-(r.top+r.height/2);
-      return s.animate([{opacity:1,transform:'translate('+sx+'px,'+sy+'px) scale(.15)'},{opacity:1,transform:'translate('+(sx*0.8)+'px,'+(sy*0.8)+'px) scale(.35)',offset:0.2},{opacity:1,transform:'translate(0,0) scale(1)'}],
-        {duration:800,delay:i*55,easing:'cubic-bezier(.25,.7,.3,1)',fill:'both'}).finished.catch(function(){}); });
-    // 4. ...while it starts running behind the words, side to side, sometimes looking up or down
-    await Promise.all(flights); if(t!==run) return;
-    pac.classList.remove('front');
-    // 5. it runs back to the left behind the words, turns round, and runs off the right edge of the screen
-    if(!await walk(pac._x,g.min,240,g,t,null,true)) return;
-    turnTo(0); if(!await sleep(450,t)) return;
-    var exitX=(document.documentElement.clientWidth-g.br.left)+g.d;   // just past the right edge of the window
-    if(!await walk(pac._x,exitX,260,g,t,null,false)) return;
-    pac.style.opacity='0'; pac.style.left='0px';
+
+  // ---- the game's fraud bots (red, pink, cyan, orange) ----
+  var BOTC=['#ff3b3b','#ff9ad5','#38e8ff','#ffb347'];
+  var bots=BOTC.map(function(c){ var b=document.createElement('span'); b.className='fbot'; b.setAttribute('aria-hidden','true');
+    b.innerHTML='<svg viewBox="-12 -14 24 26"><path fill="'+c+'" d="M-8 -6L-6 -12L-2.5 -6ZM8 -6L6 -12L2.5 -6Z"/><rect x="-10" y="-7" width="20" height="15" rx="5" fill="'+c+'"/><rect class="f1" x="-9" y="7" width="6" height="4" fill="'+c+'"/><rect class="f2" x="3" y="7" width="6" height="4" fill="'+c+'"/><ellipse cx="-4.2" cy="-1" rx="3.1" ry="3.9" fill="#fff"/><ellipse cx="4.2" cy="-1" rx="3.1" ry="3.9" fill="#fff"/><circle cx="-2.8" cy="-1" r="1.6" fill="#101028"/><circle cx="5.6" cy="-1" r="1.6" fill="#101028"/><path d="M-7.5 -6.2L-2 -4.2M7.5 -6.2L2 -4.2" stroke="#101028" stroke-width="1.5"/></svg>';
+    big.appendChild(b); return b; });
+  // clicking the K or any bot takes you to the game: My AI Lab tab, Games group open, scrolled into view
+  function openGame(e){
+    e.preventDefault(); e.stopPropagation();
+    var tab=document.getElementById('tab-lab'), grp=document.getElementById('grp-games');
+    if(!tab||!grp) return;
+    tab.click();
+    var h=grp.querySelector('.grp-h'); if(h && h.getAttribute('aria-expanded')!=='true') h.click();
+    setTimeout(function(){ grp.scrollIntoView({behavior:'smooth',block:'start'}); var st=document.getElementById('fg-stage'); if(st) try{ st.focus({preventScroll:true}); }catch(er){} }, 350);
   }
-  var armed=true;
+  [pac].concat(bots).forEach(function(el){ el.title='Play the game'; el.addEventListener('click',openGame); });
+  function botsReset(){ bots.forEach(function(b){ cancelAll(b); b.style.opacity='0'; b.style.transform=''; b.style.zIndex=''; b.style.left='-999px'; }); foot.classList.remove('peek-mode'); }
+  function botAt(b,x,top,size,face){ b.style.width=size+'px'; b.style.height=size+'px'; b.style.left=(x-size/2)+'px'; b.style.top=top+'px'; b.style.transform='scaleX('+(face||1)+')'; b.style.opacity='1'; }
+  function popIn(s){ s.style.opacity='1'; s.animate([{opacity:0,transform:'translateY(10px) scale(.4)'},{opacity:1,transform:'translateY(-4px) scale(1.15)',offset:.6},{opacity:1,transform:'none'}],{duration:320,easing:'ease-out'}); }
+
+  // 8. Writer + bots: the dancing K types the line while the bots trail behind it, then they all run off right
+  // ctl.creep (seconds): the bots walk in slowly at a steady pace and take about that long to reach the K; ctl.creep=0 lets them catch up normally
+  function follow(t,size,ctl){
+    ctl=ctl||{creep:0};
+    var xs=bots.map(function(){ return -9999; }), br=big.getBoundingClientRect(), sp=size*1.1, last=performance.now(), v=null;
+    (function f(now){
+      if(t!==run) return;
+      var dt=Math.min(0.05,(now-last)/1000); last=now;
+      var px=parseFloat(pac.style.left)+parseFloat(pac.style.width)/2, top=parseFloat(pac.style.top)+parseFloat(pac.style.height)*(ctl.inline?1:1.05)-(ctl.inline?size:0);
+      var edge=document.documentElement.clientWidth-br.left+size, allOut=true;
+      bots.forEach(function(b,i){ var target=px-(ctl.lead||sp)-i*sp; if(xs[i]<-9000) xs[i]=ctl.instant?target:-br.left-size*(i+1);
+        if(ctl.creep){ if(v===null) v=(target-xs[0])/ctl.creep; xs[i]=Math.min(target,xs[i]+v*dt); }
+        else xs[i]+=(target-xs[i])*0.08;
+        botAt(b,xs[i],top-Math.abs(Math.sin(now/80+i))*size*0.15,size,1); b.style.zIndex=ctl.inline?'5':''; if(xs[i]<edge) allOut=false; });
+      if(!allOut) requestAnimationFrame(f); else bots.forEach(function(b){ b.style.opacity='0'; });
+    })(performance.now());
+  }
+
+  async function writer(withBots,scared){
+    var t=run, g=geom();
+    say.style.top=(g.top+g.d/2)+'px';
+    // the name fades away, the K last
+    L.forEach(function(l,i){ l.animate([{opacity:1,transform:'translateY(0)'},{opacity:0,transform:'translateY(-10px)'}],{duration:380,delay:(L.length-1-i)*45,easing:'ease-in',fill:'forwards'}); });
+    if(!await sleep(380+L.length*45,t)) return;
+    var br=big.getBoundingClientRect(), fsz=parseFloat(getComputedStyle(say).fontSize), h=fsz*1.25, gap=fsz*0.12;
+    var r0=S[0].getBoundingClientRect();
+    pac.style.width=pac.style.height=h+'px'; pac.style.top=(r0.top-br.top+r0.height/2-h/2)+'px';
+    function at(x){ pac.style.left=(x-br.left+gap)+'px'; }
+    at(r0.left-h*0.55); pac.style.transform='scaleX(1)';
+    await pac.animate([{opacity:0,transform:'scale(.5)'},{opacity:1,transform:'scale(1)'}],{duration:260,fill:'forwards'}).finished.catch(function(){});
+    if(t!==run) return; cancelAll(pac); pac.style.opacity='1';
+    var cw=(S[S.length-1].getBoundingClientRect().right-S[0].getBoundingClientRect().left)/S.length;   // average letter width
+    var ctl={creep:scared?2.6:0, inline:!!scared, lead:scared?cw*7+h*0.5:0};   // option 9: the bots stay about seven letters behind the K   // option 9: the bots walk on the same line as the words, in front of them
+    if(withBots) follow(t,h*0.85,ctl);
+    if(!await sleep(250,t)) return;
+    if(withBots&&scared){
+      // the bots creep in slowly from the left; while they are still coming, the K turns round, sees them, shivers,
+      // and turns back just before they reach it, then starts writing
+      if(!await sleep(250,t)) return;
+      pac.style.transition='transform .22s ease-out'; pac.style.transform='scaleX(-1)';
+      if(!await sleep(520,t)) return;
+      pac.style.transition='';
+      var kf=[]; for(var q=0;q<=14;q++){ var sx=(q%2?1:-1)*(q<14?h*0.05:0), rz=(q%2?-1:1)*(q<14?5:0); kf.push({transform:'scaleX(-1) translateX('+sx+'px) rotate('+rz+'deg)'}); }
+      await pac.animate(kf,{duration:700,easing:'linear'}).finished.catch(function(){});
+      if(t!==run) return;
+      if(!await sleep(150,t)) return;
+      pac.style.transition='transform .2s ease-out'; pac.style.transform='scaleX(1)';
+      if(!await sleep(220,t)) return;
+      ctl.creep=0;   // from here they chase at full speed
+    }
+    // it dances while it types: leaning right, then left, then right, one lean per letter
+    pac.style.transition='transform .12s ease-out';
+    var lean=1;
+    for(var i=0;i<S.length;i++){
+      S[i].style.opacity='1';
+      at(S[i].getBoundingClientRect().right);
+      if(S[i]._c!==' '){ pac.style.transform='rotate('+(lean*14)+'deg)'; lean=-lean; }
+      if(!await sleep(S[i]._c===' '?90:70+Math.random()*30,t)) return;
+    }
+    pac.style.transform='rotate(0deg)';
+    if(!await sleep(500,t)) return;
+    // then it runs off the right edge of the screen
+    pac.style.transition='';
+    var x0=parseFloat(pac.style.left), x1=document.documentElement.clientWidth-br.left+h, ms=Math.max(500,(x1-x0)/0.9);
+    await new Promise(function(done){ var t0=performance.now();
+      (function f(now){ if(t!==run) return done(); var k=Math.min(1,(now-t0)/ms), e=k*k*(1.6-0.6*k);
+        pac.style.left=(x0+(x1-x0)*e)+'px'; pac.style.transform='rotate('+(Math.sin(now/55)*10)+'deg)';
+        if(k<1) requestAnimationFrame(f); else done(); })(t0); });
+    if(t!==run) return;
+    ctl.lead=0;   // the K is gone: the bots bunch up at the edge where it left; red follows it off, the other three stay in view
+    pac.style.opacity='0'; pac.style.transform='scaleX(1)';
+  }
+
+  function play(){ reset(); botsReset(); if(mode==='scared') writer(true,true); }
+  // plays once per visit: the first time the footer comes into view. After that it stays at its final frame
+  // (the line, with three bots waiting at the edge) however much you scroll or open and close sections.
+  // Plays once per visit (each page load). finalFrame() is kept for a once-per-session option.
+  function finalFrame(){
+    reset(); botsReset();
+    var g=geom(); say.style.top=(g.top+g.d/2)+'px';
+    if(mode==='drop'||mode==='still'||mode==='peek'){ foot.classList.add('show-sign'); if(mode!=='peek') L[0].style.color='#E9C46A'; return; }
+    L.forEach(function(l){ l.style.opacity='0'; }); S.forEach(function(c){ c.style.opacity='1'; });
+    if(mode==='writerbots'||mode==='scared'){
+      var br=big.getBoundingClientRect(), fsz=parseFloat(getComputedStyle(say).fontSize), h=fsz*1.25, r0=S[0].getBoundingClientRect();
+      pac.style.width=pac.style.height=h+'px'; pac.style.top=(r0.top-br.top+r0.height/2-h/2)+'px'; pac.style.left=(document.documentElement.clientWidth-br.left+h)+'px'; pac.style.opacity='0';
+      follow(run,h*0.85,{creep:0,inline:mode==='scared',lead:0,instant:true});
+    }
+  }
+  var played=false;   // once per visit: each page load plays it once (switch to sessionStorage here to make it once per session)
+  var armed=true, visible=false;
   new IntersectionObserver(function(es){ es.forEach(function(e){
-    if(e.isIntersecting && armed){ armed=false; play(); }
-    else if(!e.isIntersecting){ armed=true; reset(); }
+    visible=e.isIntersecting;
+    if(e.isIntersecting && armed){ armed=false; if(played) finalFrame(); else { play(); try{ sessionStorage.setItem('footPlayed','1'); }catch(er){} } }
   }); }, { threshold: 0.5 }).observe(big);
+
 })();
 </script>
 <script>
