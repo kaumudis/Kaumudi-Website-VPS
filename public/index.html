@@ -2253,13 +2253,18 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   }
 
   // 8. Writer + bots: the dancing K types the line while the bots trail behind it, then they all run off right
-  function follow(t,size){
-    var xs=bots.map(function(){ return -9999; }), br=big.getBoundingClientRect(), sp=size*1.1;
+  // ctl.creep (seconds): the bots walk in slowly at a steady pace and take about that long to reach the K; ctl.creep=0 lets them catch up normally
+  function follow(t,size,ctl){
+    ctl=ctl||{creep:0};
+    var xs=bots.map(function(){ return -9999; }), br=big.getBoundingClientRect(), sp=size*1.1, last=performance.now(), v=null;
     (function f(now){
       if(t!==run) return;
+      var dt=Math.min(0.05,(now-last)/1000); last=now;
       var px=parseFloat(pac.style.left)+parseFloat(pac.style.width)/2, top=parseFloat(pac.style.top)+parseFloat(pac.style.height)*1.05;
       var edge=document.documentElement.clientWidth-br.left+size, allOut=true;
-      bots.forEach(function(b,i){ var target=px-(i+1)*sp; if(xs[i]<-9000) xs[i]=-br.left-size*(i+1); xs[i]+=(target-xs[i])*0.08;
+      bots.forEach(function(b,i){ var target=px-(i+1)*sp; if(xs[i]<-9000) xs[i]=-br.left-size*(i+1);
+        if(ctl.creep){ if(v===null) v=(target-xs[0])/ctl.creep; xs[i]=Math.min(target,xs[i]+v*dt); }
+        else xs[i]+=(target-xs[i])*0.08;
         botAt(b,xs[i],top-Math.abs(Math.sin(now/80+i))*size*0.15,size,1); if(xs[i]<edge) allOut=false; });
       if(!allOut) requestAnimationFrame(f); else bots.forEach(function(b){ b.style.opacity='0'; });
     })(performance.now());
@@ -2278,11 +2283,13 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     at(r0.left-h*0.55); pac.style.transform='scaleX(1)';
     await pac.animate([{opacity:0,transform:'scale(.5)'},{opacity:1,transform:'scale(1)'}],{duration:260,fill:'forwards'}).finished.catch(function(){});
     if(t!==run) return; cancelAll(pac); pac.style.opacity='1';
-    if(withBots) follow(t,h*0.85);
+    var ctl={creep:scared?2.6:0};
+    if(withBots) follow(t,h*0.85,ctl);
     if(!await sleep(250,t)) return;
     if(withBots&&scared){
-      // the bots come in from the left; the K turns round, sees them, shivers, then turns back and starts writing
-      if(!await sleep(650,t)) return;
+      // the bots creep in slowly from the left; while they are still coming, the K turns round, sees them, shivers,
+      // and turns back just before they reach it, then starts writing
+      if(!await sleep(250,t)) return;
       pac.style.transition='transform .22s ease-out'; pac.style.transform='scaleX(-1)';
       if(!await sleep(520,t)) return;
       pac.style.transition='';
@@ -2291,7 +2298,8 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
       if(t!==run) return;
       if(!await sleep(150,t)) return;
       pac.style.transition='transform .2s ease-out'; pac.style.transform='scaleX(1)';
-      if(!await sleep(260,t)) return;
+      if(!await sleep(220,t)) return;
+      ctl.creep=0;   // from here they chase at full speed
     }
     // it dances while it types: leaning right, then left, then right, one lean per letter
     pac.style.transition='transform .12s ease-out';
