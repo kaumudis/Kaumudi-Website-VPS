@@ -2262,7 +2262,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
       var dt=Math.min(0.05,(now-last)/1000); last=now;
       var px=parseFloat(pac.style.left)+parseFloat(pac.style.width)/2, top=parseFloat(pac.style.top)+parseFloat(pac.style.height)*(ctl.inline?1:1.05)-(ctl.inline?size:0);
       var edge=document.documentElement.clientWidth-br.left+size, allOut=true;
-      bots.forEach(function(b,i){ var target=px-(i+1)*sp; if(xs[i]<-9000) xs[i]=-br.left-size*(i+1);
+      bots.forEach(function(b,i){ var target=px-(ctl.lead||sp)-i*sp; if(xs[i]<-9000) xs[i]=-br.left-size*(i+1);
         if(ctl.creep){ if(v===null) v=(target-xs[0])/ctl.creep; xs[i]=Math.min(target,xs[i]+v*dt); }
         else xs[i]+=(target-xs[i])*0.08;
         botAt(b,xs[i],top-Math.abs(Math.sin(now/80+i))*size*0.15,size,1); b.style.zIndex=ctl.inline?'5':''; if(xs[i]<edge) allOut=false; });
@@ -2283,7 +2283,8 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     at(r0.left-h*0.55); pac.style.transform='scaleX(1)';
     await pac.animate([{opacity:0,transform:'scale(.5)'},{opacity:1,transform:'scale(1)'}],{duration:260,fill:'forwards'}).finished.catch(function(){});
     if(t!==run) return; cancelAll(pac); pac.style.opacity='1';
-    var ctl={creep:scared?2.6:0, inline:!!scared};   // option 9: the bots walk on the same line as the words, in front of them
+    var cw=(S[S.length-1].getBoundingClientRect().right-S[0].getBoundingClientRect().left)/S.length;   // average letter width
+    var ctl={creep:scared?2.6:0, inline:!!scared, lead:scared?cw*7+h*0.5:0};   // option 9: the bots stay about seven letters behind the K   // option 9: the bots walk on the same line as the words, in front of them
     if(withBots) follow(t,h*0.85,ctl);
     if(!await sleep(250,t)) return;
     if(withBots&&scared){
