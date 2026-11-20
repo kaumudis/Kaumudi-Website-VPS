@@ -1026,6 +1026,11 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 
 /* the K and the bots in the footer open the game when clicked */
 .bigname .pac, .bigname .fbot { pointer-events: auto; cursor: pointer; }
+
+/* when the chase is over, the bots left on screen stop and look straight at you */
+.fbot .pu { transition: transform .35s ease; }
+.fbot.look .pu { transform: translateX(-1.4px); }
+.fbot.look .f1, .fbot.look .f2 { animation: none; }
 </style>
 <style id="fg-css">
 /* ===== Play fintech ===== */
@@ -2193,7 +2198,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   // ---- the game's fraud bots (red, pink, cyan, orange) ----
   var BOTC=['#ff3b3b','#ff9ad5','#38e8ff','#ffb347'];
   var bots=BOTC.map(function(c){ var b=document.createElement('span'); b.className='fbot'; b.setAttribute('aria-hidden','true');
-    b.innerHTML='<svg viewBox="-12 -14 24 26"><path fill="'+c+'" d="M-8 -6L-6 -12L-2.5 -6ZM8 -6L6 -12L2.5 -6Z"/><rect x="-10" y="-7" width="20" height="15" rx="5" fill="'+c+'"/><rect class="f1" x="-9" y="7" width="6" height="4" fill="'+c+'"/><rect class="f2" x="3" y="7" width="6" height="4" fill="'+c+'"/><ellipse cx="-4.2" cy="-1" rx="3.1" ry="3.9" fill="#fff"/><ellipse cx="4.2" cy="-1" rx="3.1" ry="3.9" fill="#fff"/><circle cx="-2.8" cy="-1" r="1.6" fill="#101028"/><circle cx="5.6" cy="-1" r="1.6" fill="#101028"/><path d="M-7.5 -6.2L-2 -4.2M7.5 -6.2L2 -4.2" stroke="#101028" stroke-width="1.5"/></svg>';
+    b.innerHTML='<svg viewBox="-12 -14 24 26"><path fill="'+c+'" d="M-8 -6L-6 -12L-2.5 -6ZM8 -6L6 -12L2.5 -6Z"/><rect x="-10" y="-7" width="20" height="15" rx="5" fill="'+c+'"/><rect class="f1" x="-9" y="7" width="6" height="4" fill="'+c+'"/><rect class="f2" x="3" y="7" width="6" height="4" fill="'+c+'"/><ellipse cx="-4.2" cy="-1" rx="3.1" ry="3.9" fill="#fff"/><ellipse cx="4.2" cy="-1" rx="3.1" ry="3.9" fill="#fff"/><circle class="pu" cx="-2.8" cy="-1" r="1.6" fill="#101028"/><circle class="pu" cx="5.6" cy="-1" r="1.6" fill="#101028"/><path d="M-7.5 -6.2L-2 -4.2M7.5 -6.2L2 -4.2" stroke="#101028" stroke-width="1.5"/></svg>';
     big.appendChild(b); return b; });
   // clicking the K or any bot takes you to the game: My AI Lab tab, Games group open, scrolled into view
   function openGame(e){
@@ -2205,7 +2210,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     setTimeout(function(){ grp.scrollIntoView({behavior:'smooth',block:'start'}); var st=document.getElementById('fg-stage'); if(st) try{ st.focus({preventScroll:true}); }catch(er){} }, 350);
   }
   [pac].concat(bots).forEach(function(el){ el.title='Play the game'; el.addEventListener('click',openGame); });
-  function botsReset(){ bots.forEach(function(b){ cancelAll(b); b.style.opacity='0'; b.style.transform=''; b.style.zIndex=''; b.style.left='-999px'; }); foot.classList.remove('peek-mode'); }
+  function botsReset(){ bots.forEach(function(b){ cancelAll(b); b.classList.remove('look'); b.style.opacity='0'; b.style.transform=''; b.style.zIndex=''; b.style.left='-999px'; }); foot.classList.remove('peek-mode'); }
   function botAt(b,x,top,size,face){ b.style.width=size+'px'; b.style.height=size+'px'; b.style.left=(x-size/2)+'px'; b.style.top=top+'px'; b.style.transform='scaleX('+(face||1)+')'; b.style.opacity='1'; }
   function popIn(s){ s.style.opacity='1'; s.animate([{opacity:0,transform:'translateY(10px) scale(.4)'},{opacity:1,transform:'translateY(-4px) scale(1.15)',offset:.6},{opacity:1,transform:'none'}],{duration:320,easing:'ease-out'}); }
 
@@ -2278,7 +2283,8 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
       bots.forEach(function(b,i){ var target=px-(ctl.lead||sp)-i*sp; if(xs[i]<-9000) xs[i]=ctl.instant?target:-br.left-size*(i+1);
         if(ctl.creep){ if(v===null) v=(target-xs[0])/ctl.creep; xs[i]=Math.min(target,xs[i]+v*dt); }
         else xs[i]+=(target-xs[i])*0.08;
-        botAt(b,xs[i],top-Math.abs(Math.sin(now/80+i))*size*0.15,size,1); b.style.zIndex=ctl.inline?'5':''; if(xs[i]<edge) allOut=false; });
+        var settled=!!ctl.done&&Math.abs(target-xs[i])<1; b.classList.toggle('look',settled);
+        botAt(b,xs[i],top-(settled?0:Math.abs(Math.sin(now/80+i))*size*0.15),size,1); b.style.zIndex=ctl.inline?'5':''; if(xs[i]<edge) allOut=false; });
       if(!allOut) requestAnimationFrame(f); else bots.forEach(function(b){ b.style.opacity='0'; });
     })(performance.now());
   }
@@ -2334,7 +2340,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
         pac.style.left=(x0+(x1-x0)*e)+'px'; pac.style.transform='rotate('+(Math.sin(now/55)*10)+'deg)';
         if(k<1) requestAnimationFrame(f); else done(); })(t0); });
     if(t!==run) return;
-    ctl.lead=0;   // the K is gone: the bots bunch up at the edge where it left; red follows it off, the other three stay in view
+    ctl.lead=0; ctl.done=true;   // the K is gone: the bots bunch up at the edge where it left; red follows it off, the other three stay in view
     pac.style.opacity='0'; pac.style.transform='scaleX(1)';
   }
 
@@ -2391,7 +2397,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     if(mode==='writerbots'||mode==='scared'){
       var br=big.getBoundingClientRect(), fsz=parseFloat(getComputedStyle(say).fontSize), h=fsz*1.25, r0=S[0].getBoundingClientRect();
       pac.style.width=pac.style.height=h+'px'; pac.style.top=(r0.top-br.top+r0.height/2-h/2)+'px'; pac.style.left=(document.documentElement.clientWidth-br.left+h)+'px'; pac.style.opacity='0';
-      follow(run,h*0.85,{creep:0,inline:mode==='scared',lead:0,instant:true});
+      follow(run,h*0.85,{creep:0,inline:mode==='scared',lead:0,instant:true,done:true});
     }
   }
   var played=false; try{ played=sessionStorage.getItem('footPlayed')==='1'; }catch(e){}
