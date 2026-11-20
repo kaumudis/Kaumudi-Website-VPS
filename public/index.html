@@ -2275,7 +2275,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
       var dt=Math.min(0.05,(now-last)/1000); last=now;
       var px=parseFloat(pac.style.left)+parseFloat(pac.style.width)/2, top=parseFloat(pac.style.top)+parseFloat(pac.style.height)*(ctl.inline?1:1.05)-(ctl.inline?size:0);
       var edge=document.documentElement.clientWidth-br.left+size, allOut=true;
-      bots.forEach(function(b,i){ var target=px-(ctl.lead||sp)-i*sp; if(xs[i]<-9000) xs[i]=-br.left-size*(i+1);
+      bots.forEach(function(b,i){ var target=px-(ctl.lead||sp)-i*sp; if(xs[i]<-9000) xs[i]=ctl.instant?target:-br.left-size*(i+1);
         if(ctl.creep){ if(v===null) v=(target-xs[0])/ctl.creep; xs[i]=Math.min(target,xs[i]+v*dt); }
         else xs[i]+=(target-xs[i])*0.08;
         botAt(b,xs[i],top-Math.abs(Math.sin(now/80+i))*size*0.15,size,1); b.style.zIndex=ctl.inline?'5':''; if(xs[i]<edge) allOut=false; });
@@ -2382,10 +2382,23 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   function play(){ reset(); botsReset(); if(mode==='glide') glide(); else if(mode==='writer') writer(false); else if(mode==='writerbots') writer(true,false); else if(mode==='scared') writer(true,true); else if(mode==='chase') chase(); else if(mode==='peek') peek(); else if(mode==='drop') drop(); else if(mode==='morph') morph(); }
   // plays once per visit: the first time the footer comes into view. After that it stays at its final frame
   // (the line, with three bots waiting at the edge) however much you scroll or open and close sections.
+  // Once per session: after it has played, later page loads in the same browser tab show the final frame straight away.
+  function finalFrame(){
+    reset(); botsReset();
+    var g=geom(); say.style.top=(g.top+g.d/2)+'px';
+    if(mode==='drop'||mode==='still'||mode==='peek'){ foot.classList.add('show-sign'); if(mode!=='peek') L[0].style.color='#E9C46A'; return; }
+    L.forEach(function(l){ l.style.opacity='0'; }); S.forEach(function(c){ c.style.opacity='1'; });
+    if(mode==='writerbots'||mode==='scared'){
+      var br=big.getBoundingClientRect(), fsz=parseFloat(getComputedStyle(say).fontSize), h=fsz*1.25, r0=S[0].getBoundingClientRect();
+      pac.style.width=pac.style.height=h+'px'; pac.style.top=(r0.top-br.top+r0.height/2-h/2)+'px'; pac.style.left=(document.documentElement.clientWidth-br.left+h)+'px'; pac.style.opacity='0';
+      follow(run,h*0.85,{creep:0,inline:mode==='scared',lead:0,instant:true});
+    }
+  }
+  var played=false; try{ played=sessionStorage.getItem('footPlayed')==='1'; }catch(e){}
   var armed=true, visible=false;
   new IntersectionObserver(function(es){ es.forEach(function(e){
     visible=e.isIntersecting;
-    if(e.isIntersecting && armed){ armed=false; play(); }
+    if(e.isIntersecting && armed){ armed=false; if(played) finalFrame(); else { play(); try{ sessionStorage.setItem('footPlayed','1'); }catch(er){} } }
   }); }, { threshold: 0.5 }).observe(big);
 
   // toggle to compare the versions (Option C only)
