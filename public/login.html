@@ -48,9 +48,11 @@
     <button type="submit">Enter</button>
   </form>
   <p class="err" id="err" role="alert"></p>
-  <p class="help">Don't have the password? <a href="https://www.linkedin.com/in/kaumudis/" rel="noopener">Message me on LinkedIn</a></p>
+  <p class="help">Don't have the password? Email me at <a id="mail" href="#"><span id="addr">my Gmail</span></a></p>
 </main>
 <script>
+  // Email address is put together here so it never sits in the page as plain text for bots to collect.
+  (function(){ var a=['kaumudi','shrivastava'].join('.')+'@'+['gmail','com'].join('.'); document.getElementById('addr').textContent=a; document.getElementById('mail').href='mailto:'+a+'?subject='+encodeURIComponent('Portfolio password'); })();
   // Back here with ?key= in the address means the password didn't match.
   if (/[?&]key=/.test(location.search)) {
     document.getElementById('err').textContent = "That password didn't work. Please try again.";
