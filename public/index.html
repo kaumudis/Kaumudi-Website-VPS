@@ -2118,7 +2118,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   if(!foot||!big||!word||!sign) return;
   var calm=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!('IntersectionObserver' in window)||!document.body.animate) return;
-  var MODES=['glide','writer','drop','morph','still','chase','peek','writerbots'], NAMES=['Glide','Writer','Drop','Morph','Still','Chase','Peek','Writer + bots'];
+  var MODES=['glide','writer','drop','morph','still','chase','peek','writerbots','scared'], NAMES=['Glide','Writer','Drop','Morph','Still','Chase','Peek','Writer + bots','Writer + bots, scared K'];
   var mode='glide'; try{ var m0=localStorage.getItem('footMode'); if(MODES.indexOf(m0)>=0) mode=m0; }catch(e){}
   if(calm) mode='still';
   foot.classList.add('pm');
@@ -2265,7 +2265,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     })(performance.now());
   }
 
-  async function writer(withBots){
+  async function writer(withBots,scared){
     var t=run, g=geom();
     say.style.top=(g.top+g.d/2)+'px';
     // the name fades away, the K last
@@ -2280,7 +2280,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     if(t!==run) return; cancelAll(pac); pac.style.opacity='1';
     if(withBots) follow(t,h*0.85);
     if(!await sleep(250,t)) return;
-    if(withBots){
+    if(withBots&&scared){
       // the bots come in from the left; the K turns round, sees them, shivers, then turns back and starts writing
       if(!await sleep(650,t)) return;
       pac.style.transition='transform .22s ease-out'; pac.style.transform='scaleX(-1)';
@@ -2356,7 +2356,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     });
   }
 
-  function play(){ reset(); botsReset(); if(mode==='glide') glide(); else if(mode==='writer') writer(false); else if(mode==='writerbots') writer(true); else if(mode==='chase') chase(); else if(mode==='peek') peek(); else if(mode==='drop') drop(); else if(mode==='morph') morph(); }
+  function play(){ reset(); botsReset(); if(mode==='glide') glide(); else if(mode==='writer') writer(false); else if(mode==='writerbots') writer(true,false); else if(mode==='scared') writer(true,true); else if(mode==='chase') chase(); else if(mode==='peek') peek(); else if(mode==='drop') drop(); else if(mode==='morph') morph(); }
   var armed=true, visible=false;
   new IntersectionObserver(function(es){ es.forEach(function(e){
     visible=e.isIntersecting;
