@@ -1038,15 +1038,27 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .fg-float.pts { padding: 3px 6px; border: 0; background: none; box-shadow: none; font-size: 9px; color: #38e8ff; animation-duration: 1.3s; }
 @keyframes fgfloat { 0% { opacity: 0; transform: translate(-50%, -100%) translateY(8px); } 10% { opacity: 1; transform: translate(-50%, -100%) translateY(0); } 72% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -100%) translateY(-26px); } }
 @media (prefers-reduced-motion: reduce) { .fg-float { animation-duration: 3.2s; } }
-.fg-legend { list-style: none; margin: 1.8rem auto 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 0.6rem; max-width: 44rem; }
-@media (min-width: 640px) { .fg-legend { grid-template-columns: 1fr 1fr; } }
-.fg-legend li { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.7rem 0.85rem; border: 1px solid var(--line); border-radius: 12px; opacity: 0.45; transition: opacity .35s ease, border-color .35s ease; }
-.fg-legend li.got { opacity: 1; border-color: var(--c); }
 .fg-badge { flex: none; min-width: 3.1rem; height: 1.55rem; padding: 0 0.4rem; display: grid; place-items: center; border-radius: 0.4rem; background: var(--c); color: #111; font: 700 0.7rem/1 var(--mono, ui-monospace, monospace); }
-.fg-legend b { display: block; font-size: 0.9375rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
-.fg-legend small { display: block; font-size: 0.8125rem; color: var(--muted); line-height: 1.4; margin-top: 0.1rem; }
-.fg-legend em { display: block; font-style: normal; font-size: 0.875rem; color: var(--ink); margin-top: 0.15rem; }
 @media (max-width: 600px) { .tabs-wrap .tabs button, .tabs-end .tabs button { padding-inline: 0.45rem; font-size: clamp(0.74rem, 3.3vw, 0.92rem); } .tabs .pf { display: none; } }
+
+/* Protocol list: compact, two columns under the game on phones; on wide screens it sits to the right and stays in view while playing */
+.fg-legend { list-style: none; margin: 1.4rem auto 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem; max-width: 34rem; }
+@media (max-width: 359px) { .fg-legend { grid-template-columns: 1fr; } }
+.fg-legend li { display: flex; gap: 0.55rem; align-items: flex-start; padding: 0.45rem 0.6rem; border: 1px solid var(--line); border-radius: 10px; opacity: 0.45; transition: opacity .35s ease, border-color .35s ease; }
+.fg-legend li.got { opacity: 1; border-color: var(--c); }
+.fg-badge { flex: none; min-width: 2.6rem; height: 1.3rem; padding: 0 0.3rem; display: grid; place-items: center; border-radius: 0.35rem; background: var(--c); color: #111; font: 700 0.625rem/1 var(--mono, ui-monospace, monospace); }
+.fg-legend b { display: block; font-size: 0.8125rem; font-weight: 600; color: var(--ink); line-height: 1.25; }
+.fg-legend small { display: none; font-size: 0.6875rem; color: var(--muted); line-height: 1.35; margin-top: 0.05rem; }
+.fg-legend em { display: block; font-style: normal; font-size: 0.75rem; color: var(--ink); line-height: 1.35; margin-top: 0.1rem; }
+@media (min-width: 1000px) {
+  .play { display: grid; grid-template-columns: 34rem 19rem; grid-template-areas: "intro intro" "arcade legend" "keys legend"; column-gap: 2rem; justify-content: center; max-width: none; align-items: start; }
+  .fg-intro { grid-area: intro; }
+  .fg-arcade { grid-area: arcade; width: 100%; margin: 0; }
+  .fg-keys { grid-area: keys; margin-inline: 0; max-width: none; text-align: left; }
+  .fg-legend { grid-area: legend; grid-template-columns: 1fr; margin: 0; max-width: none; position: sticky; top: 5.5rem; }
+  .fg-legend { gap: 0.35rem; }
+  .fg-legend li { padding: 0.38rem 0.55rem; }
+}
 </style>
 
 <main class="page" id="top">
