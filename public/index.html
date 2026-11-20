@@ -1023,6 +1023,9 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 @keyframes fbf { 0% { transform: translateY(0); } 50% { transform: translateY(1.5px); } }
 .foot.peek-mode .bigname a { position: relative; z-index: 3; }
 .foot.peek-mode .fbot { z-index: 1; }
+
+/* the K and the bots in the footer open the game when clicked */
+.bigname .pac, .bigname .fbot { pointer-events: auto; cursor: pointer; }
 </style>
 <style id="fg-css">
 /* ===== Play fintech ===== */
@@ -2192,6 +2195,16 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   var bots=BOTC.map(function(c){ var b=document.createElement('span'); b.className='fbot'; b.setAttribute('aria-hidden','true');
     b.innerHTML='<svg viewBox="-12 -14 24 26"><path fill="'+c+'" d="M-8 -6L-6 -12L-2.5 -6ZM8 -6L6 -12L2.5 -6Z"/><rect x="-10" y="-7" width="20" height="15" rx="5" fill="'+c+'"/><rect class="f1" x="-9" y="7" width="6" height="4" fill="'+c+'"/><rect class="f2" x="3" y="7" width="6" height="4" fill="'+c+'"/><ellipse cx="-4.2" cy="-1" rx="3.1" ry="3.9" fill="#fff"/><ellipse cx="4.2" cy="-1" rx="3.1" ry="3.9" fill="#fff"/><circle cx="-2.8" cy="-1" r="1.6" fill="#101028"/><circle cx="5.6" cy="-1" r="1.6" fill="#101028"/><path d="M-7.5 -6.2L-2 -4.2M7.5 -6.2L2 -4.2" stroke="#101028" stroke-width="1.5"/></svg>';
     big.appendChild(b); return b; });
+  // clicking the K or any bot takes you to the game: My AI Lab tab, Games group open, scrolled into view
+  function openGame(e){
+    e.preventDefault(); e.stopPropagation();
+    var tab=document.getElementById('tab-lab'), grp=document.getElementById('grp-games');
+    if(!tab||!grp) return;
+    tab.click();
+    var h=grp.querySelector('.grp-h'); if(h && h.getAttribute('aria-expanded')!=='true') h.click();
+    setTimeout(function(){ grp.scrollIntoView({behavior:'smooth',block:'start'}); var st=document.getElementById('fg-stage'); if(st) try{ st.focus({preventScroll:true}); }catch(er){} }, 350);
+  }
+  [pac].concat(bots).forEach(function(el){ el.title='Play the game'; el.addEventListener('click',openGame); });
   function botsReset(){ bots.forEach(function(b){ cancelAll(b); b.style.opacity='0'; b.style.transform=''; b.style.zIndex=''; b.style.left='-999px'; }); foot.classList.remove('peek-mode'); }
   function botAt(b,x,top,size,face){ b.style.width=size+'px'; b.style.height=size+'px'; b.style.left=(x-size/2)+'px'; b.style.top=top+'px'; b.style.transform='scaleX('+(face||1)+')'; b.style.opacity='1'; }
   function popIn(s){ s.style.opacity='1'; s.animate([{opacity:0,transform:'translateY(10px) scale(.4)'},{opacity:1,transform:'translateY(-4px) scale(1.15)',offset:.6},{opacity:1,transform:'none'}],{duration:320,easing:'ease-out'}); }
