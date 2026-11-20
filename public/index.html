@@ -965,6 +965,11 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
   .who-top .role-tag span { display: block; }
   .who-top .role-tag .rt-sep { display: none; }
 }
+/* Sub-bullets inside case studies */
+.detail li ul { margin: 0.4rem 0 0; padding-left: 1.1rem; }
+.detail li ul li { list-style: circle; margin-top: 0.3rem; }
+/* Amdocs tile: logo card in the middle of the photo */
+.panel .amd-logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 30%; height: auto; border-radius: 0.6rem; box-shadow: 0 10px 28px rgba(17,17,20,.28); }
 /* Tile headings in bold on every screen size */
 .cap .t { font-weight: 600; }
 /* Accounting tile: dots flow both ways between ERP and Juni (two-way sync) */
@@ -1204,17 +1209,30 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     <div class="grp" id="grp-amdocs">
       <button class="grp-h" aria-expanded="false" aria-controls="grp-amdocs-b"><img class="grp-logo" src="img/logo-amdocs.png" alt=""><span class="grp-txt"><span class="grp-c">1 case study</span><span class="grp-top"><span class="grp-n">Amdocs</span><span class="grp-meta">(Enterprise products for top global telecom players)</span></span><span class="grp-line">Built telecom products for leading global telecom players – from requirements to code to deployment.</span></span><span class="grp-i" aria-hidden="true"></span></button>
       <div class="grp-b" id="grp-amdocs-b"><div class="grp-in">
-    <div class="card soon">
+    <details class="card">
+      <summary>
         <div class="panel p-amdocs"><span class="badge">Amdocs</span><a class="ext" href="https://www.amdocs.com/" target="_blank" rel="noopener" aria-label="Open the Amdocs website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-          <div class="window" aria-hidden="true"><div class="win-bar"><span class="win-logo">Amdocs</span><span class="win-nav"><i></i><i></i><i></i></span><span class="win-btn"></span></div>
-            <div class="win-body"><div class="ghost"><i></i><i></i><i></i><i class="short"></i></div></div>
-          </div>
-        </div>
+          <img class="amd-logo" src="img/amdocs-logo-card.png" alt="Amdocs" width="236" height="176">
+                </div>
         <div class="cap">
-          <span class="t"><span class="co">Amdocs:</span> Case study <span class="chip">Coming soon</span></span>
-          <span class="d">Placeholder. The story goes here.</span>
+          <span class="t"><span class="co">Amdocs:</span> Building and deploying telecom products for global clients</span>
+          <span class="d">4.5 years as a software engineer, from requirements to code to go-live at the client’s site.</span>
+          <span class="hint"></span>
         </div>
-    </div>
+      </summary>
+      <div class="detail">
+        <div><h3>Why</h3><p>Amdocs builds the enterprise systems that the world’s largest telecom operators run their business on. Every client rollout is large, customised and business-critical, so the work has to be right before it goes live.</p></div>
+        <div><h3>What</h3><ul>
+          <li><b>Worked across the full lifecycle.</b> Requirements gathering with client teams, solution design, coding in C++ and Java, testing and deployment.</li>
+          <li><b>Led product rollouts.</b> Multiple rollouts for a top global Fortune 500 telecom company and other international clients.</li>
+          <li><b>Deployed on site at the customer.</b><ul>
+            <li><b>Costa Rica:</b> deployed telecom software for ICE, the country’s leading government-backed telecom provider.</li>
+            <li><b>US:</b> spent a year helping deploy products for AT&amp;T and Sprint.</li>
+          </ul></li>
+        </ul></div>
+        <div><h3>Result</h3><p><b>Led 2 international deployments on site</b>, with a team of <b>5 engineers</b>. <b>Won the Young Achiever Award</b> at Amdocs for my work as an engineer.<br><br>Learned early what it takes to ship enterprise software that a client’s business depends on, which shapes how I build products today.</p></div>
+      </div>
+    </details>
       </div></div>
     </div>
   </section>
