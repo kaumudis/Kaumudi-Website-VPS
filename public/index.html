@@ -1014,6 +1014,15 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .foot-toggle button:hover { color: var(--ink); }
 .foot-toggle button[aria-pressed="true"] { background: #111114; color: #fff; }
 @media (max-width: 40rem) { .foot-toggle { bottom: 58px; font-size: 10px; } .foot-toggle span { display: none; } .foot-toggle button { padding: 7px 8px; } }
+
+/* Footer: fraud bots from the game */
+.fbot { position: absolute; left: -999px; top: 0; z-index: 2; pointer-events: none; opacity: 0; }
+.fbot svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.fbot .f1 { animation: fbf .2s steps(1) infinite; }
+.fbot .f2 { animation: fbf .2s steps(1) infinite reverse; }
+@keyframes fbf { 0% { transform: translateY(0); } 50% { transform: translateY(1.5px); } }
+.foot.peek-mode .bigname a { position: relative; z-index: 3; }
+.foot.peek-mode .fbot { z-index: 1; }
 </style>
 <style id="fg-css">
 /* ===== Play fintech ===== */
@@ -2109,7 +2118,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   if(!foot||!big||!word||!sign) return;
   var calm=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!('IntersectionObserver' in window)||!document.body.animate) return;
-  var MODES=['glide','writer','drop','morph','still'], NAMES=['Glide','Writer','Drop','Morph','Still'];
+  var MODES=['glide','writer','drop','morph','still','chase','peek','writerbots'], NAMES=['Glide','Writer','Drop','Morph','Still','Chase','Peek','Writer + bots'];
   var mode='glide'; try{ var m0=localStorage.getItem('footMode'); if(MODES.indexOf(m0)>=0) mode=m0; }catch(e){}
   if(calm) mode='still';
   foot.classList.add('pm');
@@ -2177,7 +2186,86 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   }
 
   // 2. Writer: the K is the cursor that types the line
-  async function writer(){
+
+  // ---- the game's fraud bots (red, pink, cyan, orange) ----
+  var BOTC=['#ff3b3b','#ff9ad5','#38e8ff','#ffb347'];
+  var bots=BOTC.map(function(c){ var b=document.createElement('span'); b.className='fbot'; b.setAttribute('aria-hidden','true');
+    b.innerHTML='<svg viewBox="-12 -14 24 26"><path fill="'+c+'" d="M-8 -6L-6 -12L-2.5 -6ZM8 -6L6 -12L2.5 -6Z"/><rect x="-10" y="-7" width="20" height="15" rx="5" fill="'+c+'"/><rect class="f1" x="-9" y="7" width="6" height="4" fill="'+c+'"/><rect class="f2" x="3" y="7" width="6" height="4" fill="'+c+'"/><ellipse cx="-4.2" cy="-1" rx="3.1" ry="3.9" fill="#fff"/><ellipse cx="4.2" cy="-1" rx="3.1" ry="3.9" fill="#fff"/><circle cx="-2.8" cy="-1" r="1.6" fill="#101028"/><circle cx="5.6" cy="-1" r="1.6" fill="#101028"/><path d="M-7.5 -6.2L-2 -4.2M7.5 -6.2L2 -4.2" stroke="#101028" stroke-width="1.5"/></svg>';
+    big.appendChild(b); return b; });
+  function botsReset(){ bots.forEach(function(b){ cancelAll(b); b.style.opacity='0'; b.style.transform=''; b.style.left='-999px'; }); foot.classList.remove('peek-mode'); }
+  function botAt(b,x,top,size,face){ b.style.width=size+'px'; b.style.height=size+'px'; b.style.left=(x-size/2)+'px'; b.style.top=top+'px'; b.style.transform='scaleX('+(face||1)+')'; b.style.opacity='1'; }
+  function popIn(s){ s.style.opacity='1'; s.animate([{opacity:0,transform:'translateY(10px) scale(.4)'},{opacity:1,transform:'translateY(-4px) scale(1.15)',offset:.6},{opacity:1,transform:'none'}],{duration:320,easing:'ease-out'}); }
+
+  // 6. Chase: the K runs through the name, the bots chase it; the sign-off pops up where the bots pass; everyone runs off right
+  async function chase(){
+    var t=run, g=geom(), xs=L.map(g.x), br=g.br;
+    say.style.top=(g.top+g.d/2)+'px';
+    var cx=S.map(function(s){ var r=s.getBoundingClientRect(); return r.left-br.left+r.width/2; });
+    ang=0; place(xs[0],g);
+    L[0].animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.6)'}],{duration:300,fill:'forwards'});
+    await pac.animate([{opacity:0,transform:'scale(.4)'},{opacity:1,transform:'scale(1)'}],{duration:300,fill:'forwards'}).finished.catch(function(){});
+    if(t!==run) return; cancelAll(pac); pac.style.opacity='1';
+    var bs=g.d*0.62, btop=g.top+g.d-bs*1.02, sp=bs*1.15, k=Math.min(1,br.width/1056);
+    var vK=380*k, vB=360*k, x0=xs[0], bx0=-br.left-bs, exitX=document.documentElement.clientWidth-br.left+g.d;
+    var gone=1, shown=0, t0=performance.now();
+    await new Promise(function(done){
+      (function f(now){
+        if(t!==run) return done();
+        var e=(now-t0)/1000, kx=x0+vK*e, lead=bx0+vB*1.7*e;   // bots start off-screen left and catch up
+        place(kx,g); pac.style.transform='rotate('+(Math.sin(now/70)*6)+'deg)';
+        while(gone<L.length && kx>=xs[gone]-g.d*0.3){ L[gone++].animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.3)'}],{duration:160,fill:'forwards'}); }
+        bots.forEach(function(b,i){ var x=Math.min(lead-i*sp, kx-(i+1)*sp*1.05); botAt(b,x,btop+Math.abs(Math.sin(now/90+i))*-bs*0.12,bs,1); });
+        var tail=Math.min(lead-(bots.length-1)*sp, kx-bots.length*sp*1.05);
+        while(shown<S.length && tail>=cx[shown]){ popIn(S[shown++]); }
+        if(tail<exitX) requestAnimationFrame(f); else done();
+      })(t0);
+    });
+    if(t!==run) return;
+    while(shown<S.length) popIn(S[shown++]);
+    pac.style.opacity='0'; bots.forEach(function(b){ b.style.opacity='0'; });
+  }
+
+  // 7. Peek: the bots peek up from behind the letters, look around, hop off right; the sign-off fades in above
+  async function peek(){
+    var t=run, g=geom(), xs=L.map(g.x), br=g.br;
+    foot.classList.add('peek-mode');
+    sign.style.opacity='0';
+    var bs=g.d*0.7, letterTop=g.top+g.d*0.05, a0=xs[1], a1=xs[6], px=bots.map(function(_,i){ return a0+(a1-a0)*i/(bots.length-1); });
+    bots.forEach(function(b,i){ botAt(b,px[i],letterTop,bs,1); b.style.opacity='0'; });
+    var ups=bots.map(function(b,i){ return b.animate([{opacity:1,transform:'translateY(70%)'},{opacity:1,transform:'translateY(-48%)',offset:.7},{opacity:1,transform:'translateY(-40%)'}],{duration:520,delay:i*260,easing:'cubic-bezier(.3,.7,.4,1)',fill:'forwards'}).finished.catch(function(){}); });
+    await Promise.all(ups); if(t!==run) return;
+    // look left, look right
+    for(var r=0;r<2;r++){
+      bots.forEach(function(b,i){ b.animate([{transform:'translateY(-40%) scaleX(1)'},{transform:'translateY(-40%) scaleX(-1)'}],{duration:1,delay:0,fill:'forwards'}); });
+      if(!await sleep(420,t)) return;
+      bots.forEach(function(b){ b.animate([{transform:'translateY(-40%) scaleX(-1)'},{transform:'translateY(-40%) scaleX(1)'}],{duration:1,fill:'forwards'}); });
+      if(!await sleep(420,t)) return;
+    }
+    // hop off to the right, one after another
+    var exitX=document.documentElement.clientWidth-br.left+bs;
+    var hops=bots.map(function(b,i){ var dx=exitX-px[i];
+      var kf=[]; for(var s=0;s<=10;s++){ var p=s/10; kf.push({transform:'translate('+(dx*p)+'px,'+(-40-Math.abs(Math.sin(p*Math.PI*4))*70)+'%)'}); }
+      return b.animate(kf,{duration:1300,delay:(bots.length-1-i)*140,easing:'ease-in',fill:'forwards'}).finished.catch(function(){}); });
+    await Promise.all(hops); if(t!==run) return;
+    bots.forEach(function(b){ cancelAll(b); b.style.opacity='0'; });
+    await sign.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:600,easing:'ease-out',fill:'forwards'}).finished.catch(function(){});
+    if(t!==run) return; cancelAll(sign); sign.style.opacity='';
+  }
+
+  // 8. Writer + bots: the dancing K types the line while the bots trail behind it, then they all run off right
+  function follow(t,size){
+    var xs=bots.map(function(){ return -9999; }), br=big.getBoundingClientRect(), sp=size*1.1;
+    (function f(now){
+      if(t!==run) return;
+      var px=parseFloat(pac.style.left)+parseFloat(pac.style.width)/2, top=parseFloat(pac.style.top)+parseFloat(pac.style.height)*1.05;
+      var edge=document.documentElement.clientWidth-br.left+size, allOut=true;
+      bots.forEach(function(b,i){ var target=px-(i+1)*sp; if(xs[i]<-9000) xs[i]=-br.left-size*(i+1); xs[i]+=(target-xs[i])*0.08;
+        botAt(b,xs[i],top-Math.abs(Math.sin(now/80+i))*size*0.15,size,1); if(xs[i]<edge) allOut=false; });
+      if(!allOut) requestAnimationFrame(f); else bots.forEach(function(b){ b.style.opacity='0'; });
+    })(performance.now());
+  }
+
+  async function writer(withBots){
     var t=run, g=geom();
     say.style.top=(g.top+g.d/2)+'px';
     // the name fades away, the K last
@@ -2190,6 +2278,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     at(r0.left-h*0.55); pac.style.transform='scaleX(1)';
     await pac.animate([{opacity:0,transform:'scale(.5)'},{opacity:1,transform:'scale(1)'}],{duration:260,fill:'forwards'}).finished.catch(function(){});
     if(t!==run) return; cancelAll(pac); pac.style.opacity='1';
+    if(withBots) follow(t,h*0.85);
     if(!await sleep(250,t)) return;
     // it dances while it types: leaning right, then left, then right, one lean per letter
     pac.style.transition='transform .12s ease-out';
@@ -2254,12 +2343,12 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     });
   }
 
-  function play(){ reset(); if(mode==='glide') glide(); else if(mode==='writer') writer(); else if(mode==='drop') drop(); else if(mode==='morph') morph(); }
+  function play(){ reset(); botsReset(); if(mode==='glide') glide(); else if(mode==='writer') writer(false); else if(mode==='writerbots') writer(true); else if(mode==='chase') chase(); else if(mode==='peek') peek(); else if(mode==='drop') drop(); else if(mode==='morph') morph(); }
   var armed=true, visible=false;
   new IntersectionObserver(function(es){ es.forEach(function(e){
     visible=e.isIntersecting;
     if(e.isIntersecting && armed){ armed=false; play(); }
-    else if(!e.isIntersecting){ armed=true; reset(); }
+    else if(!e.isIntersecting){ armed=true; reset(); botsReset(); }
   }); }, { threshold: 0.5 }).observe(big);
 
   // toggle to compare the versions (Option C only)
@@ -2273,7 +2362,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     mode=b.getAttribute('data-m'); try{ localStorage.setItem('footMode',mode); }catch(er){}
     [].forEach.call(bar.querySelectorAll('button'),function(x){ x.setAttribute('aria-pressed', String(x===b)); });
     if(visible){ armed=false; play(); }
-    else { armed=true; reset(); big.scrollIntoView({behavior:'smooth',block:'center'}); }
+    else { armed=true; reset(); botsReset(); big.scrollIntoView({behavior:'smooth',block:'center'}); }
   });
 })();
 </script>
