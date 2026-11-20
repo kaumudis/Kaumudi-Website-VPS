@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function(){
 <meta name="description" content="Former engineer and fintech product leader, building and testing finance agents.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=IBM+Plex+Mono:wght@400;500&family=Press+Start+2P&display=swap">
 <style>
 /* Layout: one centred 27rem column. Identity, a four-way tab switch, one group at a time.
    Cards = tinted visual panel with a plain caption underneath; a card opens in place. Single light look by choice. */
@@ -1003,6 +1003,51 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .spend-ig .sig-note b { display: block; font-size: 2.9cqw; font-weight: 600; }
 .spend-ig .sig-note span { display: block; font-size: 3.1cqw; line-height: 1.25; }
 </style>
+<style id="fg-css">
+/* ===== Play fintech ===== */
+.play { max-width: 44rem; margin: 0 auto; width: 100%; }
+.fg-intro { margin: 0 auto 1.1rem; max-width: 34rem; font-size: 0.9375rem; color: var(--muted); text-align: center; }
+.fg-arcade { max-width: 34rem; margin: 0 auto; background: #000; border-radius: 16px; padding: 12px 12px 12px; color: #fff; box-shadow: 0 0 0 3px #15151c, 0 14px 40px rgba(17,17,20,0.22); font-family: "Press Start 2P", ui-monospace, Menlo, monospace; text-transform: uppercase; }
+.fg-hud { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 6px; font-size: 9px; line-height: 1.7; padding: 2px 4px 10px; }
+.fg-hud > div:nth-child(2) { text-align: center; }
+.fg-hud > div:nth-child(3) { text-align: right; }
+.fg-hud span { display: block; color: #fff; }
+.fg-hud b { display: block; font-weight: 400; color: #ffd7b3; letter-spacing: 0.02em; }
+.fg-stage { position: relative; line-height: 0; border-radius: 6px; overflow: hidden; outline: none; cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+.fg-stage:focus-visible { box-shadow: 0 0 0 2px #7b9cff; }
+.fg-stage canvas { display: block; width: 100%; height: auto; aspect-ratio: 21 / 23; background: #000; }
+.fg-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 4px 0; font-size: 8px; line-height: 1.5; }
+.fg-lives { display: flex; gap: 5px; min-width: 52px; min-height: 12px; }
+.fg-lives i { width: 12px; height: 12px; border-radius: 4px; background: #f1f4fa; box-shadow: inset 0 -4px 0 #2ee59d; }
+.fg-prog { color: #fff; text-align: center; }
+.fg-prog b { font-weight: 400; color: #ffd166; }
+.fg-snd { font: inherit; font-size: 8px; text-transform: uppercase; color: #9aa1b3; background: none; border: 1px solid #2a2a35; border-radius: 6px; padding: 5px 7px; cursor: pointer; }
+.fg-snd:hover, .fg-snd[aria-pressed="true"] { color: #fff; border-color: #5a5a6a; }
+.fg-pad { display: none; grid-template-columns: repeat(3, 56px); grid-template-rows: repeat(2, 48px); gap: 6px; justify-content: center; margin: 12px auto 4px; }
+.fg-pad button { font: inherit; font-size: 16px; color: #fff; background: #15151c; border: 1px solid #2f2f3c; border-radius: 12px; touch-action: manipulation; -webkit-tap-highlight-color: transparent; cursor: pointer; }
+.fg-pad button:active { background: #2f46ff; }
+.fg-pad [data-d="0,-1"] { grid-column: 2; grid-row: 1; }
+.fg-pad [data-d="-1,0"] { grid-column: 1; grid-row: 2; }
+.fg-pad [data-d="0,1"]  { grid-column: 2; grid-row: 2; }
+.fg-pad [data-d="1,0"]  { grid-column: 3; grid-row: 2; }
+@media (pointer: coarse) { .fg-pad { display: grid; } .fg-keys { display: none; } }
+.fg-keys { margin: 0.8rem auto 0; max-width: 34rem; text-align: center; font-size: 0.8125rem; color: var(--muted); }
+.fg-float { position: absolute; z-index: 5; max-width: 15rem; padding: 6px 9px 7px; text-align: center; background: rgba(8,8,16,0.94); border: 1px solid #3a3f66; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.5); font-family: "Press Start 2P", ui-monospace, monospace; line-height: 1.5; pointer-events: none; transform: translate(-50%, -100%); animation: fgfloat 2.8s ease-out forwards; white-space: normal; }
+.fg-float b { display: block; font-weight: 400; font-size: 11px; text-transform: none; }
+.fg-float span { display: block; margin-top: 3px; font-size: 8px; color: #e8ecff; text-transform: none; letter-spacing: 0.01em; }
+.fg-float.pts { padding: 3px 6px; border: 0; background: none; box-shadow: none; font-size: 9px; color: #38e8ff; animation-duration: 1.3s; }
+@keyframes fgfloat { 0% { opacity: 0; transform: translate(-50%, -100%) translateY(8px); } 10% { opacity: 1; transform: translate(-50%, -100%) translateY(0); } 72% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -100%) translateY(-26px); } }
+@media (prefers-reduced-motion: reduce) { .fg-float { animation-duration: 3.2s; } }
+.fg-legend { list-style: none; margin: 1.8rem auto 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 0.6rem; max-width: 44rem; }
+@media (min-width: 640px) { .fg-legend { grid-template-columns: 1fr 1fr; } }
+.fg-legend li { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.7rem 0.85rem; border: 1px solid var(--line); border-radius: 12px; opacity: 0.45; transition: opacity .35s ease, border-color .35s ease; }
+.fg-legend li.got { opacity: 1; border-color: var(--c); }
+.fg-badge { flex: none; min-width: 3.1rem; height: 1.55rem; padding: 0 0.4rem; display: grid; place-items: center; border-radius: 0.4rem; background: var(--c); color: #111; font: 700 0.7rem/1 var(--mono, ui-monospace, monospace); }
+.fg-legend b { display: block; font-size: 0.9375rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
+.fg-legend small { display: block; font-size: 0.8125rem; color: var(--muted); line-height: 1.4; margin-top: 0.1rem; }
+.fg-legend em { display: block; font-style: normal; font-size: 0.875rem; color: var(--ink); margin-top: 0.15rem; }
+@media (max-width: 600px) { .tabs-wrap .tabs button, .tabs-end .tabs button { padding-inline: 0.45rem; font-size: clamp(0.74rem, 3.3vw, 0.92rem); } .tabs .pf { display: none; } }
+</style>
 
 <main class="page" id="top">
   <header class="who">
@@ -1021,12 +1066,28 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 
   <div class="tabs-wrap">
     <div class="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" id="tab-play" aria-controls="play" aria-selected="false" tabindex="-1">Play<span class="pf"> fintech</span></button>
       <button role="tab" id="tab-work" aria-controls="work" aria-selected="true">Work</button>
       <button role="tab" id="tab-lab" aria-controls="lab" aria-selected="false" tabindex="-1">My AI Lab</button>
       <button role="tab" id="tab-writing" aria-controls="writing" aria-selected="false" tabindex="-1">Playbooks</button>
       <button role="tab" id="tab-about" aria-controls="about" aria-selected="false" tabindex="-1">About Me</button>
     </div>
   </div>
+
+  <!-- ============ PLAY FINTECH ============ -->
+  <section id="play" role="tabpanel" aria-labelledby="tab-play" class="play" hidden>
+    <p class="fg-intro">Ten protocols are changing how AI agents pay and shop. Collect them all, dodge the fraud bots, and see what each one does.</p>
+    <div class="fg-arcade">
+      <div class="fg-hud"><div><span>1UP</span><b id="fg-score">0</b></div><div><span>High score</span><b id="fg-high">0</b></div><div><span>Level</span><b id="fg-level">1</b></div></div>
+      <div class="fg-stage" id="fg-stage" tabindex="0" role="application" aria-label="Fintech maze game. Press an arrow key, or tap, to start.">
+        <canvas id="fg-canvas" width="504" height="552"></canvas>
+      </div>
+      <div class="fg-bar"><div class="fg-lives" id="fg-lives" aria-label="Lives"></div><div class="fg-prog">Protocols <b id="fg-count">0/10</b></div><button type="button" class="fg-snd" id="fg-snd" aria-pressed="false">Sound off</button></div>
+      <div class="fg-pad" aria-label="On-screen controls"><button type="button" data-d="0,-1" aria-label="Up">&#9650;</button><button type="button" data-d="-1,0" aria-label="Left">&#9664;</button><button type="button" data-d="0,1" aria-label="Down">&#9660;</button><button type="button" data-d="1,0" aria-label="Right">&#9654;</button></div>
+    </div>
+    <p class="fg-keys">Arrow keys or WASD to move &middot; P to pause. On a phone, swipe or use the pad.</p>
+    <ul class="fg-legend" id="fg-legend" aria-label="The ten protocols"><li data-id="mcp" style="--c:#ff7a59"><span class="fg-badge">MCP</span><div><b>MCP</b><small>Model Context Protocol</small><em>agents plug into tools and data</em></div></li><li data-id="a2a" style="--c:#4cc9f0"><span class="fg-badge">A2A</span><div><b>A2A</b><small>Agent2Agent</small><em>agents find and talk to each other</em></div></li><li data-id="erc" style="--c:#b388ff"><span class="fg-badge">8004</span><div><b>ERC-8004</b><small>Trustless Agents (Ethereum)</small><em>on-chain identity and trust for agents</em></div></li><li data-id="tap" style="--c:#7b9cff"><span class="fg-badge">TAP</span><div><b>Visa Tap</b><small>Visa Trusted Agent Protocol</small><em>merchants can recognise trusted agents</em></div></li><li data-id="ap2" style="--c:#ffd166"><span class="fg-badge">AP2</span><div><b>AP2</b><small>Agent Payments Protocol (Google)</small><em>human user authorized</em></div></li><li data-id="mc" style="--c:#ff9f1c"><span class="fg-badge">MC</span><div><b>MC Agent Pay</b><small>Mastercard Agent Pay</small><em>tokenized cards for agents</em></div></li><li data-id="x402" style="--c:#f15bb5"><span class="fg-badge">x402</span><div><b>x402</b><small>HTTP 402 payments (Coinbase)</small><em>pay per request, over plain HTTP</em></div></li><li data-id="mpp" style="--c:#a3e635"><span class="fg-badge">MPP</span><div><b>MPP</b><small>Machine Payments Protocol</small><em>agents pay machines, per session</em></div></li><li data-id="acp" style="--c:#5eead4"><span class="fg-badge">ACP</span><div><b>ACP</b><small>Agentic Commerce Protocol</small><em>checkout inside the chat</em></div></li><li data-id="ucp" style="--c:#fb7185"><span class="fg-badge">UCP</span><div><b>UCP</b><small>Universal Commerce Protocol</small><em>one standard, discovery to checkout</em></div></li></ul>
+  </section>
 
   <!-- ============ WORK ============ -->
   <section id="work" role="tabpanel" aria-labelledby="tab-work" class="cards grouped">
@@ -1677,6 +1738,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 
   <div class="tabs-end" aria-hidden="false">
     <div class="tabs end-tabs" role="navigation" aria-label="More sections">
+      <button type="button" data-go="play">Play<span class="pf"> fintech</span></button>
       <button type="button" data-go="work">Work</button>
       <button type="button" data-go="lab">My AI Lab</button>
       <button type="button" data-go="writing">Playbooks</button>
@@ -1719,17 +1781,18 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 </script>
 <script>
 (function () {
-  var order = ['work', 'lab', 'writing', 'about'];
-  // Live site (kaumudishrivastava.com): Playbooks and the unfinished Spend management card stay in Option C only.
+  var order = ['play', 'work', 'lab', 'writing', 'about'];
+  // Live site (kaumudishrivastava.com): Playbooks, Play fintech and the unfinished Spend management card stay in Option C only.
   // Add ?live to any address to preview the live version.
   var LIVE = /kaumudishrivastava\.com$/.test(location.hostname) || /[?&]live\b/.test(location.search);
   if (LIVE) {
-    ['tab-writing', 'writing', 'juni-spend'].forEach(function (id) { var el = document.getElementById(id); if (el) el.remove(); });
-    document.querySelectorAll('[data-go="writing"]').forEach(function (el) { el.remove(); });
+    ['tab-writing', 'writing', 'tab-play', 'play', 'juni-spend'].forEach(function (id) { var el = document.getElementById(id); if (el) el.remove(); });
+    document.querySelectorAll('[data-go="writing"], [data-go="play"]').forEach(function (el) { el.remove(); });
     order = ['work', 'lab', 'about'];
     var jc = document.querySelector('#grp-juni .grp-c'); if (jc) jc.textContent = '4 case studies';
   }
   var labels = {
+    play: ['Play fintech', 'Collect the ten protocols', '<span class="tok tok-work"><i></i><i></i></span>'],
     work: ['View work', 'Case studies', '<span class="tok tok-work"><i></i><i></i><i></i><i></i></span>'],
     lab: ['View my AI Lab', 'What I’m building', '<span class="tok tok-lab"><i></i>In progress</span>'],
     writing: ['View my playbooks', 'How I build, run and decide', '<span class="tok tok-writing"><i></i><i></i><i></i></span>'],
@@ -1767,7 +1830,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     if (id === 'about') document.querySelectorAll('#about > .grp').forEach(function (g) { var on = g.id === 'grp-ab-best'; g.classList.toggle('open', on); var h = g.querySelector('.grp-h'); if (h) h.setAttribute('aria-expanded', on ? 'true' : 'false'); });
     renderNext(id);
     // Keep the address bar in step with the open tab, so the link can be shared
-    var pretty = { work: 'work', lab: 'ai-lab', writing: 'playbooks', about: 'about-me' }[id];
+    var pretty = { play: 'play-fintech', work: 'work', lab: 'ai-lab', writing: 'playbooks', about: 'about-me' }[id];
     // Update the address only after the page has loaded (setting it during load makes the browser jump to that section)
     try { if (window.__tabsReady && pretty && location.hash.slice(1) !== pretty) history.replaceState(null, '', '#' + pretty); } catch (e) {}
   }
@@ -1776,10 +1839,11 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     t.addEventListener('keydown', function (e) {
       var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
       if (!d) return;
+      if (window.__fgActive) return;   // arrow keys steer the game while it is running
       show(tabs[(i + d + tabs.length) % tabs.length].getAttribute('aria-controls'), true);
     });
   });
-  var alias = { 'ai-lab': 'lab', 'my-ai-lab': 'lab', 'playbooks': 'writing', 'about-me': 'about' };
+  var alias = { 'play-fintech': 'play', 'ai-lab': 'lab', 'my-ai-lab': 'lab', 'playbooks': 'writing', 'about-me': 'about' };
   var start = (location.hash || '').slice(1).toLowerCase(); start = alias[start] || start;
   show(order.indexOf(start) > -1 ? start : 'work');
   window.addEventListener('load', function(){ setTimeout(function(){ window.__tabsReady = true; }, 0); });
@@ -2074,3 +2138,517 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
 
 <a id="my-notes" href="notes.html" hidden style="position:fixed;left:16px;bottom:16px;z-index:50;font:500 12px/1 'IBM Plex Mono',monospace;color:#6E6E78;background:#fff;border:1px solid #E7E7EC;border-radius:999px;padding:.5rem .75rem;text-decoration:none">My notes</a>
 <script>(function(){var h=location.hostname;if(!/kaumudishrivastava\.com$/.test(h)){var a=document.getElementById('my-notes');if(a)a.hidden=false;}})();</script>
+<script>
+/* Play fintech: a small retro maze game. Collect the ten agentic-finance protocols, dodge the fraud bots.
+   Original characters and maze. Keyboard (arrows / WASD), swipe, or the on-screen pad. */
+(function () {
+  'use strict';
+  var panel = document.getElementById('play');
+  if (!panel) return;
+  var canvas = document.getElementById('fg-canvas'), stage = document.getElementById('fg-stage');
+  if (!canvas || !stage) return;
+  var ctx = canvas.getContext('2d');
+
+  var COLS = 21, ROWS = 23, T = 24, W = COLS * T, H = ROWS * T;
+  var MAZE = [
+    '#####################',
+    '#o........#........o#',
+    '#.###.###.#.###.###.#',
+    '#...................#',
+    '#.###.#.#####.#.###.#',
+    '#.....#.......#.....#',
+    '#####.#.#####.#.#####',
+    '#####.#.......#.#####',
+    '#####.#.##-##.#.#####',
+    '     . .#   #. .     ',
+    '#####.#.#####.#.#####',
+    '#####.#.......#.#####',
+    '#####.#.#####.#.#####',
+    '#.....#.......#.....#',
+    '#.###.#.#####.#.###.#',
+    '#...................#',
+    '#.###.###.#.###.###.#',
+    '#o..#.....#.....#..o#',
+    '###.#.#.#####.#.#.###',
+    '#.....#.......#.....#',
+    '#.###.#.#####.#.###.#',
+    '#...................#',
+    '#####################'
+  ];
+
+  var PROTOS = [
+    { id: 'mcp',  code: 'MCP',  name: 'MCP',          full: 'Model Context Protocol',          say: 'agents plug into tools and data',          col: '#ff7a59', x: 5,  y: 1 },
+    { id: 'a2a',  code: 'A2A',  name: 'A2A',          full: 'Agent2Agent',                      say: 'agents find and talk to each other',       col: '#4cc9f0', x: 15, y: 1 },
+    { id: 'erc',  code: '8004', name: 'ERC-8004',     full: 'Trustless Agents (Ethereum)',      say: 'on-chain identity and trust for agents',   col: '#b388ff', x: 1,  y: 5 },
+    { id: 'tap',  code: 'TAP',  name: 'Visa Tap',     full: 'Visa Trusted Agent Protocol',      say: 'merchants can recognise trusted agents',   col: '#7b9cff', x: 19, y: 5 },
+    { id: 'ap2',  code: 'AP2',  name: 'AP2',          full: 'Agent Payments Protocol (Google)', say: 'human user authorized',                    col: '#ffd166', x: 10, y: 3 },
+    { id: 'mc',   code: 'MC',   name: 'MC Agent Pay', full: 'Mastercard Agent Pay',             say: 'tokenized cards for agents',               col: '#ff9f1c', x: 3,  y: 15 },
+    { id: 'x402', code: 'x402', name: 'x402',         full: 'HTTP 402 payments (Coinbase)',     say: 'pay per request, over plain HTTP',         col: '#f15bb5', x: 17, y: 15 },
+    { id: 'mpp',  code: 'MPP',  name: 'MPP',          full: 'Machine Payments Protocol',        say: 'agents pay machines, per session',         col: '#a3e635', x: 10, y: 11 },
+    { id: 'acp',  code: 'ACP',  name: 'ACP',          full: 'Agentic Commerce Protocol',        say: 'checkout inside the chat',                 col: '#5eead4', x: 3,  y: 21 },
+    { id: 'ucp',  code: 'UCP',  name: 'UCP',          full: 'Universal Commerce Protocol',      say: 'one standard, discovery to checkout',      col: '#fb7185', x: 17, y: 21 }
+  ];
+
+  var ZERO = { x: 0, y: 0 };
+  var DIRS = [{ x: 0, y: -1 }, { x: -1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 0 }];
+  var START = { x: 10, y: 15 }, HOME = { x: 10, y: 9 }, EXIT = { x: 10, y: 7 };
+  var BOT_DEFS = [
+    { name: 'red',    col: '#ff3b3b', corner: { x: 19, y: 0 },  start: { x: 10, y: 7 }, release: 0 },
+    { name: 'pink',   col: '#ff9ad5', corner: { x: 1,  y: 0 },  start: { x: 10, y: 9 }, release: 2 },
+    { name: 'cyan',   col: '#38e8ff', corner: { x: 19, y: 22 }, start: { x: 9,  y: 9 }, release: 6 },
+    { name: 'orange', col: '#ffb347', corner: { x: 1,  y: 22 }, start: { x: 11, y: 9 }, release: 10 }
+  ];
+  var PHASES = [7, 20, 7, 20, 5, 1e9];
+
+  // ---------- state ----------
+  var state = 'title', paused = false, stateT = 0, time = 0;
+  var score = 0, high = 0, lives = 3, level = 1, collectedCount = 0;
+  var items, remaining, collected, player, bots, frightT = 0, chain = 0, phaseIdx = 0, phaseT = 0;
+  try { high = parseInt(localStorage.getItem('fgHigh') || '0', 10) || 0; } catch (e) {}
+
+  var hud = {
+    score: document.getElementById('fg-score'), high: document.getElementById('fg-high'),
+    level: document.getElementById('fg-level'), lives: document.getElementById('fg-lives'),
+    count: document.getElementById('fg-count'), snd: document.getElementById('fg-snd')
+  };
+  var legend = {};
+  [].forEach.call(document.querySelectorAll('#fg-legend li'), function (li) { legend[li.getAttribute('data-id')] = li; });
+
+  // ---------- maze helpers ----------
+  function wrapX(x) { return (x + COLS) % COLS; }
+  function cell(x, y) { return MAZE[y].charAt(wrapX(x)); }
+  function canMove(x, y, dx, dy, door) {
+    var ny = y + dy; if (ny < 0 || ny >= ROWS) return false;
+    var c = cell(x + dx, ny);
+    if (c === '#') return false;
+    if (c === '-') return !!door;
+    return true;
+  }
+  function distMap(tx, ty) {
+    var d = []; for (var y = 0; y < ROWS; y++) { d.push([]); for (var x = 0; x < COLS; x++) d[y].push(1e9); }
+    var q = [[tx, ty]]; d[ty][tx] = 0;
+    for (var i = 0; i < q.length; i++) {
+      var p = q[i];
+      for (var k = 0; k < 4; k++) {
+        if (!canMove(p[0], p[1], DIRS[k].x, DIRS[k].y, true)) continue;
+        var nx = wrapX(p[0] + DIRS[k].x), ny = p[1] + DIRS[k].y;
+        if (d[ny][nx] > d[p[1]][p[0]] + 1) { d[ny][nx] = d[p[1]][p[0]] + 1; q.push([nx, ny]); }
+      }
+    }
+    return d;
+  }
+  var distExit = distMap(EXIT.x, EXIT.y), distHome = distMap(HOME.x, HOME.y);
+
+  // ---------- entities ----------
+  function makeEntity(x, y) { return { tx: x, ty: y, dir: ZERO, prog: 0, want: ZERO }; }
+  function pos(e) { return { x: e.tx + e.dir.x * e.prog, y: e.ty + e.dir.y * e.prog }; }
+  function advance(e, dist, choose, arrive) {
+    var guard = 0;
+    while (dist > 1e-6 && guard++ < 8) {
+      if (e.prog === 0) { choose(e); if (!e.dir.x && !e.dir.y) return; }
+      var d = Math.min(1 - e.prog, dist);
+      e.prog += d; dist -= d;
+      if (e.prog >= 1 - 1e-9) {
+        e.tx = wrapX(e.tx + e.dir.x); e.ty = e.ty + e.dir.y; e.prog = 0;
+        if (arrive) arrive(e);
+      }
+    }
+  }
+  function reverseEntity(e) {
+    if (!e.dir.x && !e.dir.y) return;
+    if (e.prog > 0) { e.tx = wrapX(e.tx + e.dir.x); e.ty += e.dir.y; e.prog = 1 - e.prog; }
+    e.dir = { x: -e.dir.x, y: -e.dir.y };
+  }
+
+  function playerChoose(p) {
+    var w = p.want;
+    if ((w.x || w.y) && canMove(p.tx, p.ty, w.x, w.y, false)) { p.dir = w; return; }
+    if ((p.dir.x || p.dir.y) && canMove(p.tx, p.ty, p.dir.x, p.dir.y, false)) return;
+    p.dir = ZERO;
+  }
+
+  function botTarget(b) {
+    var pp = player, def = b.def;
+    if (phaseIdx % 2 === 0) return def.corner;                          // scatter
+    var ax = pp.tx + pp.dir.x * 4, ay = pp.ty + pp.dir.y * 4;
+    if (def.name === 'red') return { x: pp.tx, y: pp.ty };
+    if (def.name === 'pink') return { x: ax, y: ay };
+    if (def.name === 'cyan') { var r = bots[0], px = pp.tx + pp.dir.x * 2, py = pp.ty + pp.dir.y * 2; return { x: r.tx + 2 * (px - r.tx), y: r.ty + 2 * (py - r.ty) }; }
+    var dx = b.tx - pp.tx, dy = b.ty - pp.ty;                           // orange: shy when close
+    return (dx * dx + dy * dy > 64) ? { x: pp.tx, y: pp.ty } : def.corner;
+  }
+  function botChoose(b) {
+    var i, k, best, bd, n;
+    if (b.state === 'house') { b.dir = ZERO; return; }
+    if (b.rev) { b.rev = false; var rd = { x: -b.dir.x, y: -b.dir.y }; if ((rd.x || rd.y) && canMove(b.tx, b.ty, rd.x, rd.y, b.state !== 'normal')) { b.dir = rd; return; } }
+    if (b.state === 'leaving' || b.state === 'eaten') {
+      var dm = b.state === 'leaving' ? distExit : distHome; best = null; bd = 1e9;
+      for (i = 0; i < 4; i++) {
+        if (!canMove(b.tx, b.ty, DIRS[i].x, DIRS[i].y, true)) continue;
+        n = dm[b.ty + DIRS[i].y][wrapX(b.tx + DIRS[i].x)];
+        if (n < bd) { bd = n; best = DIRS[i]; }
+      }
+      b.dir = best || ZERO; return;
+    }
+    var opts = [];
+    for (i = 0; i < 4; i++) {
+      var dd = DIRS[i];
+      if (dd.x === -b.dir.x && dd.y === -b.dir.y && (b.dir.x || b.dir.y)) continue;
+      if (canMove(b.tx, b.ty, dd.x, dd.y, false)) opts.push(dd);
+    }
+    if (!opts.length) { var back = { x: -b.dir.x, y: -b.dir.y }; b.dir = canMove(b.tx, b.ty, back.x, back.y, false) ? back : ZERO; return; }
+    if (b.fright) { b.dir = opts[Math.floor(Math.random() * opts.length)]; return; }
+    var tg = botTarget(b); best = opts[0]; bd = 1e9;
+    for (k = 0; k < opts.length; k++) {
+      var nx = b.tx + opts[k].x, ny = b.ty + opts[k].y, dx = nx - tg.x, dy = ny - tg.y, dist = dx * dx + dy * dy;
+      if (dist < bd) { bd = dist; best = opts[k]; }
+    }
+    b.dir = best;
+  }
+  function botArrive(b) {
+    if (b.state === 'eaten' && b.tx === HOME.x && b.ty === HOME.y) { b.state = 'leaving'; b.fright = false; }
+    else if (b.state === 'leaving' && b.tx === EXIT.x && b.ty === EXIT.y) { b.state = 'normal'; b.dir = { x: (Math.random() < 0.5 ? -1 : 1), y: 0 }; }
+  }
+  function botSpeed(b) {
+    var m = 1 + (level - 1) * 0.06;
+    if (b.state === 'eaten') return 12;
+    if (b.state === 'leaving' || b.state === 'house') return 3.6;
+    if (b.fright) return 3.4;
+    return 5.5 * m;
+  }
+
+  // ---------- level / game flow ----------
+  function resetItems() {
+    items = []; remaining = 0; collected = {}; collectedCount = 0;
+    for (var y = 0; y < ROWS; y++) {
+      items.push([]);
+      for (var x = 0; x < COLS; x++) {
+        var c = MAZE[y].charAt(x), v = 0;
+        if (c === '.') v = 1; else if (c === 'o') v = 2;
+        if (v) remaining++;
+        items[y].push(v);
+      }
+    }
+    PROTOS.forEach(function (p, i) { if (items[p.y][p.x] === 1) remaining--; if (items[p.y][p.x] !== 2) items[p.y][p.x] = 3 + i; remaining++; });
+    Object.keys(legend).forEach(function (k) { legend[k].classList.remove('got'); });
+  }
+  function resetActors() {
+    player = makeEntity(START.x, START.y); player.want = { x: -1, y: 0 };
+    bots = BOT_DEFS.map(function (def, i) {
+      var inHouse = def.start.y === 9;
+      return { def: def, tx: def.start.x, ty: def.start.y, dir: inHouse ? ZERO : { x: -1, y: 0 }, prog: 0, state: inHouse ? 'house' : 'normal',
+               fright: false, rev: false, wait: def.release / (1 + (level - 1) * 0.15), idx: i };
+    });
+    frightT = 0; chain = 0; phaseIdx = 0; phaseT = PHASES[0];
+  }
+  function setState(s, t) {
+    state = s; stateT = t || 0;
+    window.__fgActive = (s === 'ready' || s === 'play' || s === 'dying');
+    stage.style.touchAction = window.__fgActive ? 'none' : 'auto';
+    stage.classList.toggle('fg-live', window.__fgActive);
+  }
+  function newGame() { score = 0; lives = 3; level = 1; resetItems(); resetActors(); setState('ready', 2); paused = false; hudUpdate(); sfx('start'); }
+  function nextLevel() { level++; resetItems(); resetActors(); setState('ready', 2); hudUpdate(); sfx('start'); }
+  function begin() {
+    try { if (document.activeElement && document.activeElement !== stage && document.activeElement.blur) document.activeElement.blur(); stage.focus({ preventScroll: true }); } catch (e) {}
+    if (state === 'win') nextLevel(); else if (state === 'title' || state === 'over') newGame();
+  }
+  function hudUpdate() {
+    hud.score.textContent = String(score);
+    hud.high.textContent = String(Math.max(high, score));
+    hud.level.textContent = String(level);
+    hud.count.textContent = collectedCount + '/' + PROTOS.length;
+    var h = ''; for (var i = 0; i < Math.max(0, lives - (state === 'dying' ? 1 : 0)); i++) h += '<i></i>';
+    hud.lives.innerHTML = h;
+  }
+  function addScore(n) { score += n; if (score > high) { high = score; try { localStorage.setItem('fgHigh', String(high)); } catch (e) {} } hudUpdate(); }
+
+  function eatAt(x, y) {
+    var v = items[y][x]; if (!v) return;
+    items[y][x] = 0; remaining--;
+    if (v === 1) { addScore(10); sfx('dot'); }
+    else if (v === 2) {
+      addScore(50); sfx('power');
+      frightT = Math.max(2.5, 7 - (level - 1)); chain = 0;
+      bots.forEach(function (b) { if (b.state !== 'eaten') { if (!b.fright && b.state === 'normal') b.rev = true; b.fright = true; } });
+    } else {
+      var p = PROTOS[v - 3]; collected[p.id] = true; collectedCount++; addScore(100); sfx('proto');
+      if (legend[p.id]) legend[p.id].classList.add('got');
+      floatLabel('<b style="color:' + p.col + '">' + p.name + '</b><span>' + p.say + '</span>', x, y, '');
+    }
+    if (remaining <= 0) { setState('win', 2.6); sfx('win'); }
+  }
+  function playerArrive(p) { eatAt(p.tx, p.ty); }
+
+  function die() { setState('dying', 1.6); sfx('die'); hudUpdate(); }
+  function afterDeath() {
+    lives--;
+    if (lives <= 0) { lives = 0; setState('over', 0); hudUpdate(); return; }
+    resetActors(); setState('ready', 1.8); hudUpdate();
+  }
+
+  function update(dt) {
+    time += dt;
+    if (paused || state === 'title' || state === 'over') return;
+    if (state === 'ready') { stateT -= dt; if (stateT <= 0) setState('play'); return; }
+    if (state === 'dying') { stateT -= dt; if (stateT <= 0) afterDeath(); return; }
+    if (state === 'win') { stateT -= dt; return; }
+    // phases: scatter / chase
+    if (frightT <= 0) {
+      phaseT -= dt;
+      if (phaseT <= 0 && phaseIdx < PHASES.length - 1) { phaseIdx++; phaseT = PHASES[phaseIdx]; bots.forEach(function (b) { if (b.state === 'normal') b.rev = true; }); }
+    }
+    if (frightT > 0) { frightT -= dt; if (frightT <= 0) bots.forEach(function (b) { b.fright = false; }); }
+    advance(player, 6.6 * (1 + (level - 1) * 0.03) * dt, playerChoose, playerArrive);
+    var i, b;
+    for (i = 0; i < bots.length; i++) {
+      b = bots[i];
+      if (b.state === 'house') { b.wait -= dt; if (b.wait <= 0) b.state = 'leaving'; continue; }
+      advance(b, botSpeed(b) * dt, botChoose, botArrive);
+    }
+    // collisions
+    var pp = pos(player);
+    for (i = 0; i < bots.length; i++) {
+      b = bots[i]; if (b.state === 'eaten' || b.state === 'house') continue;
+      var bp = pos(b), dx = bp.x - pp.x, dy = bp.y - pp.y;
+      if (dx * dx + dy * dy < 0.36) {
+        if (b.fright) { b.state = 'eaten'; b.fright = false; chain++; var pts = 100 * Math.pow(2, chain); addScore(pts); sfx('bot'); floatLabel(String(pts), bp.x, bp.y, 'pts'); }
+        else { die(); return; }
+      }
+    }
+  }
+
+  // ---------- floating labels ----------
+  function floatLabel(html, tx, ty, cls) {
+    var el = document.createElement('div');
+    el.className = 'fg-float ' + (cls || ''); el.innerHTML = html;
+    stage.appendChild(el);
+    var sc = canvas.clientWidth / W, cx = (tx + 0.5) * T * sc, cy = ty * T * sc;
+    var w = el.offsetWidth, h = el.offsetHeight, sw = stage.clientWidth;
+    el.style.left = Math.max(w / 2 + 4, Math.min(sw - w / 2 - 4, cx)) + 'px';
+    el.style.top = Math.max(h + 4, cy - 2) + 'px';
+    var gone = false; function rm() { if (gone) return; gone = true; if (el.parentNode) el.parentNode.removeChild(el); }
+    el.addEventListener('animationend', rm); setTimeout(rm, 4000);
+  }
+
+  // ---------- sound (off by default) ----------
+  var AC = null, soundOn = false, wak = 0;
+  function tone(f, d, type, vol, f2, delay) {
+    if (!soundOn) return;
+    try {
+      AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+      var t0 = AC.currentTime + (delay || 0), o = AC.createOscillator(), g = AC.createGain();
+      o.type = type || 'square'; o.frequency.setValueAtTime(f, t0);
+      if (f2) o.frequency.exponentialRampToValueAtTime(f2, t0 + d);
+      g.gain.setValueAtTime(vol || 0.05, t0); g.gain.exponentialRampToValueAtTime(0.0001, t0 + d);
+      o.connect(g); g.connect(AC.destination); o.start(t0); o.stop(t0 + d + 0.02);
+    } catch (e) {}
+  }
+  function sfx(k) {
+    if (!soundOn) return;
+    if (k === 'dot') { wak ^= 1; tone(wak ? 330 : 440, 0.06, 'square', 0.035); }
+    else if (k === 'power') { tone(220, 0.25, 'sawtooth', 0.05, 660); }
+    else if (k === 'proto') { tone(523, 0.08, 'square', 0.05); tone(659, 0.08, 'square', 0.05, 0, 0.08); tone(784, 0.14, 'square', 0.05, 0, 0.16); }
+    else if (k === 'bot') { tone(300, 0.2, 'square', 0.05, 900); }
+    else if (k === 'die') { tone(600, 0.9, 'square', 0.06, 60); }
+    else if (k === 'start') { [392, 523, 659, 784].forEach(function (f, i) { tone(f, 0.12, 'square', 0.05, 0, i * 0.12); }); }
+    else if (k === 'win') { [523, 659, 784, 1047, 784, 1047].forEach(function (f, i) { tone(f, 0.12, 'square', 0.05, 0, i * 0.11); }); }
+  }
+  if (hud.snd) hud.snd.addEventListener('click', function () {
+    soundOn = !soundOn; hud.snd.textContent = soundOn ? 'Sound on' : 'Sound off'; hud.snd.setAttribute('aria-pressed', soundOn ? 'true' : 'false');
+    if (soundOn) tone(660, 0.1, 'square', 0.05);
+  });
+
+  // ---------- drawing ----------
+  var walls = document.createElement('canvas'), wallsFlash = document.createElement('canvas'), sc = 1;
+  function rr(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
+  function isW(x, y) { return x >= 0 && x < COLS && y >= 0 && y < ROWS && MAZE[y].charAt(x) === '#'; }
+  function wallLayer(c, inset, col, r) {
+    c.fillStyle = col;
+    for (var y = 0; y < ROWS; y++) for (var x = 0; x < COLS; x++) {
+      if (!isW(x, y)) continue;
+      var x0 = x * T + inset, y0 = y * T + inset, sz = T - 2 * inset;
+      rr(c, x0, y0, sz, sz, r); c.fill();
+      if (isW(x + 1, y)) c.fillRect(x * T + T / 2, y0, T, sz);
+      if (isW(x, y + 1)) c.fillRect(x0, y * T + T / 2, sz, T);
+      if (isW(x + 1, y) && isW(x, y + 1) && isW(x + 1, y + 1)) c.fillRect(x * T + T - inset - 0.5, y * T + T - inset - 0.5, 2 * inset + 1, 2 * inset + 1);
+    }
+  }
+  function buildWalls(cv, edge) {
+    cv.width = canvas.width; cv.height = canvas.height;
+    var c = cv.getContext('2d'); c.setTransform(sc, 0, 0, sc, 0, 0);
+    c.fillStyle = '#000'; c.fillRect(0, 0, W, H);
+    wallLayer(c, 2, edge, 7); wallLayer(c, 5, '#000', 3);
+    c.fillStyle = '#ffb8de'; c.fillRect(10 * T + 1, 8 * T + T / 2 - 1.5, T - 2, 3);     // ghost-house door
+  }
+  function fit() {
+    var cw = canvas.clientWidth || 0; if (!cw) return;
+    var dpr = Math.min(2.5, window.devicePixelRatio || 1);
+    var pw = Math.round(cw * dpr), ph = Math.round(cw * dpr * H / W);
+    if (canvas.width === pw && canvas.height === ph && walls.width) return;
+    canvas.width = pw; canvas.height = ph; sc = pw / W;
+    buildWalls(walls, '#2f46ff'); buildWalls(wallsFlash, '#ffffff');
+  }
+  if ('ResizeObserver' in window) new ResizeObserver(fit).observe(canvas); window.addEventListener('resize', fit);
+
+  function drawChip(p, i) {
+    var cx = (p.x + 0.5) * T, cy = (p.y + 0.5) * T + Math.sin(time * 4 + i) * 1.2, w = T * 0.92, h = T * 0.64;
+    ctx.save(); ctx.shadowColor = p.col; ctx.shadowBlur = 9 * sc;
+    rr(ctx, cx - w / 2, cy - h / 2, w, h, 4); ctx.fillStyle = p.col; ctx.fill(); ctx.restore();
+    ctx.fillStyle = '#111'; ctx.font = '700 ' + (T * 0.33).toFixed(1) + 'px Inter, Arial, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(p.code, cx, cy + 0.6);
+  }
+  function drawAgent(x, y, dir, moving, dieK) {
+    ctx.save(); ctx.translate((x + 0.5) * T, (y + 0.5) * T);
+    if (dieK != null) { ctx.rotate(dieK * Math.PI * 5); ctx.scale(Math.max(0, 1 - dieK), Math.max(0, 1 - dieK)); }
+    ctx.shadowColor = '#2ee59d'; ctx.shadowBlur = 8 * sc;
+    ctx.strokeStyle = '#cfd6e4'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(0, -8); ctx.lineTo(0, -11.5); ctx.stroke();
+    ctx.fillStyle = '#2ee59d'; ctx.beginPath(); ctx.arc(0, -12, 2, 0, 6.3); ctx.fill();
+    ctx.shadowBlur = 0;
+    var f = moving ? (Math.floor(time * 12) % 2) : 0;
+    ctx.fillStyle = '#b9c2d3'; ctx.fillRect(-7, 8.5 + f * 0.8, 5, 3); ctx.fillRect(2, 8.5 + (1 - f) * 0.8, 5, 3);
+    rr(ctx, -9.5, -8, 19, 17.5, 6); ctx.fillStyle = '#f1f4fa'; ctx.fill();
+    rr(ctx, -7.6, -5.2, 15.2, 8, 3.4); ctx.fillStyle = '#0a1d17'; ctx.fill();
+    var ex = dir.x * 1.8, ey = dir.y * 1.3 - 1.2;
+    ctx.fillStyle = '#2ee59d'; ctx.beginPath(); ctx.arc(-3.4 + ex, ey, 1.9, 0, 6.3); ctx.arc(3.4 + ex, ey, 1.9, 0, 6.3); ctx.fill();
+    ctx.restore();
+  }
+  function drawBot(b, x, y) {
+    var cx = (x + 0.5) * T, cy = (y + 0.5) * T;
+    if (b.state === 'house') cy += Math.sin(time * 6 + b.idx * 2) * 1.6;
+    var eaten = b.state === 'eaten', fr = b.fright && !eaten;
+    var flash = fr && frightT < 2 && Math.floor(time * 6) % 2 === 0;
+    var body = fr ? (flash ? '#f4f4ff' : '#2b3cff') : b.def.col;
+    ctx.save(); ctx.translate(cx, cy);
+    if (!eaten) {
+      ctx.shadowColor = body; ctx.shadowBlur = 7 * sc;
+      var w = Math.floor(time * 10 + b.idx) % 2;
+      ctx.fillStyle = body;
+      ctx.beginPath(); ctx.moveTo(-8, -6); ctx.lineTo(-6, -12); ctx.lineTo(-2.5, -6); ctx.closePath(); ctx.fill();   // horns
+      ctx.beginPath(); ctx.moveTo(8, -6); ctx.lineTo(6, -12); ctx.lineTo(2.5, -6); ctx.closePath(); ctx.fill();
+      rr(ctx, -10, -7, 20, 15, 5); ctx.fill();
+      ctx.fillRect(-9, 7, 6, 3 + w); ctx.fillRect(3, 7, 6, 4 - w);
+      ctx.shadowBlur = 0;
+    }
+    var ex = b.dir.x * 1.6, ey = b.dir.y * 1.3;
+    if (fr) {
+      ctx.fillStyle = flash ? '#c0203a' : '#fff'; ctx.fillRect(-5, -3, 3, 3); ctx.fillRect(2, -3, 3, 3);
+      ctx.strokeStyle = ctx.fillStyle; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(-6, 4); ctx.lineTo(-3, 2.2); ctx.lineTo(0, 4); ctx.lineTo(3, 2.2); ctx.lineTo(6, 4); ctx.stroke();
+    } else {
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.ellipse(-4.2, -1, 3.1, 3.9, 0, 0, 6.3); ctx.ellipse(4.2, -1, 3.1, 3.9, 0, 0, 6.3); ctx.fill();
+      ctx.fillStyle = eaten ? '#2b3cff' : '#101028'; ctx.beginPath(); ctx.arc(-4.2 + ex, -1 + ey, 1.6, 0, 6.3); ctx.arc(4.2 + ex, -1 + ey, 1.6, 0, 6.3); ctx.fill();
+      if (!eaten) { ctx.strokeStyle = '#101028'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(-7.5, -6.2); ctx.lineTo(-2, -4.2); ctx.moveTo(7.5, -6.2); ctx.lineTo(2, -4.2); ctx.stroke(); }
+    }
+    ctx.restore();
+  }
+  function text(str, x, y, size, col, align) {
+    ctx.font = size + 'px "Press Start 2P", ui-monospace, monospace'; ctx.textAlign = align || 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = col; ctx.fillText(str, x, y);
+  }
+  function panelBox(y0, y1) { ctx.fillStyle = 'rgba(0,0,0,0.82)'; ctx.fillRect(T * 1.5, y0, W - T * 3, y1 - y0); ctx.strokeStyle = '#2f46ff'; ctx.lineWidth = 2; ctx.strokeRect(T * 1.5, y0, W - T * 3, y1 - y0); }
+
+  function draw() {
+    if (!canvas.width) { fit(); if (!canvas.width) return; }
+    ctx.setTransform(sc, 0, 0, sc, 0, 0);
+    var flashing = state === 'win' && Math.floor(time * 5) % 2 === 0;
+    ctx.drawImage(flashing ? wallsFlash : walls, 0, 0, W, H);
+    ctx.setTransform(sc, 0, 0, sc, 0, 0);
+    var x, y, v;
+    if (items) {
+      var blink = Math.floor(time * 3.5) % 2 === 0;
+      for (y = 0; y < ROWS; y++) for (x = 0; x < COLS; x++) {
+        v = items[y][x]; if (!v || v >= 3) continue;
+        if (v === 1) { ctx.fillStyle = '#ffd7b3'; ctx.fillRect(x * T + T / 2 - 2, y * T + T / 2 - 2, 4, 4); }
+        else if (blink) { ctx.fillStyle = '#ffd7b3'; ctx.beginPath(); ctx.arc(x * T + T / 2, y * T + T / 2, 6.5, 0, 6.3); ctx.fill(); }
+      }
+      PROTOS.forEach(function (p, i) { if (items[p.y][p.x] === 3 + i) drawChip(p, i); });
+    }
+    if (player && state !== 'title') {
+      var pp = pos(player), moving = !!(player.dir.x || player.dir.y) && state === 'play';
+      var face = (player.dir.x || player.dir.y) ? player.dir : (player.want || ZERO);
+      var dieK = state === 'dying' ? Math.min(1, Math.max(0, (1.6 - stateT - 0.35) / 1.1)) : null;
+      if (state !== 'dying' || dieK < 1) drawAgent(pp.x, pp.y, face, moving, dieK);
+    }
+    if (bots && state !== 'title' && !(state === 'dying' && stateT < 1.0)) bots.forEach(function (b) { var bp = pos(b); drawBot(b, bp.x, bp.y); });
+
+    if (state === 'title') {
+      panelBox(T * 7.4, T * 15.6);
+      text('PLAY FINTECH', W / 2, T * 9.2, 17, '#fff');
+      text('COLLECT ALL 10 AGENTIC', W / 2, T * 11.0, 9, '#7b9cff');
+      text('FINANCE PROTOCOLS', W / 2, T * 12.0, 9, '#7b9cff');
+      if (Math.floor(time * 2) % 2 === 0) text('CLICK OR TAP TO START', W / 2, T * 14.2, 9, '#ffd166');
+    } else if (state === 'ready') {
+      text('READY!', W / 2, T * 13.5, 14, '#ffd166');
+    } else if (state === 'over') {
+      panelBox(T * 7.4, T * 15.6);
+      text('GAME OVER', W / 2, T * 9.2, 17, '#ff3b3b');
+      text(collectedCount + ' OF 10 PROTOCOLS', W / 2, T * 11.2, 9, '#fff');
+      text('SCORE ' + score, W / 2, T * 12.6, 9, '#fff');
+      if (Math.floor(time * 2) % 2 === 0) text('CLICK OR TAP TO RETRY', W / 2, T * 14.4, 9, '#ffd166');
+    } else if (state === 'win' && stateT < 1.6) {
+      panelBox(T * 7.4, T * 15.6);
+      text('FULL STACK!', W / 2, T * 9.4, 17, '#a3e635');
+      text('ALL 10 PROTOCOLS', W / 2, T * 11.2, 9, '#fff');
+      text('COLLECTED', W / 2, T * 12.4, 9, '#fff');
+      if (Math.floor(time * 2) % 2 === 0) text('CLICK FOR NEXT LEVEL', W / 2, T * 14.4, 9, '#ffd166');
+    }
+    if (paused) { panelBox(T * 9.6, T * 13.4); text('PAUSED', W / 2, T * 11.5, 15, '#fff'); }
+  }
+
+  // ---------- input ----------
+  var KEYS = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0], w: [0, -1], s: [0, 1], a: [-1, 0], d: [1, 0] };
+  function setDir(dx, dy) {
+    if (!player) return;
+    player.want = { x: dx, y: dy };
+    if ((player.dir.x === -dx && player.dir.y === -dy) && (dx || dy)) reverseEntity(player);
+    if (paused) paused = false;
+  }
+  function idle() { return state === 'title' || state === 'over' || (state === 'win' && stateT < 1.6); }
+  document.addEventListener('keydown', function (e) {
+    if (panel.hidden || e.ctrlKey || e.metaKey || e.altKey) return;
+    var k = e.key.length === 1 ? e.key.toLowerCase() : e.key, d = KEYS[k];
+    var engaged = window.__fgActive || document.activeElement === stage || (state === 'win');
+    if (!engaged) return;
+    if (d) { e.preventDefault(); if (idle()) { begin(); } setDir(d[0], d[1]); return; }
+    if (k === ' ' || k === 'Enter') { e.preventDefault(); if (idle()) begin(); else if (paused) paused = false; return; }
+    if ((k === 'p' || k === 'Escape') && window.__fgActive) { e.preventDefault(); paused = !paused; }
+  });
+  stage.addEventListener('pointerdown', function (e) {
+    if (e.target.closest && e.target.closest('button')) return;
+    if (idle()) begin(); else if (paused) paused = false;
+    try { stage.focus({ preventScroll: true }); } catch (er) {}
+    if (e.pointerType === 'touch') { swipe = { x: e.clientX, y: e.clientY, id: e.pointerId }; }
+  });
+  var swipe = null;
+  stage.addEventListener('pointermove', function (e) {
+    if (!swipe || e.pointerId !== swipe.id) return;
+    var dx = e.clientX - swipe.x, dy = e.clientY - swipe.y;
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 16) return;
+    if (Math.abs(dx) > Math.abs(dy)) setDir(dx > 0 ? 1 : -1, 0); else setDir(0, dy > 0 ? 1 : -1);
+    swipe.x = e.clientX; swipe.y = e.clientY;
+  });
+  function endSwipe() { swipe = null; }
+  stage.addEventListener('pointerup', endSwipe); stage.addEventListener('pointercancel', endSwipe);
+  [].forEach.call(document.querySelectorAll('.fg-pad button'), function (b) {
+    b.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      if (idle()) begin();
+      var d = b.getAttribute('data-d').split(','); setDir(+d[0], +d[1]);
+    });
+  });
+  // if the Play tab is left, pause quietly; the game picks up where it was
+  new MutationObserver(function () { if (panel.hidden && window.__fgActive) { paused = true; } }).observe(panel, { attributes: true, attributeFilter: ['hidden'] });
+
+  // ---------- loop ----------
+  var last = 0;
+  function frame(ts) {
+    requestAnimationFrame(frame);
+    if (panel.hidden) { last = ts; return; }
+    var dt = Math.min(0.05, (ts - last) / 1000 || 0); last = ts;
+    update(dt); draw();
+  }
+  resetItems(); resetActors(); setState('title'); hudUpdate();
+  requestAnimationFrame(frame);
+  window.__fg = { get state() { return state; }, get player() { return player; }, get bots() { return bots; }, get items() { return items; }, get lives() { return lives; }, get score() { return score; }, protos: PROTOS };
+})();
+</script>
