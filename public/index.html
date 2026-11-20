@@ -2380,11 +2380,12 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   }
 
   function play(){ reset(); botsReset(); if(mode==='glide') glide(); else if(mode==='writer') writer(false); else if(mode==='writerbots') writer(true,false); else if(mode==='scared') writer(true,true); else if(mode==='chase') chase(); else if(mode==='peek') peek(); else if(mode==='drop') drop(); else if(mode==='morph') morph(); }
+  // plays once per visit: the first time the footer comes into view. After that it stays at its final frame
+  // (the line, with three bots waiting at the edge) however much you scroll or open and close sections.
   var armed=true, visible=false;
   new IntersectionObserver(function(es){ es.forEach(function(e){
     visible=e.isIntersecting;
     if(e.isIntersecting && armed){ armed=false; play(); }
-    else if(!e.isIntersecting){ armed=true; reset(); botsReset(); }
   }); }, { threshold: 0.5 }).observe(big);
 
   // toggle to compare the versions (Option C only)
