@@ -541,6 +541,7 @@ html.modal-open, html.modal-open body { overflow: hidden; }
 .modal-body { max-width: 56rem; margin: 0 auto; padding: 1.5rem max(16px, env(safe-area-inset-right, 0px)) 4rem max(16px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 0.6rem; }
 .panel .jbe { position: absolute; inset: 0; width: 100%; height: 100%; }
 .panel img.jbe-img { object-fit: contain; }
+.panel img.jbe-ai { transform: scale(0.82); transform-origin: 50% 56%; }
 .vid-tip { position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%); z-index: 4; pointer-events: none; display: inline-flex; align-items: center; gap: .45rem; font: 600 .8rem/1 Inter, system-ui, sans-serif; color: #fff; background: rgba(17,17,20,.78); padding: .55rem .85rem; border-radius: 999px; box-shadow: 0 6px 18px rgba(0,0,0,.25); transition: opacity .3s ease; }
 .vid-tip.gone { opacity: 0; }
 .vid { display: none; }
@@ -974,7 +975,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .spend-ig .sig-v { font-size: 4.4cqw; line-height: 1; white-space: nowrap; }
 .spend-ig .sig-v small { font-size: 2.6cqw; color: #3A3A42; }
 .spend-ig .sig-v em { font-style: normal; font-size: 2.8cqw; color: #3E6278; margin-left: 0.6cqw; }
-.spend-ig .sig-note { position: absolute; right: 6%; bottom: 25%; transform: scale(0.75); transform-origin: right bottom; display: flex; align-items: center; gap: 2.4cqw; padding: 2.2cqw 3.4cqw 2.2cqw 2.4cqw; background: #fff; border-radius: 3.4cqw; box-shadow: 0 1.5cqw 5cqw rgba(17,17,20,0.16); font-family: Inter, system-ui, sans-serif; color: #16161A; max-width: 55%; }
+.spend-ig .sig-note { position: absolute; right: 11%; bottom: 25%; transform: scale(0.75); transform-origin: right bottom; display: flex; align-items: center; gap: 2.4cqw; padding: 2.2cqw 3.4cqw 2.2cqw 2.4cqw; background: #fff; border-radius: 3.4cqw; box-shadow: 0 1.5cqw 5cqw rgba(17,17,20,0.16); font-family: Inter, system-ui, sans-serif; color: #16161A; max-width: 55%; }
 .spend-ig .sig-note img { width: 7.5cqw; height: 7.5cqw; border-radius: 1.6cqw; flex: none; }
 .spend-ig .sig-note b { display: block; font-size: 2.9cqw; font-weight: 600; }
 .spend-ig .sig-note span { display: block; font-size: 3.1cqw; line-height: 1.25; }
@@ -1036,7 +1037,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
     <details class="card">
       <summary>
         <div class="panel p-juni"><span class="badge">Juni</span><a class="ext" href="https://www.juni.co/" target="_blank" rel="noopener" aria-label="Open the Juni website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-          <img class="jbe jbe-img" src="img/juni-ai-confidence.png" alt="Bookkeeping screen: high-confidence fields filled by AI, low-confidence fields shown as AI suggestions">
+          <img class="jbe jbe-img jbe-ai" src="img/juni-ai-confidence.png" alt="Bookkeeping screen: high-confidence fields filled by AI, low-confidence fields shown as AI suggestions">
         </div>
         <div class="cap">
           <span class="t"><span class="co">Juni:</span> AI in finance workflows</span>
