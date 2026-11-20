@@ -1018,7 +1018,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .fg-stage canvas { display: block; width: 100%; height: auto; aspect-ratio: 21 / 23; background: #000; }
 .fg-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 4px 0; font-size: 8px; line-height: 1.5; }
 .fg-lives { display: flex; gap: 5px; min-width: 52px; min-height: 12px; }
-.fg-lives i { width: 12px; height: 12px; border-radius: 4px; background: #f1f4fa; box-shadow: inset 0 -4px 0 #2ee59d; }
+.fg-lives i { width: 12px; height: 12px; border-radius: 4px; background: #E9C46A; box-shadow: inset 0 -4px 0 #0a1d17; }
 .fg-prog { color: #fff; text-align: center; }
 .fg-prog b { font-weight: 400; color: #ffd166; }
 .fg-snd { font: inherit; font-size: 8px; text-transform: uppercase; color: #9aa1b3; background: none; border: 1px solid #2a2a35; border-radius: 6px; padding: 5px 7px; cursor: pointer; }
@@ -1086,7 +1086,7 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
       <div class="fg-pad" aria-label="On-screen controls"><button type="button" data-d="0,-1" aria-label="Up">&#9650;</button><button type="button" data-d="-1,0" aria-label="Left">&#9664;</button><button type="button" data-d="0,1" aria-label="Down">&#9660;</button><button type="button" data-d="1,0" aria-label="Right">&#9654;</button></div>
     </div>
     <p class="fg-keys">Arrow keys or WASD to move &middot; P to pause. On a phone, swipe or use the pad.</p>
-    <ul class="fg-legend" id="fg-legend" aria-label="The ten protocols"><li data-id="mcp" style="--c:#ff7a59"><span class="fg-badge">MCP</span><div><b>MCP</b><small>Model Context Protocol</small><em>agents plug into tools and data</em></div></li><li data-id="a2a" style="--c:#4cc9f0"><span class="fg-badge">A2A</span><div><b>A2A</b><small>Agent2Agent</small><em>agents find and talk to each other</em></div></li><li data-id="erc" style="--c:#b388ff"><span class="fg-badge">8004</span><div><b>ERC-8004</b><small>Trustless Agents (Ethereum)</small><em>on-chain identity and trust for agents</em></div></li><li data-id="tap" style="--c:#7b9cff"><span class="fg-badge">TAP</span><div><b>Visa Tap</b><small>Visa Trusted Agent Protocol</small><em>merchants can recognise trusted agents</em></div></li><li data-id="ap2" style="--c:#ffd166"><span class="fg-badge">AP2</span><div><b>AP2</b><small>Agent Payments Protocol (Google)</small><em>human user authorized</em></div></li><li data-id="mc" style="--c:#ff9f1c"><span class="fg-badge">MC</span><div><b>MC Agent Pay</b><small>Mastercard Agent Pay</small><em>tokenized cards for agents</em></div></li><li data-id="x402" style="--c:#f15bb5"><span class="fg-badge">x402</span><div><b>x402</b><small>HTTP 402 payments (Coinbase)</small><em>pay per request, over plain HTTP</em></div></li><li data-id="mpp" style="--c:#a3e635"><span class="fg-badge">MPP</span><div><b>MPP</b><small>Machine Payments Protocol</small><em>agents pay machines, per session</em></div></li><li data-id="acp" style="--c:#5eead4"><span class="fg-badge">ACP</span><div><b>ACP</b><small>Agentic Commerce Protocol</small><em>checkout inside the chat</em></div></li><li data-id="ucp" style="--c:#fb7185"><span class="fg-badge">UCP</span><div><b>UCP</b><small>Universal Commerce Protocol</small><em>one standard, discovery to checkout</em></div></li></ul>
+    <ul class="fg-legend" id="fg-legend" aria-label="The ten protocols"><li data-id="mcp" style="--c:#ff7a59"><span class="fg-badge">MCP</span><div><b>MCP</b><small>Model Context Protocol</small><em>agents plug into tools and data</em></div></li><li data-id="a2a" style="--c:#4cc9f0"><span class="fg-badge">A2A</span><div><b>A2A</b><small>Agent2Agent</small><em>agents find and talk to each other</em></div></li><li data-id="erc" style="--c:#b388ff"><span class="fg-badge">8004</span><div><b>ERC-8004</b><small>Trustless Agents (Ethereum)</small><em>on-chain identity and trust for agents</em></div></li><li data-id="tap" style="--c:#7b9cff"><span class="fg-badge">TAP</span><div><b>Visa Tap</b><small>Visa Trusted Agent Protocol</small><em>merchants can recognise trusted agents</em></div></li><li data-id="ap2" style="--c:#34d399"><span class="fg-badge">AP2</span><div><b>AP2</b><small>Agent Payments Protocol (Google)</small><em>human user authorized</em></div></li><li data-id="mc" style="--c:#ff9f1c"><span class="fg-badge">MC</span><div><b>MC Agent Pay</b><small>Mastercard Agent Pay</small><em>tokenized cards for agents</em></div></li><li data-id="x402" style="--c:#f15bb5"><span class="fg-badge">x402</span><div><b>x402</b><small>HTTP 402 payments (Coinbase)</small><em>pay per request, over plain HTTP</em></div></li><li data-id="mpp" style="--c:#a3e635"><span class="fg-badge">MPP</span><div><b>MPP</b><small>Machine Payments Protocol</small><em>agents pay machines, per session</em></div></li><li data-id="acp" style="--c:#5eead4"><span class="fg-badge">ACP</span><div><b>ACP</b><small>Agentic Commerce Protocol</small><em>checkout inside the chat</em></div></li><li data-id="ucp" style="--c:#fb7185"><span class="fg-badge">UCP</span><div><b>UCP</b><small>Universal Commerce Protocol</small><em>one standard, discovery to checkout</em></div></li></ul>
   </section>
 
   <!-- ============ WORK ============ -->
@@ -2181,7 +2181,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     { id: 'a2a',  code: 'A2A',  name: 'A2A',          full: 'Agent2Agent',                      say: 'agents find and talk to each other',       col: '#4cc9f0', x: 15, y: 1 },
     { id: 'erc',  code: '8004', name: 'ERC-8004',     full: 'Trustless Agents (Ethereum)',      say: 'on-chain identity and trust for agents',   col: '#b388ff', x: 1,  y: 5 },
     { id: 'tap',  code: 'TAP',  name: 'Visa Tap',     full: 'Visa Trusted Agent Protocol',      say: 'merchants can recognise trusted agents',   col: '#7b9cff', x: 19, y: 5 },
-    { id: 'ap2',  code: 'AP2',  name: 'AP2',          full: 'Agent Payments Protocol (Google)', say: 'human user authorized',                    col: '#ffd166', x: 10, y: 3 },
+    { id: 'ap2',  code: 'AP2',  name: 'AP2',          full: 'Agent Payments Protocol (Google)', say: 'human user authorized',                    col: '#34d399', x: 10, y: 3 },
     { id: 'mc',   code: 'MC',   name: 'MC Agent Pay', full: 'Mastercard Agent Pay',             say: 'tokenized cards for agents',               col: '#ff9f1c', x: 3,  y: 15 },
     { id: 'x402', code: 'x402', name: 'x402',         full: 'HTTP 402 payments (Coinbase)',     say: 'pay per request, over plain HTTP',         col: '#f15bb5', x: 17, y: 15 },
     { id: 'mpp',  code: 'MPP',  name: 'MPP',          full: 'Machine Payments Protocol',        say: 'agents pay machines, per session',         col: '#a3e635', x: 10, y: 11 },
@@ -2501,13 +2501,13 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   function drawAgent(x, y, dir, moving, dieK) {
     ctx.save(); ctx.translate((x + 0.5) * T, (y + 0.5) * T);
     if (dieK != null) { ctx.rotate(dieK * Math.PI * 5); ctx.scale(Math.max(0, 1 - dieK), Math.max(0, 1 - dieK)); }
-    ctx.shadowColor = '#2ee59d'; ctx.shadowBlur = 8 * sc;
-    ctx.strokeStyle = '#cfd6e4'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(0, -8); ctx.lineTo(0, -11.5); ctx.stroke();
+    ctx.shadowColor = '#E9C46A'; ctx.shadowBlur = 8 * sc;
+    ctx.strokeStyle = '#c9a04a'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(0, -8); ctx.lineTo(0, -11.5); ctx.stroke();
     ctx.fillStyle = '#2ee59d'; ctx.beginPath(); ctx.arc(0, -12, 2, 0, 6.3); ctx.fill();
     ctx.shadowBlur = 0;
     var f = moving ? (Math.floor(time * 12) % 2) : 0;
-    ctx.fillStyle = '#b9c2d3'; ctx.fillRect(-7, 8.5 + f * 0.8, 5, 3); ctx.fillRect(2, 8.5 + (1 - f) * 0.8, 5, 3);
-    rr(ctx, -9.5, -8, 19, 17.5, 6); ctx.fillStyle = '#f1f4fa'; ctx.fill();
+    ctx.fillStyle = '#c9a04a'; ctx.fillRect(-7, 8.5 + f * 0.8, 5, 3); ctx.fillRect(2, 8.5 + (1 - f) * 0.8, 5, 3);
+    rr(ctx, -9.5, -8, 19, 17.5, 6); ctx.fillStyle = '#E9C46A'; ctx.fill();
     rr(ctx, -7.6, -5.2, 15.2, 8, 3.4); ctx.fillStyle = '#0a1d17'; ctx.fill();
     var ex = dir.x * 1.8, ey = dir.y * 1.3 - 1.2;
     ctx.fillStyle = '#2ee59d'; ctx.beginPath(); ctx.arc(-3.4 + ex, ey, 1.9, 0, 6.3); ctx.arc(3.4 + ex, ey, 1.9, 0, 6.3); ctx.fill();
