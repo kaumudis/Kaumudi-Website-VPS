@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kaumudi Shrivastava</title>
+<link rel="icon" href="/img/favicon.svg?v=4" type="image/svg+xml">
+<link rel="icon" href="/img/favicon-32.png?v=4" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Password page for kaumudishrivastava.com. The check happens on the server (Caddy); this page only collects the password. */
+  :root { color-scheme: light; --bg: #FFFFFF; --ink: #111114; --muted: #6E6E78; --faint: #85858F; --line: #E7E7EC; --link: #2F7BE5; --bad: #C62828;
+    --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace; --font: 'Inter', -apple-system, 'Segoe UI', Arial, sans-serif; }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
+  main { width: 100%; max-width: 380px; text-align: center; }
+  .k { width: 56px; height: 56px; margin: 0 auto 22px; display: block; }
+  h1 { margin: 0; font-size: 1.5rem; font-weight: 650; letter-spacing: -0.01em; }
+  .tag span { white-space: nowrap; }
+  .tag { margin: 8px 0 0; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); }
+  p.lead { margin: 22px 0 0; color: var(--muted); font-size: 0.9375rem; line-height: 1.55; }
+  form { margin-top: 22px; display: flex; gap: 8px; }
+  input { flex: 1 1 auto; min-width: 0; font: 400 16px/1.2 var(--font); color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 12px 18px; outline: none; }
+  input:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(17,17,20,0.08); }
+  input.bad { border-color: var(--bad); }
+  button { font: 500 12px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #fff; background: var(--ink); border: 0; border-radius: 999px; padding: 0 22px; cursor: pointer; }
+  button:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+  .err { margin: 12px 0 0; min-height: 1.2em; font-size: 0.8125rem; color: var(--bad); }
+  .help { margin: 26px 0 0; font-size: 0.8125rem; color: var(--faint); }
+  .help a { color: var(--link); text-decoration: none; }
+  .help a:hover { text-decoration: underline; }
+  @media (max-width: 360px) { form { flex-direction: column; } button { padding: 13px 22px; } }
+</style>
+</head>
+<body>
+<main>
+  <svg class="k" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#111114"/><g transform="translate(33.9 32) scale(1.85) rotate(5.7)" stroke="#E9C46A" stroke-width="5.6" stroke-linecap="round" fill="none"><path d="M-6.6 -9.8V9.8"/><path d="M-4.4 0L4.51 -7.27M-4.4 0L4.51 7.27"/></g></svg>
+  <h1>Kaumudi Shrivastava</h1>
+  <p class="tag"><span>Builder</span> · <span>Startup Operator</span> · <span>Ex-KPMG</span> · <span>Ex-Engineer</span></p>
+  <p class="lead">This portfolio is private for now. Enter the password to take a look.</p>
+  <form method="get" action="/" autocomplete="off">
+    <input id="key" name="key" type="password" placeholder="Password" aria-label="Password" required autofocus>
+    <button type="submit">Enter</button>
+  </form>
+  <p class="err" id="err" role="alert"></p>
+  <p class="help">Don't have the password? <a href="https://www.linkedin.com/in/kaumudis/" rel="noopener">Message me on LinkedIn</a></p>
+</main>
+<script>
+  // Back here with ?key= in the address means the password didn't match.
+  if (/[?&]key=/.test(location.search)) {
+    document.getElementById('err').textContent = "That password didn't work. Please try again.";
+    document.getElementById('key').classList.add('bad');
+    try { history.replaceState(null, '', location.pathname); } catch (e) {}
+  }
+</script>
+</body>
+</html>
