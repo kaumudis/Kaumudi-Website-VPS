@@ -2282,7 +2282,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
       var dt=Math.min(0.05,(now-last)/1000); last=now;
       var px=parseFloat(pac.style.left)+parseFloat(pac.style.width)/2, top=parseFloat(pac.style.top)+parseFloat(pac.style.height)*(ctl.inline?1:1.05)-(ctl.inline?size:0);
       var edge=document.documentElement.clientWidth-br.left+size, allOut=true;
-      bots.forEach(function(b,i){ var target=px-(ctl.lead||sp)-i*sp; if(xs[i]<-9000) xs[i]=ctl.instant?target:-br.left-size*(i+1);
+      act.forEach(function(b,i){ var target=px-(ctl.lead||sp)-i*sp; if(xs[i]<-9000) xs[i]=ctl.instant?target:-br.left-size*(i+1);
         if(ctl.creep){ if(v===null) v=(target-xs[0])/ctl.creep; xs[i]=Math.min(target,xs[i]+v*dt); }
         else xs[i]+=(target-xs[i])*0.08;
         b._top0=top; botAt(b,xs[i],top-Math.abs(Math.sin(now/80+i))*size*0.15,size,1); b.style.zIndex=ctl.inline?'5':''; if(xs[i]<edge) allOut=false; });
@@ -2341,7 +2341,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
         pac.style.left=(x0+(x1-x0)*e)+'px'; pac.style.transform='rotate('+(Math.sin(now/55)*10)+'deg)';
         if(k<1) requestAnimationFrame(f); else done(); })(t0); });
     if(t!==run) return;
-    ctl.lead=0;   // the K is gone: the bots bunch up at the edge where it left; red follows it off, the other three stay in view
+    ctl.lead=act.length<bots.length ? h*0.85*1.1*2 : 0;   // the K is gone: the bots bunch up at the edge where it left; red follows it off, the other three stay in view (on phones both bots stay in view)
     pac.style.opacity='0'; pac.style.transform='scaleX(1)';
     if(withBots&&scared) await strike(t,h,ctl);
   }
@@ -2361,7 +2361,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     vis.forEach(function(b){ b.style.top=b._top0+'px'; b.style.transform='scaleX(1)'; b.style.transformOrigin='50% 50%'; });
     var bsz=parseFloat(vis[0].style.width), top0=parseFloat(pac.style.top);
     // if the corner is too tight for the K to stand in view, the bots shuffle a little way in
-    var room=Math.min(0, (W-h*1.9-bsz*0.6)-cx(vis[0])), from=vis.map(cx);
+    var room=Math.min(0, (W-h*0.95-bsz*0.5)-cx(vis[0])), from=vis.map(cx);
     if(room<0){ var bt0=performance.now();
       if(!await new Promise(function(done){ (function f(now){ if(t!==run) return done(false); var k=Math.min(1,(now-bt0)/450), e=k*(2-k);
         vis.forEach(function(b,i){ b.style.left=(from[i]+room*e-bsz/2)+'px'; b.style.top=(b._top0-Math.abs(Math.sin(now/80+i))*bsz*0.12)+'px'; });
@@ -2474,7 +2474,9 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     });
   }
 
-  function play(){ reset(); botsReset(); if(mode==='glide') glide(); else if(mode==='writer') writer(false); else if(mode==='writerbots') writer(true,false); else if(mode==='scared') writer(true,true); else if(mode==='chase') chase(); else if(mode==='peek') peek(); else if(mode==='drop') drop(); else if(mode==='morph') morph(); }
+  // phones get two bots instead of four, so the line isn't crowded
+  var act=bots;
+  function play(){ act=(window.innerWidth<=640)?bots.slice(0,2):bots; reset(); botsReset(); if(mode==='glide') glide(); else if(mode==='writer') writer(false); else if(mode==='writerbots') writer(true,false); else if(mode==='scared') writer(true,true); else if(mode==='chase') chase(); else if(mode==='peek') peek(); else if(mode==='drop') drop(); else if(mode==='morph') morph(); }
   // plays once per visit: the first time the footer comes into view. After that it stays at its final frame
   // (the line, with three bots waiting at the edge) however much you scroll or open and close sections.
   // Plays once per visit (each page load). finalFrame() is kept for a once-per-session option.
