@@ -1024,6 +1024,11 @@ button.copy.head-copy:hover { color: var(--ink); background: var(--tab-bg); }
 .foot.peek-mode .bigname a { position: relative; z-index: 3; }
 .foot.peek-mode .fbot { z-index: 1; }
 
+/* Footer finale: the K comes back holding "AI" and knocks the bots over */
+.pac .kai { display: none; position: absolute; left: 58%; top: 24%; padding: 0.16em 0.3em 0.12em; border: 0.09em solid #E9C46A; border-radius: 0.28em; background: #111114; color: #E9C46A; font-family: var(--mono, ui-monospace, monospace); font-weight: 700; line-height: 1; letter-spacing: 0.04em; white-space: nowrap; }
+.pac.armed .kai { display: block; }
+.fspark { position: absolute; z-index: 6; pointer-events: none; color: #E9C46A; font-weight: 700; line-height: 1; }
+
 /* the K and the bots in the footer open the game when clicked */
 .bigname .pac, .bigname .fbot { pointer-events: auto; cursor: pointer; }
 </style>
@@ -2134,6 +2139,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   big.appendChild(say);
   var pac=document.createElement('span'); pac.className='pac'; pac.setAttribute('aria-hidden','true');
   pac.innerHTML='<svg viewBox="-13 -14 26 28" aria-hidden="true"><g transform="rotate(5.7)" stroke="currentColor" stroke-width="5.6" stroke-linecap="round" fill="none"><path d="M-6.6 -9.8V9.8"/><g transform="translate(-4.4 0)"><path class="ka t" d="M0 0L10.34 -5.04"/><path class="ka b" d="M0 0L10.34 5.04"/></g></g></svg>';
+  var kai=document.createElement('span'); kai.className='kai'; kai.textContent='AI'; pac.appendChild(kai);
   big.appendChild(pac);
   var run=0, timers=[];
   function sleep(ms,t){ return new Promise(function(r){ timers.push(setTimeout(function(){ r(t===run); }, ms)); }); }
@@ -2153,7 +2159,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
   function cancelAll(el){ el.getAnimations().forEach(function(a){a.cancel();}); }
   function reset(){
     run++; timers.forEach(clearTimeout); timers=[];
-    cancelAll(pac); pac.style.opacity='0'; pac.classList.add('still'); pac.classList.remove('front','blink'); ang=0; pac.style.transition='none'; pac.style.transform='scaleX(1)'; void pac.offsetWidth; pac.style.transition='';
+    cancelAll(pac); pac.style.opacity='0'; pac.classList.add('still'); pac.classList.remove('front','blink','armed'); [].forEach.call(big.querySelectorAll('.fspark'),function(x){x.remove();}); ang=0; pac.style.transition='none'; pac.style.transform='scaleX(1)'; void pac.offsetWidth; pac.style.transition='';
     L.forEach(function(l,i){ cancelAll(l); l.style.opacity='1'; l.style.color=''; l.textContent=name[i]; });
     S.forEach(function(s){ cancelAll(s); s.style.opacity='0'; s.style.color=''; s.textContent=s._c; });
     cancelAll(sign); sign.style.opacity='';
@@ -2206,7 +2212,7 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     setTimeout(function(){ grp.scrollIntoView({behavior:'smooth',block:'start'}); var st=document.getElementById('fg-stage'); if(st) try{ st.focus({preventScroll:true}); }catch(er){} }, 350);
   }
   [pac].concat(bots).forEach(function(el){ el.title='Play the game'; el.addEventListener('click',openGame); });
-  function botsReset(){ bots.forEach(function(b){ cancelAll(b); b.style.opacity='0'; b.style.transform=''; b.style.zIndex=''; b.style.left='-999px'; }); foot.classList.remove('peek-mode'); }
+  function botsReset(){ bots.forEach(function(b){ cancelAll(b); b.style.opacity='0'; b.style.transform=''; b.style.transformOrigin=''; b.style.zIndex=''; b.style.left='-999px'; }); foot.classList.remove('peek-mode'); }
   function botAt(b,x,top,size,face){ b.style.width=size+'px'; b.style.height=size+'px'; b.style.left=(x-size/2)+'px'; b.style.top=top+'px'; b.style.transform='scaleX('+(face||1)+')'; b.style.opacity='1'; }
   function popIn(s){ s.style.opacity='1'; s.animate([{opacity:0,transform:'translateY(10px) scale(.4)'},{opacity:1,transform:'translateY(-4px) scale(1.15)',offset:.6},{opacity:1,transform:'none'}],{duration:320,easing:'ease-out'}); }
 
@@ -2272,14 +2278,14 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     ctl=ctl||{creep:0};
     var xs=bots.map(function(){ return -9999; }), br=big.getBoundingClientRect(), sp=size*1.1, last=performance.now(), v=null;
     (function f(now){
-      if(t!==run) return;
+      if(t!==run || ctl.stop) return;
       var dt=Math.min(0.05,(now-last)/1000); last=now;
       var px=parseFloat(pac.style.left)+parseFloat(pac.style.width)/2, top=parseFloat(pac.style.top)+parseFloat(pac.style.height)*(ctl.inline?1:1.05)-(ctl.inline?size:0);
       var edge=document.documentElement.clientWidth-br.left+size, allOut=true;
       bots.forEach(function(b,i){ var target=px-(ctl.lead||sp)-i*sp; if(xs[i]<-9000) xs[i]=ctl.instant?target:-br.left-size*(i+1);
         if(ctl.creep){ if(v===null) v=(target-xs[0])/ctl.creep; xs[i]=Math.min(target,xs[i]+v*dt); }
         else xs[i]+=(target-xs[i])*0.08;
-        botAt(b,xs[i],top-Math.abs(Math.sin(now/80+i))*size*0.15,size,1); b.style.zIndex=ctl.inline?'5':''; if(xs[i]<edge) allOut=false; });
+        b._top0=top; botAt(b,xs[i],top-Math.abs(Math.sin(now/80+i))*size*0.15,size,1); b.style.zIndex=ctl.inline?'5':''; if(xs[i]<edge) allOut=false; });
       if(!allOut) requestAnimationFrame(f); else bots.forEach(function(b){ b.style.opacity='0'; });
     })(performance.now());
   }
@@ -2337,6 +2343,94 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     if(t!==run) return;
     ctl.lead=0;   // the K is gone: the bots bunch up at the edge where it left; red follows it off, the other three stay in view
     pac.style.opacity='0'; pac.style.transform='scaleX(1)';
+    if(withBots&&scared) await strike(t,h,ctl);
+  }
+
+  // Finale (option 9): once the K has gone, the three bots wait in the right-hand corner. The K comes back holding "AI"
+  // and hits them one by one; each goes flying and lands on its back, feet in the air, where it stays. Near the "r" of
+  // "together" the K jumps up onto the line, walks along the top of the words, jumps down after the "L" and runs off left.
+  async function strike(t,h,ctl){
+    if(!await sleep(1500,t)) return;
+    ctl.stop=true;
+    var br=big.getBoundingClientRect(), W=document.documentElement.clientWidth-br.left;
+    function cx(b){ return parseFloat(b.style.left)+parseFloat(b.style.width)/2; }
+    var vis=bots.filter(function(b){ return b.style.opacity!=='0' && cx(b)<W; });
+    bots.forEach(function(b){ if(vis.indexOf(b)<0) b.style.opacity='0'; });
+    if(!vis.length) return;
+    vis.sort(function(a,b){ return cx(b)-cx(a); });   // nearest to the K first
+    vis.forEach(function(b){ b.style.top=b._top0+'px'; b.style.transform='scaleX(1)'; b.style.transformOrigin='50% 50%'; });
+    var bsz=parseFloat(vis[0].style.width), top0=parseFloat(pac.style.top);
+    // if the corner is too tight for the K to stand in view, the bots shuffle a little way in
+    var room=Math.min(0, (W-h*1.9-bsz*0.6)-cx(vis[0])), from=vis.map(cx);
+    if(room<0){ var bt0=performance.now();
+      if(!await new Promise(function(done){ (function f(now){ if(t!==run) return done(false); var k=Math.min(1,(now-bt0)/450), e=k*(2-k);
+        vis.forEach(function(b,i){ b.style.left=(from[i]+room*e-bsz/2)+'px'; b.style.top=(b._top0-Math.abs(Math.sin(now/80+i))*bsz*0.12)+'px'; });
+        if(k<1) requestAnimationFrame(f); else { vis.forEach(function(b){ b.style.top=b._top0+'px'; }); done(true); } })(bt0); })) return;
+      if(!await sleep(400,t)) return; }
+    kai.style.fontSize=(h*0.34)+'px'; kai.style.transform='scaleX(-1) rotate(16deg)';
+    pac.classList.add('armed'); pac.style.transition='none';
+    var kx=W+h, lean=0;
+    function put(x,y,wob,now){ kx=x; pac.style.left=(x-h/2)+'px'; pac.style.top=y+'px'; pac.style.transform='scaleX(-1) rotate('+(lean+(wob?Math.sin(now/55)*wob:0))+'deg)'; }
+    // move the K to x1 in ms; yf(k) gives its top (default: on the ground); ef eases the progress
+    function move(x1,ms,yf,wob,ef){ var x0=kx; return new Promise(function(done){ var t0=performance.now();
+      (function f(now){ if(t!==run) return done(false); var k=Math.min(1,(now-t0)/ms), e=ef?ef(k):k;
+        put(x0+(x1-x0)*e, yf?yf(k):top0, wob, now); if(k<1) requestAnimationFrame(f); else done(true); })(t0); }); }
+    function walkTo(x1,speed,wob,ef){ return move(x1,Math.max(200,Math.abs(kx-x1)/speed),null,wob,ef); }
+    function contact(b){ return cx(b)+bsz*0.5+h*0.38; }
+    // runs in from the right edge
+    put(kx,top0,0,0); pac.style.opacity='1';
+    if(!await walkTo(contact(vis[0]),0.5,8,function(k){ return 1-Math.pow(1-k,2); })) return;
+    put(kx,top0,0,0);
+    // the bots jump in surprise
+    vis.forEach(function(b,i){ b.animate([{transform:'scaleX(1)'},{transform:'scaleX(1) translateY(-35%)',offset:.4},{transform:'scaleX(1)'}],{duration:300,delay:i*60,easing:'ease-out'}); });
+    if(!await sleep(380,t)) return;
+    // one by one: walk up, swing, and the bot goes flying, spinning, and lands on its back behind the K
+    function launch(b,i){
+      var hi=h*(3.3+i*0.45), dx=bsz*(0.35+i*0.1), kf=[];
+      for(var q=0;q<=14;q++){ var p=q/14; kf.push({transform:'translate('+(dx*p)+'px,'+(-4*hi*p*(1-p))+'px) rotate('+(-540*p)+'deg)'}); }
+      kf.push({transform:'translate('+dx+'px,'+(-hi*0.06)+'px) rotate(-540deg)',offset:.93}); kf.push({transform:'translate('+dx+'px,0) rotate(-540deg)'});
+      kf.forEach(function(f,j){ if(j<=14) f.offset=0.86*j/14; });
+      b.animate(kf,{duration:1050,easing:'linear',fill:'forwards'});
+      var sp=document.createElement('span'); sp.className='fspark'; sp.textContent='✦'; sp.style.fontSize=(h*0.6)+'px';
+      sp.style.left=(cx(b)+bsz*0.3-h*0.3)+'px'; sp.style.top=(parseFloat(b.style.top)-h*0.05)+'px'; big.appendChild(sp);
+      sp.animate([{opacity:1,transform:'scale(.2) rotate(0deg)'},{opacity:1,transform:'scale(1.3) rotate(40deg)',offset:.5},{opacity:0,transform:'scale(.9) rotate(70deg)'}],{duration:400,fill:'forwards'}).finished.then(function(){ sp.remove(); },function(){});
+    }
+    for(var i=0;i<vis.length;i++){
+      if(i>0 && !await walkTo(contact(vis[i]),0.32,7)) return;
+      put(kx,top0,0,0);
+      // wind up (lean back), then swing through
+      var t0=performance.now(); if(!await new Promise(function(done){ (function f(now){ if(t!==run) return done(false); var k=Math.min(1,(now-t0)/170); lean=-22*Math.sin(k*Math.PI/2); put(kx,top0,0,now); if(k<1) requestAnimationFrame(f); else done(true); })(t0); })) return;
+      t0=performance.now(); var hit=false;
+      if(!await new Promise(function(done){ (function f(now){ if(t!==run) return done(false); var k=Math.min(1,(now-t0)/260);
+        lean=k<.4 ? -22+60*(k/.4) : 38*(1-(k-.4)/.6); if(!hit && k>=.3){ hit=true; launch(vis[i],i); }
+        put(kx,top0,0,now); if(k<1) requestAnimationFrame(f); else done(true); })(t0); })) return;
+      lean=0;
+    }
+    // on to the "r" of "together", then up onto the line
+    var li=S.length-1; while(li>0 && !/[a-z]/i.test(S[li]._c)) li--;
+    function rel(el){ var r=el.getBoundingClientRect(); return { l:r.left-br.left, r:r.right-br.left, c:r.left-br.left+r.width/2, top:r.top-br.top, h:r.height }; }
+    var rr=rel(S[li]), r0=rel(S[0]), lastR=rel(S[S.length-1]);
+    var deck=rr.top+rr.h*0.14-h*0.97;   // the K's top when it stands on the letters
+    var jumpFrom=lastR.r+h*0.45;
+    if(kx>jumpFrom && !await walkTo(jumpFrom,0.34,8)) return;
+    var land=Math.min(kx-h*0.7, rr.c);
+    pac.classList.add('front');
+    if(!await move(land,520,function(k){ return top0+(deck-top0)*k-4*h*0.55*k*(1-k); },0,function(k){ return k; })) return;
+    put(kx,deck,0,0);
+    if(!await sleep(120,t)) return;
+    // walks along the top of the words, carrying the sign
+    var end=r0.l+h*0.15;
+    if(!await move(end,Math.max(400,(kx-end)/0.24),function(){ return deck-Math.abs(Math.sin(performance.now()/90))*h*0.06; },6)) return;
+    put(kx,deck,0,0);
+    if(!await sleep(140,t)) return;
+    // jumps down after the "L"
+    if(!await move(kx-h*1.1,480,function(k){ return deck+(top0-deck)*k-4*h*0.45*k*(1-k); },0)) return;
+    pac.classList.remove('front'); put(kx,top0,0,0);
+    if(!await sleep(120,t)) return;
+    // and runs off to the left
+    if(!await walkTo(-br.left-h,0.9,10,function(k){ return k*k*(1.5-0.5*k); })) return;
+    pac.style.opacity='0'; pac.style.top=top0+'px'; pac.classList.remove('armed'); pac.style.transform='scaleX(1)';
+    // the bots stay where they landed, on their backs
   }
 
   // 3. Drop: letters fall into place, the yellow K last, then the sign-off
@@ -2389,10 +2483,10 @@ document.querySelectorAll('.grouped .grp-h').forEach(function(b){
     var g=geom(); say.style.top=(g.top+g.d/2)+'px';
     if(mode==='drop'||mode==='still'||mode==='peek'){ foot.classList.add('show-sign'); if(mode!=='peek') L[0].style.color='#E9C46A'; return; }
     L.forEach(function(l){ l.style.opacity='0'; }); S.forEach(function(c){ c.style.opacity='1'; });
-    if(mode==='writerbots'||mode==='scared'){
+    if(mode==='writerbots'){
       var br=big.getBoundingClientRect(), fsz=parseFloat(getComputedStyle(say).fontSize), h=fsz*1.25, r0=S[0].getBoundingClientRect();
       pac.style.width=pac.style.height=h+'px'; pac.style.top=(r0.top-br.top+r0.height/2-h/2)+'px'; pac.style.left=(document.documentElement.clientWidth-br.left+h)+'px'; pac.style.opacity='0';
-      follow(run,h*0.85,{creep:0,inline:mode==='scared',lead:0,instant:true});
+      follow(run,h*0.85,{creep:0,inline:false,lead:0,instant:true});
     }
   }
   var played=false;   // once per visit: each page load plays it once (switch to sessionStorage here to make it once per session)
